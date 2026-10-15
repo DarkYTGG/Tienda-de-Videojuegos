@@ -35,13 +35,15 @@ class GameDetailView(BaseView):
         get_game_uc: GetGameDetailUseCase,
         cart_manager: ManageCartUseCase,
         game_slug: str,
-        notify_fn: Optional[Callable[[str, str], None]] = None
+        notify_fn: Optional[Callable[[str, str], None]] = None,
+        notify: Optional[Callable[[str, str], None]] = None,
+        **kwargs: Any
     ):
         super().__init__(page, navigate_fn)
         self._get_game_uc = get_game_uc
         self._cart_manager = cart_manager
         self._slug = game_slug
-        self._notify = notify_fn
+        self._notify = notify_fn or notify
 
     def _on_add_cart(self, game: Game):
         try:

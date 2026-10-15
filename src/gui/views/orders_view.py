@@ -27,11 +27,13 @@ class OrdersHistoryView(BaseView):
         page: Optional[ft.Page],
         navigate_fn: Callable[[str, Optional[Dict[str, Any]]], None],
         get_orders_uc: GetOrdersUseCase,
-        notify_fn: Optional[Callable[[str, str], None]] = None
+        notify_fn: Optional[Callable[[str, str], None]] = None,
+        notify: Optional[Callable[[str, str], None]] = None,
+        **kwargs: Any
     ):
         super().__init__(page, navigate_fn)
         self._get_orders_uc = get_orders_uc
-        self._notify = notify_fn
+        self._notify = notify_fn or notify
 
     def build(self) -> ft.Control:
         orders = self._get_orders_uc.get_all()

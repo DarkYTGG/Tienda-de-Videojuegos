@@ -29,11 +29,13 @@ class CartView(BaseView):
         page: Optional[ft.Page],
         navigate_fn: Callable[[str, Optional[Dict[str, Any]]], None],
         cart_manager: ManageCartUseCase,
-        notify_fn: Optional[Callable[[str, str], None]] = None
+        notify_fn: Optional[Callable[[str, str], None]] = None,
+        notify: Optional[Callable[[str, str], None]] = None,
+        **kwargs: Any
     ):
         super().__init__(page, navigate_fn)
         self._cart_manager = cart_manager
-        self._notify = notify_fn
+        self._notify = notify_fn or notify
 
     def _on_remove_item(self, game_id: str, title: str):
         try:

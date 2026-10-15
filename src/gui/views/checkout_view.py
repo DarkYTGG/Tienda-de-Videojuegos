@@ -30,12 +30,14 @@ class CheckoutView(BaseView):
         navigate_fn: Callable[[str, Optional[Dict[str, Any]]], None],
         cart_manager: ManageCartUseCase,
         checkout_uc: CheckoutUseCase,
-        notify_fn: Optional[Callable[[str, str], None]] = None
+        notify_fn: Optional[Callable[[str, str], None]] = None,
+        notify: Optional[Callable[[str, str], None]] = None,
+        **kwargs: Any
     ):
         super().__init__(page, navigate_fn)
         self._cart_manager = cart_manager
         self._checkout_uc = checkout_uc
-        self._notify = notify_fn
+        self._notify = notify_fn or notify
 
         # Form Controls
         self._name_field = ft.TextField(

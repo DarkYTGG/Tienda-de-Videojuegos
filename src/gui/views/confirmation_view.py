@@ -27,11 +27,13 @@ class OrderConfirmationView(BaseView):
         page: Optional[ft.Page],
         navigate_fn: Callable[[str, Optional[Dict[str, Any]]], None],
         order: Optional[Order] = None,
-        notify_fn: Optional[Callable[[str, str], None]] = None
+        notify_fn: Optional[Callable[[str, str], None]] = None,
+        notify: Optional[Callable[[str, str], None]] = None,
+        **kwargs: Any
     ):
         super().__init__(page, navigate_fn)
         self._order = order
-        self._notify = notify_fn
+        self._notify = notify_fn or notify
 
     def build(self) -> ft.Control:
         if not self._order:

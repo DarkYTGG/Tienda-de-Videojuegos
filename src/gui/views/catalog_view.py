@@ -36,13 +36,15 @@ class CatalogView(BaseView):
         list_games_uc: ListGamesUseCase,
         cart_manager: ManageCartUseCase,
         initial_params: Optional[Dict[str, Any]] = None,
-        notify_fn: Optional[Callable[[str, str], None]] = None
+        notify_fn: Optional[Callable[[str, str], None]] = None,
+        notify: Optional[Callable[[str, str], None]] = None,
+        **kwargs: Any
     ):
         super().__init__(page, navigate_fn)
         self._search_filter_uc = search_filter_uc
         self._list_uc = list_games_uc
         self._cart_manager = cart_manager
-        self._notify = notify_fn
+        self._notify = notify_fn or notify
 
         params = initial_params or {}
         self._current_filter = GameFilterDTO(

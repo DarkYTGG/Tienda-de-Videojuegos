@@ -209,7 +209,7 @@ class PixelVaultApp:
                 self.list_games_uc,
                 self.cart_manager,
                 initial_params=self.route_params,
-                notify=self.notify
+                notify_fn=self.notify
             )
         elif route_name == "detail":
             slug = self.route_params.get("slug", "")

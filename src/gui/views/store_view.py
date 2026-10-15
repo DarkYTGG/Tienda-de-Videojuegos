@@ -28,12 +28,14 @@ class StoreView(BaseView):
         navigate_fn: Callable[[str, Optional[Dict[str, Any]]], None],
         list_games_uc: ListGamesUseCase,
         cart_manager: ManageCartUseCase,
-        notify_fn: Optional[Callable[[str, str], None]] = None
+        notify_fn: Optional[Callable[[str, str], None]] = None,
+        notify: Optional[Callable[[str, str], None]] = None,
+        **kwargs: Any
     ):
         super().__init__(page, navigate_fn)
         self._list_uc = list_games_uc
         self._cart_manager = cart_manager
-        self._notify = notify_fn
+        self._notify = notify_fn or notify
 
     def _on_detail(self, game: Game):
         self.navigate("detail", {"slug": game.slug})
