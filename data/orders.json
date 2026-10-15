@@ -1,5 +1,43 @@
 [
   {
+    "id": "PV-2026-084912",
+    "customer_name": "Estudiante Prueba",
+    "customer_email": "estudiante@ejemplo.com",
+    "payment_method": "Tarjeta de Crédito / Débito",
+    "items": [
+      {
+        "game_id": "pv-cyber-odyssey",
+        "game_title": "Cyber Odyssey: Neo-Veridia",
+        "price_paid": 38.99,
+        "digital_key": "PIXEL-AB99-93A4-ADEA-603D"
+      }
+    ],
+    "subtotal": 59.99,
+    "total_discount": 21.0,
+    "total": 38.99,
+    "status": "Completada (Simulación Académica)",
+    "created_at": "2026-10-15T22:51:32.953289+00:00"
+  },
+  {
+    "id": "PV-2026-9992C8",
+    "customer_name": "Estudiante Prueba",
+    "customer_email": "estudiante@ejemplo.com",
+    "payment_method": "Tarjeta de Crédito / Débito",
+    "items": [
+      {
+        "game_id": "pv-cyber-odyssey",
+        "game_title": "Cyber Odyssey: Neo-Veridia",
+        "price_paid": 38.99,
+        "digital_key": "PIXEL-0DC4-E8F0-E3CE-0417"
+      }
+    ],
+    "subtotal": 59.99,
+    "total_discount": 21.0,
+    "total": 38.99,
+    "status": "Completada (Simulación Académica)",
+    "created_at": "2026-10-15T22:51:15.660110+00:00"
+  },
+  {
     "id": "PV-2026-59080F",
     "customer_name": "Estudiante Prueba",
     "customer_email": "estudiante@ejemplo.com",

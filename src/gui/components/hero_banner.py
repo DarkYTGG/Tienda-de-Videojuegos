@@ -11,6 +11,7 @@ from ..theme import (
     ACCENT_AMBER,
     TEXT_PRIMARY,
     TEXT_SECONDARY,
+    TEXT_MUTED,
     create_badge,
     safe_icon,
 )
@@ -66,8 +67,11 @@ class FeaturedHeroBannerComponent:
         reviews_row = ft.Row(
             controls=[
                 ft.Icon(safe_icon("star"), size=18, color=ACCENT_AMBER),
-                ft.Text(f"{self._game.rating:.1f}/5.0", size=13, weight=ft.FontWeight.BOLD, color=TEXT_PRIMARY),
-                ft.Text(f"— {self._game.rating_summary}", size=13, color="#A5F3FC")
+                ft.Text(f"{self._game.rating:.1f}", size=14, weight=ft.FontWeight.BOLD, color=TEXT_PRIMARY),
+                ft.Text("/ 5.0", size=12, color=TEXT_MUTED),
+                ft.Text("•", size=12, color=TEXT_MUTED),
+                ft.Icon(safe_icon("favorite"), size=14, color="#F43F5E"),
+                ft.Text(f"Extremadamente positivas ({self._game.reviews_count:,} reseñas)", size=12, color="#E2E8F0")
             ],
             spacing=6,
             vertical_alignment=ft.CrossAxisAlignment.CENTER
@@ -96,7 +100,7 @@ class FeaturedHeroBannerComponent:
 
         final_price_label = "Gratis" if self._game.final_price <= 0 else f"${self._game.final_price:,.2f} USD"
         price_row_controls.append(
-            ft.Text(final_price_label, size=24, weight=ft.FontWeight.W_900, color=TEXT_PRIMARY)
+            ft.Text(final_price_label, size=26, weight=ft.FontWeight.W_900, color=TEXT_PRIMARY)
         )
 
         price_row = ft.Row(
@@ -107,12 +111,12 @@ class FeaturedHeroBannerComponent:
 
         # Action Buttons
         detail_btn = ft.FilledButton(
-            content=ft.Text("Ver Detalles Completos", size=14, weight=ft.FontWeight.BOLD),
+            content=ft.Text("Ver Detalles Completos", size=13, weight=ft.FontWeight.BOLD),
             icon=safe_icon("visibility"),
             style=ft.ButtonStyle(
                 bgcolor=ACCENT_PURPLE,
                 color="#FFFFFF",
-                padding=ft.Padding(left=18, right=18, top=12, bottom=12),
+                padding=ft.Padding(left=18, right=18, top=14, bottom=14),
                 shape=ft.RoundedRectangleBorder(radius=8)
             ),
             on_click=lambda _: self._on_detail(self._game)
@@ -120,24 +124,24 @@ class FeaturedHeroBannerComponent:
 
         if self._is_in_cart:
             cart_btn = ft.OutlinedButton(
-                content=ft.Text("En Carrito ✓", size=14, weight=ft.FontWeight.BOLD),
+                content=ft.Text("En Carrito ✓", size=13, weight=ft.FontWeight.BOLD),
                 icon=safe_icon("check"),
                 style=ft.ButtonStyle(
                     color=ACCENT_GREEN,
                     side=ft.BorderSide(1.5, ACCENT_GREEN),
-                    padding=ft.Padding(left=18, right=18, top=12, bottom=12),
+                    padding=ft.Padding(left=18, right=18, top=14, bottom=14),
                     shape=ft.RoundedRectangleBorder(radius=8)
                 ),
                 disabled=True
             )
         else:
             cart_btn = ft.OutlinedButton(
-                content=ft.Text("Añadir al Carrito", size=14, weight=ft.FontWeight.BOLD),
+                content=ft.Text("Añadir al Carrito", size=13, weight=ft.FontWeight.BOLD),
                 icon=safe_icon("add_shopping_cart"),
                 style=ft.ButtonStyle(
                     color="#FFFFFF",
                     side=ft.BorderSide(1.5, ACCENT_PURPLE),
-                    padding=ft.Padding(left=18, right=18, top=12, bottom=12),
+                    padding=ft.Padding(left=18, right=18, top=14, bottom=14),
                     shape=ft.RoundedRectangleBorder(radius=8)
                 ),
                 on_click=lambda _: self._on_add_cart(self._game)
@@ -157,7 +161,7 @@ class FeaturedHeroBannerComponent:
                 style=ft.ButtonStyle(
                     bgcolor="#082F49",
                     side=ft.BorderSide(1.5, ACCENT_CYAN),
-                    padding=ft.Padding(left=16, right=16, top=12, bottom=12),
+                    padding=ft.Padding(left=16, right=16, top=14, bottom=14),
                     shape=ft.RoundedRectangleBorder(radius=8)
                 )
             )
@@ -166,7 +170,8 @@ class FeaturedHeroBannerComponent:
 
         actions_row = ft.Row(
             controls=action_controls,
-            spacing=12
+            spacing=12,
+            wrap=True
         )
 
         left_column = ft.Column(
@@ -175,11 +180,11 @@ class FeaturedHeroBannerComponent:
                 title_text,
                 desc_text,
                 reviews_row,
-                ft.Container(height=6),
+                ft.Container(height=4),
                 price_row,
                 actions_row
             ],
-            spacing=10,
+            spacing=12,
             expand=True
         )
 
@@ -187,18 +192,19 @@ class FeaturedHeroBannerComponent:
         right_image = ft.Container(
             content=ft.Image(
                 src=self._game.cover_image,
-                width=340,
-                height=220,
+                width=420,
+                height=250,
                 fit=ft.BoxFit.COVER,
-                border_radius=12,
+                border_radius=14,
                 error_content=ft.Container(
                     content=ft.Icon(safe_icon("sports_esports"), size=64, color=ACCENT_PURPLE),
                     alignment=ft.Alignment.CENTER,
                     bgcolor="#1E1B4B"
                 )
             ),
-            border_radius=12,
-            border=ft.Border.all(2, "#312E81")
+            border_radius=14,
+            border=ft.Border.all(2, "#4F46E5"),
+            shadow=ft.BoxShadow(spread_radius=1, blur_radius=20, color="rgba(79, 70, 229, 0.35)", offset=ft.Offset(0, 4))
         )
 
         return ft.Container(
@@ -209,15 +215,16 @@ class FeaturedHeroBannerComponent:
                 ],
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                spacing=24
+                spacing=28
             ),
             padding=28,
             border_radius=16,
             gradient=ft.LinearGradient(
                 begin=ft.Alignment.TOP_LEFT,
                 end=ft.Alignment.BOTTOM_RIGHT,
-                colors=["#1E1B4B", "#0F172A", "#111827"]
+                colors=["#1E1B4B", "#101935", "#0F172A"]
             ),
-            border=ft.Border.all(1, "#3730A3"),
-            margin=ft.Margin(left=0, right=0, top=10, bottom=20)
+            border=ft.Border.all(1.5, "#4F46E5"),
+            shadow=ft.BoxShadow(spread_radius=1, blur_radius=30, color="rgba(79, 70, 229, 0.25)", offset=ft.Offset(0, 4)),
+            margin=ft.Margin(left=0, right=0, top=10, bottom=22)
         )

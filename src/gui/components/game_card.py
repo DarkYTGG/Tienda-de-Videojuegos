@@ -103,17 +103,23 @@ class GameCardComponent:
                     )
                 ]
             ),
-            height=160
+            height=160,
+            on_click=lambda _: self._on_detail(self._game),
+            ink=True
         )
 
         # Content details
-        title_text = ft.Text(
-            self._game.title,
-            size=15,
-            weight=ft.FontWeight.BOLD,
-            color=TEXT_PRIMARY,
-            max_lines=1,
-            overflow=ft.TextOverflow.ELLIPSIS
+        title_text = ft.Container(
+            content=ft.Text(
+                self._game.title,
+                size=15,
+                weight=ft.FontWeight.BOLD,
+                color=TEXT_PRIMARY,
+                max_lines=1,
+                overflow=ft.TextOverflow.ELLIPSIS
+            ),
+            on_click=lambda _: self._on_detail(self._game),
+            tooltip=self._game.title
         )
 
         dev_row = ft.Row(
@@ -239,8 +245,9 @@ class GameCardComponent:
                 spacing=0
             ),
             width=self._width,
-            bgcolor=BG_SURFACE,
+            bgcolor="#111827",
             border_radius=12,
-            border=ft.Border.all(1, BORDER_COLOR),
+            border=ft.Border.all(1, "#1F293D"),
+            shadow=ft.BoxShadow(spread_radius=0, blur_radius=12, color="rgba(0, 0, 0, 0.45)", offset=ft.Offset(0, 4)),
             ink=False
         )

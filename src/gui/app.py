@@ -94,17 +94,40 @@ class PixelVaultApp:
         """Constructs Flutter Web native AppBar with branding, section navigation, search, and dynamic cart badge."""
         cart_badge_text = str(self.cart.item_count)
 
+        def nav_btn(label: str, route: str, params: Optional[dict] = None):
+            is_active = (self.current_route == route) and (not params or all(self.route_params.get(k) == v for k, v in params.items()))
+            return ft.Container(
+                content=ft.Text(
+                    label,
+                    size=13,
+                    weight=ft.FontWeight.BOLD if is_active else ft.FontWeight.W_500,
+                    color="#38BDF8" if is_active else TEXT_SECONDARY
+                ),
+                bgcolor="rgba(6, 182, 212, 0.12)" if is_active else ft.Colors.TRANSPARENT,
+                border=ft.Border.all(1, "rgba(6, 182, 212, 0.35)") if is_active else None,
+                border_radius=6,
+                padding=ft.Padding(left=12, right=12, top=6, bottom=6),
+                on_click=lambda _: self.navigate(route, params),
+                ink=True
+            )
+
         return ft.AppBar(
             leading=ft.Container(
-                content=ft.Icon(safe_icon("sports_esports"), color=ACCENT_PURPLE, size=24),
-                padding=ft.Padding(left=12, right=0, top=0, bottom=0),
+                content=ft.Container(
+                    content=ft.Icon(safe_icon("sports_esports"), color="#FFFFFF", size=20),
+                    bgcolor=ACCENT_PURPLE,
+                    padding=6,
+                    border_radius=8,
+                    shadow=ft.BoxShadow(spread_radius=0, blur_radius=8, color="rgba(139, 92, 246, 0.4)")
+                ),
+                padding=ft.Padding(left=16, right=0, top=6, bottom=6),
                 on_click=lambda _: self.navigate("home"),
             ),
             title=ft.Container(
                 content=ft.Row(
                     controls=[
-                        ft.Text("PIXEL", size=20, weight=ft.FontWeight.W_900, color=TEXT_PRIMARY),
-                        ft.Text("VAULT", size=20, weight=ft.FontWeight.W_900, color=ACCENT_PURPLE),
+                        ft.Text("PIXEL", size=22, weight=ft.FontWeight.W_900, color=TEXT_PRIMARY),
+                        ft.Text("VAULT", size=22, weight=ft.FontWeight.W_900, color=ACCENT_PURPLE),
                     ],
                     spacing=0,
                     tight=True
@@ -113,42 +136,10 @@ class PixelVaultApp:
                 ink=True
             ),
             actions=[
-                ft.TextButton(
-                    content=ft.Text(
-                        "Tienda",
-                        size=13,
-                        weight=ft.FontWeight.BOLD if self.current_route == "home" else ft.FontWeight.W_500,
-                        color=ACCENT_CYAN if self.current_route == "home" else TEXT_SECONDARY
-                    ),
-                    on_click=lambda _: self.navigate("home")
-                ),
-                ft.TextButton(
-                    content=ft.Text(
-                        "Catálogo Completo",
-                        size=13,
-                        weight=ft.FontWeight.BOLD if self.current_route == "catalog" and not self.route_params.get("only_indie") else ft.FontWeight.W_500,
-                        color=ACCENT_CYAN if self.current_route == "catalog" and not self.route_params.get("only_indie") else TEXT_SECONDARY
-                    ),
-                    on_click=lambda _: self.navigate("catalog")
-                ),
-                ft.TextButton(
-                    content=ft.Text(
-                        "Zona Indie",
-                        size=13,
-                        weight=ft.FontWeight.BOLD if self.current_route == "catalog" and self.route_params.get("only_indie") else ft.FontWeight.W_500,
-                        color=ACCENT_CYAN if self.current_route == "catalog" and self.route_params.get("only_indie") else TEXT_SECONDARY
-                    ),
-                    on_click=lambda _: self.navigate("catalog", {"only_indie": True})
-                ),
-                ft.TextButton(
-                    content=ft.Text(
-                        "Mis Pedidos",
-                        size=13,
-                        weight=ft.FontWeight.BOLD if self.current_route == "orders" else ft.FontWeight.W_500,
-                        color=ACCENT_CYAN if self.current_route == "orders" else TEXT_SECONDARY
-                    ),
-                    on_click=lambda _: self.navigate("orders")
-                ),
+                nav_btn("Tienda", "home"),
+                nav_btn("Catálogo Completo", "catalog"),
+                nav_btn("Zona Indie", "catalog", {"only_indie": True}),
+                nav_btn("Mis Pedidos", "orders"),
                 ft.IconButton(
                     icon=safe_icon("search"),
                     icon_color=TEXT_SECONDARY,
@@ -158,27 +149,30 @@ class PixelVaultApp:
                 ft.Container(
                     content=ft.Row(
                         controls=[
-                            ft.Icon(safe_icon("shopping_cart"), size=18, color="#FFFFFF"),
+                            ft.Icon(safe_icon("shopping_cart"), size=17, color="#FFFFFF"),
                             ft.Text("Carrito", size=13, weight=ft.FontWeight.BOLD, color="#FFFFFF"),
                             ft.Container(
-                                content=ft.Text(cart_badge_text, size=11, weight=ft.FontWeight.BOLD, color="#FFFFFF"),
+                                content=ft.Text(cart_badge_text, size=11, weight=ft.FontWeight.W_900, color="#FFFFFF"),
                                 bgcolor=ACCENT_GREEN if self.cart.item_count > 0 else "#475569",
-                                padding=ft.Padding(left=6, right=6, top=2, bottom=2),
-                                border_radius=10
+                                padding=ft.Padding(left=7, right=7, top=2, bottom=2),
+                                border_radius=10,
+                                shadow=ft.BoxShadow(spread_radius=0, blur_radius=6, color="rgba(16, 185, 129, 0.4)") if self.cart.item_count > 0 else None
                             )
                         ],
                         spacing=6,
                         tight=True
                     ),
                     bgcolor=ACCENT_PURPLE,
-                    padding=ft.Padding(left=12, right=12, top=6, bottom=6),
+                    padding=ft.Padding(left=14, right=14, top=7, bottom=7),
                     border_radius=8,
+                    shadow=ft.BoxShadow(spread_radius=0, blur_radius=10, color="rgba(139, 92, 246, 0.4)"),
                     margin=ft.Margin(left=4, right=16, top=0, bottom=0),
                     on_click=lambda _: self.navigate("cart"),
                     ink=True
                 )
             ],
             bgcolor=BG_HEADER,
+            elevation=0,
             center_title=False
         )
 

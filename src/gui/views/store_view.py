@@ -178,11 +178,16 @@ class StoreView(BaseView):
                     alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                     vertical_alignment=ft.CrossAxisAlignment.CENTER
                 ),
-                padding=ft.Padding(left=18, right=18, top=14, bottom=14),
-                bgcolor="#082F49",
+                padding=ft.Padding(left=20, right=20, top=16, bottom=16),
+                gradient=ft.LinearGradient(
+                    colors=["#082F49", "#0C1E38", "#0B1528"],
+                    begin=ft.Alignment.TOP_LEFT,
+                    end=ft.Alignment.BOTTOM_RIGHT
+                ),
                 border=ft.Border.all(1.5, ACCENT_CYAN),
-                border_radius=10,
-                margin=ft.Margin(left=0, right=0, top=10, bottom=14)
+                shadow=ft.BoxShadow(spread_radius=1, blur_radius=20, color="rgba(6, 182, 212, 0.25)", offset=ft.Offset(0, 4)),
+                border_radius=12,
+                margin=ft.Margin(left=0, right=0, top=12, bottom=16)
             )
             controls.append(demo_header)
             controls.append(self._build_game_row(demo_games, max_items=4))

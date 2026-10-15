@@ -4,15 +4,16 @@ import flet as ft
 
 
 # --- Palette Tokens ---
-BG_DARK = "#0B0E14"          # Deep cosmic charcoal
-BG_HEADER = "#101726"        # Header & Navigation bar
-BG_SURFACE = "#162032"       # Primary cards & panels
-BG_SURFACE_HOVER = "#1E2C44" # Hover state
-BG_INPUT = "#0D131F"         # Text fields & dropdown inputs
+BG_DARK = "#070B13"          # Deep cosmic charcoal (matching Flask)
+BG_HEADER = "#0B101D"        # Header & Navigation bar
+BG_SURFACE = "#111827"       # Primary cards & panels
+BG_SURFACE_HOVER = "#1E293B" # Hover state
+BG_INPUT = "#0D1322"         # Text fields & dropdown inputs
 
 ACCENT_PURPLE = "#8B5CF6"      # Electric violet (Primary brand)
 ACCENT_PURPLE_DARK = "#7C3AED" # Deep violet
 ACCENT_CYAN = "#06B6D4"        # Neon cyan (itch.io highlight)
+ACCENT_CYAN_BG = "#082F49"     # Dark cyan surface
 ACCENT_GREEN = "#10B981"       # Steam discount green
 ACCENT_GREEN_BG = "#064E3B"    # Dark emerald for discount badge background
 ACCENT_AMBER = "#F59E0B"       # Star ratings & awards
@@ -21,8 +22,9 @@ ACCENT_RED = "#EF4444"         # Deletions & errors
 TEXT_PRIMARY = "#F8FAFC"       # Clean crisp white
 TEXT_SECONDARY = "#94A3B8"     # Secondary muted slate
 TEXT_MUTED = "#64748B"         # Low-contrast captions
-BORDER_COLOR = "#22304A"       # Subtle card borders
+BORDER_COLOR = "#1F293D"       # Subtle card borders
 BORDER_LIGHT = "#334155"       # Divider lines
+BORDER_ACTIVE = "#38BDF8"      # Active neon border
 
 
 # --- Icon Safety Helper ---
@@ -119,8 +121,9 @@ def create_badge(
             tight=True
         ),
         bgcolor=bg_color,
-        padding=ft.Padding(left=8, right=8, top=4, bottom=4),
-        border_radius=6
+        padding=ft.Padding(left=7, right=7, top=3, bottom=3),
+        border_radius=5,
+        border=ft.Border.all(1, "rgba(255, 255, 255, 0.15)")
     )
 
 
