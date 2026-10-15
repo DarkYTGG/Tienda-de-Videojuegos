@@ -1,0 +1,693 @@
+[
+  {
+    "id": "pv-cyber-odyssey",
+    "title": "Cyber Odyssey: Neo-Veridia",
+    "slug": "cyber-odyssey-neo-veridia",
+    "developer": "Neon Forge Studios",
+    "publisher": "PixelVault Publishing",
+    "release_date": "2026-03-15",
+    "genre": "Rol / RPG",
+    "tags": [
+      "Cyberpunk",
+      "RPG",
+      "Mundo Abierto",
+      "Historia Rica",
+      "Ciencia Ficción"
+    ],
+    "price": 59.99,
+    "discount_percent": 35,
+    "rating": 4.9,
+    "reviews_count": 2840,
+    "is_featured": true,
+    "is_new": true,
+    "is_indie": false,
+    "short_description": "Explora los distritos iluminados por neón de Neo-Veridia. Hackea corporaciones y forja tu propio destino en este RPG inmersivo.",
+    "full_description": "Neo-Veridia es una metrópolis dominada por megacorporaciones y sindicatos subterráneos. Como mercenario cibernético, deberás tomar decisiones éticas complejas, personalizar tus implantes neuronales y participar en combates tácticos en tiempo real mientras descubres una conspiración que amenaza a la humanidad.",
+    "cover_image": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+    "features": [
+      "Campaña para un jugador de +40 horas",
+      "Personalización profunda de habilidades",
+      "Banda sonora sintética original",
+      "Soporte completo para mando"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10 / 11 64-bit",
+      "Procesador": "Intel Core i7-10700K o AMD Ryzen 7 3700X",
+      "Memoria": "16 GB RAM",
+      "Gráficos": "NVIDIA GeForce RTX 3060 o AMD Radeon RX 6600 XT",
+      "Almacenamiento": "45 GB disponibles en SSD"
+    }
+  },
+  {
+    "id": "pv-hollow-abyss",
+    "title": "Hollow Abyss: Echoes of the Deep",
+    "slug": "hollow-abyss-echoes-of-the-deep",
+    "developer": "Ghostly Lantern Interactive",
+    "publisher": "Ghostly Lantern",
+    "release_date": "2026-01-20",
+    "genre": "Terror",
+    "tags": [
+      "Terror Psicológico",
+      "Supervivencia",
+      "Atmósfera Oscura",
+      "Misterio"
+    ],
+    "price": 24.99,
+    "discount_percent": 50,
+    "rating": 4.7,
+    "reviews_count": 1420,
+    "is_featured": true,
+    "is_new": false,
+    "is_indie": true,
+    "short_description": "Una expedición submarina solitaria en fosas abisales desconocidas. La luz es tu único recurso vital.",
+    "full_description": "A 10,000 metros bajo la superficie marina, tu submarino de investigación sufre una avería crítica. Gestiona el oxígeno, repara los sistemas eléctricos y evita criaturas bio-luminiscentes que cazan mediante el sonido y las ondas electromagnéticas.",
+    "cover_image": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1200&q=80",
+    "features": [
+      "Diseño sonoro binaural espeluznante",
+      "Generación procedural de cavernas marinas",
+      "Física de fluidos reactiva"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10 64-bit",
+      "Procesador": "Intel Core i5-8400 o Ryzen 5 2600",
+      "Memoria": "8 GB RAM",
+      "Gráficos": "GTX 1660 o RX 580",
+      "Almacenamiento": "15 GB libres"
+    }
+  },
+  {
+    "id": "pv-celestial-rogue",
+    "title": "Celestial Rogue: Astral Drift",
+    "slug": "celestial-rogue-astral-drift",
+    "developer": "StarByte Labs",
+    "publisher": "StarByte",
+    "release_date": "2026-02-10",
+    "genre": "Acción",
+    "tags": [
+      "Roguelike",
+      "Espacio",
+      "Disparos Rápido",
+      "Pixel Art Moderno",
+      "Banda Sonora Retro"
+    ],
+    "price": 19.99,
+    "discount_percent": 20,
+    "rating": 4.8,
+    "reviews_count": 3100,
+    "is_featured": false,
+    "is_new": true,
+    "is_indie": true,
+    "short_description": "Pilota naves estelares experimentales a través de campos de asteroides cambiantes y flotas alienígenas.",
+    "full_description": "Celestial Rogue combina la velocidad de los shoot-em-up clásicos con la progresión interminable de los roguelikes contemporáneos. Desbloquea más de 120 armas sinérgicas, motores gravitacionales y secretos galácticos.",
+    "cover_image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1200&q=80",
+    "features": [
+      "Más de 200 combinaciones de equipamiento",
+      "6 pilotos con habilidades únicas",
+      "Modo racha diaria con clasificación"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10 / 11",
+      "Procesador": "Dual Core 2.5 GHz",
+      "Memoria": "4 GB RAM",
+      "Gráficos": "Gráficos integrados Intel HD 4000 o superior",
+      "Almacenamiento": "3 GB libres"
+    }
+  },
+  {
+    "id": "pv-tales-of-eldoria",
+    "title": "Tales of Eldoria: Crystal Thrones",
+    "slug": "tales-of-eldoria-crystal-thrones",
+    "developer": "Mythic Oak Games",
+    "publisher": "PixelVault Publishing",
+    "release_date": "2025-11-10",
+    "genre": "Rol / RPG",
+    "tags": [
+      "Fantasía Oscura",
+      "Magia",
+      "Mundo Abierto",
+      "Combate Épico"
+    ],
+    "price": 49.99,
+    "discount_percent": 40,
+    "rating": 4.6,
+    "reviews_count": 5200,
+    "is_featured": true,
+    "is_new": false,
+    "is_indie": false,
+    "short_description": "El reino de Eldoria se desmorona ante el despertar de los titanes de cristal. Domina la magia arcana.",
+    "full_description": "Un viaje de fantasía oscura épica donde cada decisión política y militar altera el destino de tres reinos enfrentados. Domina hechizos combinados, forja armaduras rúnicas y enfréntate a dragones titánicos en mazmorras laberínticas.",
+    "cover_image": "https://images.unsplash.com/photo-1563089145-599997674d42?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1200&q=80",
+    "features": [
+      "Mundo abierto continuo sin pantallas de carga",
+      "Sistema de alquimia y magia libre",
+      "Modo Nuevo Juego+"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10 64-bit",
+      "Procesador": "Ryzen 5 3600 o Intel i5-10400",
+      "Memoria": "16 GB RAM",
+      "Gráficos": "NVIDIA GTX 1660 Ti o RX 5600 XT",
+      "Almacenamiento": "50 GB en SSD"
+    }
+  },
+  {
+    "id": "pv-pixel-brewery",
+    "title": "Pixel Brewery: Tavern Tycoon",
+    "slug": "pixel-brewery-tavern-tycoon",
+    "developer": "Hop & Barley Soft",
+    "publisher": "Hop & Barley Soft",
+    "release_date": "2026-02-28",
+    "genre": "Simulación",
+    "tags": [
+      "Gestión",
+      "Simulación",
+      "Pixel Art",
+      "Relajante",
+      "Indie"
+    ],
+    "price": 14.99,
+    "discount_percent": 0,
+    "rating": 4.9,
+    "reviews_count": 890,
+    "is_featured": false,
+    "is_new": true,
+    "is_indie": true,
+    "short_description": "Crea recetas mágicas de cerveza, decora tu posada medieval y atiende a aventureros sedientos.",
+    "full_description": "Comienza con una choza destartalada en las afueras de la capital y conviértela en la taberna más afamada de la región. Cultiva ingredientes exóticos, fermenta licores encantados y escucha historias secretas que desbloquean contratos de suministros.",
+    "cover_image": "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=1200&q=80",
+    "features": [
+      "Más de 80 recetas alquímicas",
+      "Personalización total de habitaciones",
+      "Eventos estacionales y festivales"
+    ],
+    "system_requirements": {
+      "SO": "Windows 8.1 / 10 / 11",
+      "Procesador": "Intel Core i3 2.0 GHz",
+      "Memoria": "4 GB RAM",
+      "Gráficos": "Intel Iris o equivalente",
+      "Almacenamiento": "2 GB libres"
+    }
+  },
+  {
+    "id": "pv-iron-frontiers",
+    "title": "Iron Frontiers: Tactical Warfare",
+    "slug": "iron-frontiers-tactical-warfare",
+    "developer": "Vanguard Tactics",
+    "publisher": "PixelVault Publishing",
+    "release_date": "2025-08-14",
+    "genre": "Estrategia",
+    "tags": [
+      "Estrategia por Turnos",
+      "Militar",
+      "Táctica",
+      "Gestión de Recursos"
+    ],
+    "price": 34.99,
+    "discount_percent": 60,
+    "rating": 4.5,
+    "reviews_count": 1980,
+    "is_featured": false,
+    "is_new": false,
+    "is_indie": false,
+    "short_description": "Comanda batallones mecanizados en frentes de batalla destruidos por la guerra industrial.",
+    "full_description": "Conquista territorios hexagonales mediante maniobras de flanco, fuego de artillería coordinado y gestión logística de suministros de combustible y munición. Cada unidad gana experiencia y medallas condecorativas.",
+    "cover_image": "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1563089145-599997674d42?w=1200&q=80",
+    "features": [
+      "Editor de mapas integrado",
+      "Campaña de 25 misiones históricas ficticias",
+      "IA enemiga adaptativa de alto nivel"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10 64-bit",
+      "Procesador": "Intel i5-6600 o AMD Ryzen 3 1300X",
+      "Memoria": "8 GB RAM",
+      "Gráficos": "NVIDIA GTX 970 / AMD RX 480",
+      "Almacenamiento": "18 GB libres"
+    }
+  },
+  {
+    "id": "pv-neon-drift",
+    "title": "Neon Drift: Cyber Outrun",
+    "slug": "neon-drift-cyber-outrun",
+    "developer": "SynthWave Velocity",
+    "publisher": "SynthWave Velocity",
+    "release_date": "2026-03-01",
+    "genre": "Acción",
+    "tags": [
+      "Carreras",
+      "Arcade",
+      "Synthwave",
+      "Derrapes",
+      "Indie"
+    ],
+    "price": 12.99,
+    "discount_percent": 15,
+    "rating": 4.7,
+    "reviews_count": 750,
+    "is_featured": false,
+    "is_new": true,
+    "is_indie": true,
+    "short_description": "Derrapes a toda velocidad por autopistas futuristas bajo cielos magenta y música retrowave.",
+    "full_description": "Siente el flujo de adrenalina pura al dominar curvas cerradas con físicas de derrape gratificantes. Personaliza tu bólido con luces de neón bajo chasis, alerones holográficos y tubos de escape con propulsión de plasma.",
+    "cover_image": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&q=80",
+    "features": [
+      "30 circuitos cyberpunk",
+      "Modo foto con filtros analógicos",
+      "Banda sonora con artistas reconocidos de Synthwave"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10",
+      "Procesador": "Intel Core i5-4460",
+      "Memoria": "6 GB RAM",
+      "Gráficos": "NVIDIA GTX 750 Ti",
+      "Almacenamiento": "8 GB libres"
+    }
+  },
+  {
+    "id": "pv-aetheria-islands",
+    "title": "Aetheria: Skyward Odyssey",
+    "slug": "aetheria-skyward-odyssey",
+    "developer": "Cloudborne Works",
+    "publisher": "Cloudborne Works",
+    "release_date": "2025-10-05",
+    "genre": "Aventura",
+    "tags": [
+      "Exploración",
+      "Aventura",
+      "Islas Flotantes",
+      "Puzzles",
+      "Colorido"
+    ],
+    "price": 29.99,
+    "discount_percent": 30,
+    "rating": 4.8,
+    "reviews_count": 2150,
+    "is_featured": true,
+    "is_new": false,
+    "is_indie": true,
+    "short_description": "Despliega tu planeador y explora un archipiélago de islas flotantes llenas de ruinas celestiales.",
+    "full_description": "Aetheria es una oda a la curiosidad. Sin marcadores intrusivos ni combates punitivos, resuelve acertijos basados en el viento, la luz solar y la música mientras descifras los orígenes de una civilización aérea perdida.",
+    "cover_image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200&q=80",
+    "features": [
+      "Mecánicas fluidas de vuelo y escalada",
+      "Modo zen sin interfaz",
+      "Banda sonora orquestal relajante"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10 / 11",
+      "Procesador": "Intel Core i5 3.0 GHz",
+      "Memoria": "8 GB RAM",
+      "Gráficos": "GTX 1060 o equivalente",
+      "Almacenamiento": "12 GB libres"
+    }
+  },
+  {
+    "id": "pv-shadow-blade-zero",
+    "title": "Shadow Blade: Zero Protocol",
+    "slug": "shadow-blade-zero-protocol",
+    "developer": "Katana Digital",
+    "publisher": "PixelVault Publishing",
+    "release_date": "2026-03-20",
+    "genre": "Acción",
+    "tags": [
+      "Ninja",
+      "Sigilo",
+      "Acción Rápida",
+      "Ciberpunk",
+      "Difícil"
+    ],
+    "price": 39.99,
+    "discount_percent": 10,
+    "rating": 4.9,
+    "reviews_count": 1820,
+    "is_featured": false,
+    "is_new": true,
+    "is_indie": false,
+    "short_description": "Corta las sombras y desmantela fortalezas cibernéticas con movimientos de precisión mortal.",
+    "full_description": "Un título de acción y sigilo milimétrico donde un solo corte puede significar la victoria o la muerte inmediata. Utiliza ganchos magnéticos, granadas de pulso electromagnético y katanas térmicas para superar niveles de diseño intrincado.",
+    "cover_image": "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200&q=80",
+    "features": [
+      "Combate a 60+ FPS sin latencia",
+      "Calificación por rango de estilo (S, A, B)",
+      "Modo Desafío con reloj contrarreloj"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10 / 11 64-bit",
+      "Procesador": "Intel Core i7-8700 o AMD Ryzen 5 3600",
+      "Memoria": "16 GB RAM",
+      "Gráficos": "RTX 2060 o RX 5700",
+      "Almacenamiento": "20 GB disponibles"
+    }
+  },
+  {
+    "id": "pv-whispering-manor",
+    "title": "The Whispering Manor: 1888",
+    "slug": "the-whispering-manor-1888",
+    "developer": "Midnight Candle Games",
+    "publisher": "Midnight Candle",
+    "release_date": "2025-10-31",
+    "genre": "Terror",
+    "tags": [
+      "Terror Victoriano",
+      "Misterio",
+      "Primera Persona",
+      "Puzzles"
+    ],
+    "price": 18.99,
+    "discount_percent": 45,
+    "rating": 4.4,
+    "reviews_count": 920,
+    "is_featured": false,
+    "is_new": false,
+    "is_indie": true,
+    "short_description": "Investiga una mansión victoriana abandonada en la campiña inglesa donde los espejos guardan voces.",
+    "full_description": "Año 1888. Tras la desaparición inexplicable de una familia aristócrata, eres contratado para registrar la mansión Blackwood. Descubre pasadizos secretos, manuscritos ocultos y sucesos paranormales mientras mantienes encendida tu lámpara de queroseno.",
+    "cover_image": "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&q=80",
+    "features": [
+      "Iluminación dinámica hiperrealista",
+      "Múltiples finales según pistas recolectadas",
+      "Modo sin sustos para amantes del misterio puro"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10",
+      "Procesador": "Intel Core i5-6500",
+      "Memoria": "8 GB RAM",
+      "Gráficos": "NVIDIA GTX 1050 Ti",
+      "Almacenamiento": "14 GB libres"
+    }
+  },
+  {
+    "id": "pv-gravity-shift",
+    "title": "Gravity Shift: Quantum Jumper",
+    "slug": "gravity-shift-quantum-jumper",
+    "developer": "Odd Dimension Labs",
+    "publisher": "Odd Dimension Labs",
+    "release_date": "2026-01-12",
+    "genre": "Plataformas",
+    "tags": [
+      "Plataformas",
+      "Física Cuántica",
+      "Puzzle",
+      "Indie Experimental"
+    ],
+    "price": 9.99,
+    "discount_percent": 0,
+    "rating": 4.7,
+    "reviews_count": 610,
+    "is_featured": false,
+    "is_new": true,
+    "is_indie": true,
+    "short_description": "Invierte la gravedad con un solo botón en laberintos espaciales que desafían la perspectiva.",
+    "full_description": "Una joya de diseño independiente estilo itch.io. Manipula las cuatro direcciones de la atracción gravitatoria para resolver salas de plataformas minimalistas con mecánicas que evolucionan constantemente.",
+    "cover_image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1200&q=80",
+    "features": [
+      "100 niveles artesanales",
+      "Sin tiempos de carga entre muertes",
+      "Comunidad de niveles integrados"
+    ],
+    "system_requirements": {
+      "SO": "Cualquier Windows moderno",
+      "Procesador": "Cualquier procesador x86/x64",
+      "Memoria": "2 GB RAM",
+      "Gráficos": "Soporte DirectX 11 básico",
+      "Almacenamiento": "500 MB libres"
+    }
+  },
+  {
+    "id": "pv-solar-colonies",
+    "title": "Solar Colonies: Mars 2140",
+    "slug": "solar-colonies-mars-2140",
+    "developer": "Red Planet Interactive",
+    "publisher": "PixelVault Publishing",
+    "release_date": "2025-07-22",
+    "genre": "Simulación",
+    "tags": [
+      "Construcción de Ciudades",
+      "Ciencia Ficción",
+      "Gestión",
+      "Marte"
+    ],
+    "price": 39.99,
+    "discount_percent": 50,
+    "rating": 4.6,
+    "reviews_count": 3400,
+    "is_featured": true,
+    "is_new": false,
+    "is_indie": false,
+    "short_description": "Construye domos habitables, terraforma la atmósfera marciana y lidera la primera civilización interplanetaria.",
+    "full_description": "Gestiona complejas cadenas de producción de agua, oxígeno y alimentos bajo tormentas de polvo extremas. Investiga tecnologías de fusión nuclear y leyes coloniales para transformar el planeta rojo en un nuevo hogar verde para la humanidad.",
+    "cover_image": "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80",
+    "features": [
+      "Motor de simulación atmosférica realista",
+      "Árbol tecnológico con más de 150 investigaciones",
+      "Soporte de mods"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10 / 11 64-bit",
+      "Procesador": "Intel Core i5-9600K o Ryzen 5 3600X",
+      "Memoria": "16 GB RAM",
+      "Gráficos": "GTX 1660 Super o RX 5600",
+      "Almacenamiento": "25 GB en SSD"
+    }
+  },
+  {
+    "id": "pv-glitch-runner",
+    "title": "Glitch Runner 404",
+    "slug": "glitch-runner-404",
+    "developer": "Corrupted Byte Collective",
+    "publisher": "Corrupted Byte Collective",
+    "release_date": "2026-02-18",
+    "genre": "Plataformas",
+    "tags": [
+      "Indie Experimental",
+      "Glitch Art",
+      "Velocidad",
+      "Música Chiptune"
+    ],
+    "price": 7.99,
+    "discount_percent": 0,
+    "rating": 4.8,
+    "reviews_count": 510,
+    "is_featured": false,
+    "is_new": true,
+    "is_indie": true,
+    "short_description": "Aprovecha los fallos del motor gráfico como mecánicas de teletransporte y salto infinito.",
+    "full_description": "Una propuesta puramente inspirada en itch.io. Eres un fragmento de código consciente atrapado en un cartucho corrupto de 1993. Convierte los errores de desbordamiento de búfer y las pantallas congeladas en herramientas para escapar del borrado de memoria.",
+    "cover_image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&q=80",
+    "features": [
+      "Estética analógica CRT configurable",
+      "35 desafíos de speedrun",
+      "Música chiptune electrónica"
+    ],
+    "system_requirements": {
+      "SO": "Windows 7 / 8 / 10 / 11",
+      "Procesador": "Cualquier CPU moderna",
+      "Memoria": "2 GB RAM",
+      "Gráficos": "Tarjeta gráfica básica",
+      "Almacenamiento": "800 MB libres"
+    }
+  },
+  {
+    "id": "pv-chronicles-of-valkyrie",
+    "title": "Chronicles of Valkyrie: Ragnarok Dawn",
+    "slug": "chronicles-of-valkyrie-ragnarok-dawn",
+    "developer": "Nordic Fire Games",
+    "publisher": "PixelVault Publishing",
+    "release_date": "2025-12-05",
+    "genre": "Acción",
+    "tags": [
+      "Mitología Nórdica",
+      "Hack and Slash",
+      "Acción Cinematográfica",
+      "Jefes Gigantes"
+    ],
+    "price": 49.99,
+    "discount_percent": 30,
+    "rating": 4.7,
+    "reviews_count": 4120,
+    "is_featured": true,
+    "is_new": false,
+    "is_indie": false,
+    "short_description": "Encarna a una valquiria desterrada y desafía a los dioses del Valhalla para salvar a Midgard.",
+    "full_description": "Desata combos fulgurantes con lanzas divinas, hachas congeladas y cuervos místicos. Derrota a gigantes de hielo y seres mitológicos en batallas de escala monumental con una cinematografía espectacular.",
+    "cover_image": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1563089145-599997674d42?w=1200&q=80",
+    "features": [
+      "Combate cinemático fluido",
+      "Árbol de runas nórdicas personalizable",
+      "Doblaje profesional de alta calidad"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10 / 11 64-bit",
+      "Procesador": "Intel Core i7-7700K o Ryzen 5 2600X",
+      "Memoria": "16 GB RAM",
+      "Gráficos": "NVIDIA GTX 1070 o AMD Vega 56",
+      "Almacenamiento": "35 GB en SSD"
+    }
+  },
+  {
+    "id": "pv-paper-kingdoms",
+    "title": "Paper Kingdoms: The Origami War",
+    "slug": "paper-kingdoms-the-origami-war",
+    "developer": "Folded World Studios",
+    "publisher": "Folded World Studios",
+    "release_date": "2026-02-05",
+    "genre": "Estrategia",
+    "tags": [
+      "Estrategia",
+      "Origami",
+      "Fantasía Creativa",
+      "Indie Encantador"
+    ],
+    "price": 16.99,
+    "discount_percent": 25,
+    "rating": 4.9,
+    "reviews_count": 1130,
+    "is_featured": false,
+    "is_new": true,
+    "is_indie": true,
+    "short_description": "Un mundo de papel tridimensional cobra vida. Dobla castillos y despliega soldados de cartulina.",
+    "full_description": "Una innovadora combinación de estrategia táctica y arte de origami. Despliega caballeros de papiro, grullas voladoras y dragones plegados mientras transformas el terreno de juego doblándolo físicamente para crear puentes o trincheras.",
+    "cover_image": "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1200&q=80",
+    "features": [
+      "Dirección de arte artesanal en stop-motion",
+      "Mecánicas únicas de pliegue de tablero",
+      "Banda sonora con instrumentos acústicos"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10",
+      "Procesador": "Intel i3 o AMD equivalente",
+      "Memoria": "4 GB RAM",
+      "Gráficos": "Gráfica con 2 GB VRAM",
+      "Almacenamiento": "4 GB libres"
+    }
+  },
+  {
+    "id": "pv-dungeon-crawler-zero",
+    "title": "Dungeon Crawler: Loot & Peril",
+    "slug": "dungeon-crawler-loot-and-peril",
+    "developer": "Rusty Helm Games",
+    "publisher": "PixelVault Publishing",
+    "release_date": "2025-06-18",
+    "genre": "Rol / RPG",
+    "tags": [
+      "Mazmorras",
+      "Loot",
+      "RPG Clásico",
+      "Fantasía"
+    ],
+    "price": 29.99,
+    "discount_percent": 70,
+    "rating": 4.5,
+    "reviews_count": 6700,
+    "is_featured": false,
+    "is_new": false,
+    "is_indie": false,
+    "short_description": "Desciende por 50 niveles de catacumbas infestadas de monstruos y tesoros legendarios.",
+    "full_description": "Inspirado en los grandes clásicos del género hack and slash isométrico. Crea tu guerrero, arquero o hechicero, enfréntate a hordas demoníacas y colecciona conjuntos de armaduras legendarias con modificadores aleatorios.",
+    "cover_image": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1200&q=80",
+    "features": [
+      "Millones de combinaciones de equipamiento",
+      "50 pisos con trampas y salas secretas",
+      "Sistema de crafteo y encantamientos"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10 64-bit",
+      "Procesador": "Intel Core i5-7400",
+      "Memoria": "8 GB RAM",
+      "Gráficos": "GTX 1050 / Radeon RX 560",
+      "Almacenamiento": "16 GB disponibles"
+    }
+  },
+  {
+    "id": "pv-botanical-witch",
+    "title": "The Botanical Witch: Forest Herbs",
+    "slug": "the-botanical-witch-forest-herbs",
+    "developer": "Green Cauldron Studio",
+    "publisher": "Green Cauldron Studio",
+    "release_date": "2026-03-10",
+    "genre": "Aventura",
+    "tags": [
+      "Indie Relajante",
+      "Magia Natural",
+      "Aventura Pacífica",
+      "Cuidado de Plantas"
+    ],
+    "price": 14.99,
+    "discount_percent": 0,
+    "rating": 4.9,
+    "reviews_count": 940,
+    "is_featured": false,
+    "is_new": true,
+    "is_indie": true,
+    "short_description": "Cultiva hierbas mágicas en un bosque encantado y ayuda a los espíritus del bosque.",
+    "full_description": "Una experiencia relajante y estética con espíritu de itch.io. Prepara infusiones botánicas, diagnostica las aflicciones de criaturas mágicas que visitan tu cabaña y descubre recetas centenarias de herbolaria arcana.",
+    "cover_image": "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200&q=80",
+    "features": [
+      "Gráficos acuarelados hechos a mano",
+      "Sonidos relajantes de naturaleza y lluvia",
+      "Sin reloj ni penalizaciones por error"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10",
+      "Procesador": "Intel Core i3",
+      "Memoria": "4 GB RAM",
+      "Gráficos": "Gráfica integrada con soporte OpenGL 3.3",
+      "Almacenamiento": "3 GB libres"
+    }
+  },
+  {
+    "id": "pv-void-walker",
+    "title": "Void Walker: Quantum Protocol",
+    "slug": "void-walker-quantum-protocol",
+    "developer": "Subatomic Games",
+    "publisher": "PixelVault Publishing",
+    "release_date": "2025-09-19",
+    "genre": "Aventura",
+    "tags": [
+      "Ciencia Ficción",
+      "Misterio",
+      "Espacio Profundo",
+      "Narrativa"
+    ],
+    "price": 27.99,
+    "discount_percent": 50,
+    "rating": 4.6,
+    "reviews_count": 2780,
+    "is_featured": false,
+    "is_new": false,
+    "is_indie": false,
+    "short_description": "Atraviesa anomalías dimensionales en una estación orbital silenciosa en la órbita de Júpiter.",
+    "full_description": "La estación Prometheus ha dejado de transmitir señales de vida. Como especialista en telemetría cuántica, explora pasillos en gravedad cero, sincroniza frecuencias de portales y desvela los experimentos prohibidos de la tripulación.",
+    "cover_image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&q=80",
+    "features": [
+      "Física realista de gravedad cero",
+      "Narrativa ambiental profunda",
+      "Finales múltiples según descubrimientos"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10 / 11 64-bit",
+      "Procesador": "Intel Core i5-8600K",
+      "Memoria": "12 GB RAM",
+      "Gráficos": "GTX 1060 6GB",
+      "Almacenamiento": "22 GB libres"
+    }
+  }
+]
