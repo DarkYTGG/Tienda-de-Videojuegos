@@ -91,7 +91,103 @@ class StoreView(BaseView):
             )
             controls.append(hero_component.build())
 
-        # 2. Section: Super Ofertas (Steam-style discount wall)
+        # 2. Key Value Proposition Bar
+        value_items = [
+            ("vpn_key", "#8B5CF6", "Claves Digitales", "Generación instantánea"),
+            ("auto_awesome", "#06B6D4", "Curaduría Indie", "Espacio a creadores"),
+            ("verified_user", "#10B981", "Simulación Segura", "Fines académicos"),
+            ("storage", "#F59E0B", "Persistencia JSON", "Auditable en data/"),
+        ]
+        val_cards = []
+        for icon_name, color, title, subtitle in value_items:
+            val_cards.append(
+                ft.Container(
+                    content=ft.Row(
+                        controls=[
+                            ft.Container(
+                                content=ft.Icon(safe_icon(icon_name), size=20, color=color),
+                                bgcolor="#0B132B",
+                                padding=8,
+                                border_radius=8,
+                                border=ft.Border.all(1, color)
+                            ),
+                            ft.Column(
+                                controls=[
+                                    ft.Text(title, size=13, weight=ft.FontWeight.BOLD, color=TEXT_PRIMARY),
+                                    ft.Text(subtitle, size=11, color=TEXT_SECONDARY)
+                                ],
+                                spacing=1
+                            )
+                        ],
+                        spacing=10,
+                        vertical_alignment=ft.CrossAxisAlignment.CENTER
+                    ),
+                    bgcolor="#111A2E",
+                    border=ft.Border.all(1, "#22304A"),
+                    border_radius=10,
+                    padding=ft.Padding(left=14, right=14, top=10, bottom=10),
+                    expand=True
+                )
+            )
+        val_bar = ft.Container(
+            content=ft.Row(controls=val_cards, spacing=12),
+            margin=ft.Margin(left=0, right=0, top=18, bottom=16)
+        )
+        controls.append(val_bar)
+
+        # 3. Section: Demos Jugables Online en Navegador (Call of Duty Web Editions)
+        demo_games = self._list_uc.get_demo_games()
+        if demo_games:
+            demo_header = ft.Container(
+                content=ft.Row(
+                    controls=[
+                        ft.Row(
+                            controls=[
+                                ft.Container(
+                                    content=ft.Row(
+                                        controls=[
+                                            ft.Icon(safe_icon("sports_esports"), size=15, color="#FFFFFF"),
+                                            ft.Text("WEB PLAYABLE DEMOS", size=10, weight=ft.FontWeight.BOLD, color="#FFFFFF")
+                                        ],
+                                        spacing=5,
+                                        tight=True
+                                    ),
+                                    bgcolor="#0284C7",
+                                    padding=ft.Padding(left=8, right=8, top=4, bottom=4),
+                                    border_radius=4
+                                ),
+                                ft.Column(
+                                    controls=[
+                                        ft.Text("Demos Jugables Online en Navegador", size=19, weight=ft.FontWeight.BOLD, color=TEXT_PRIMARY),
+                                        ft.Text("Prueba estos títulos legendarios de Call of Duty directamente en tu navegador con un solo clic.", size=12, color=TEXT_SECONDARY)
+                                    ],
+                                    spacing=2
+                                )
+                            ],
+                            spacing=12,
+                            vertical_alignment=ft.CrossAxisAlignment.CENTER
+                        ),
+                        ft.Row(
+                            controls=[
+                                ft.Icon(safe_icon("wifi"), size=14, color=ACCENT_CYAN),
+                                ft.Text("Sin descargas ni instalaciones requeridas", size=12, weight=ft.FontWeight.W_600, color=ACCENT_CYAN)
+                            ],
+                            spacing=4
+                        )
+                    ],
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                    vertical_alignment=ft.CrossAxisAlignment.CENTER
+                ),
+                padding=ft.Padding(left=18, right=18, top=14, bottom=14),
+                bgcolor="#082F49",
+                border=ft.Border.all(1.5, ACCENT_CYAN),
+                border_radius=10,
+                margin=ft.Margin(left=0, right=0, top=10, bottom=14)
+            )
+            controls.append(demo_header)
+            controls.append(self._build_game_row(demo_games, max_items=4))
+
+        # 4. Section: Super Ofertas (Steam-style discount wall)
         if on_sale_games:
             controls.append(
                 create_section_header(

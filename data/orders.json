@@ -1,5 +1,55 @@
 [
   {
+    "id": "PV-2026-59080F",
+    "customer_name": "Estudiante Prueba",
+    "customer_email": "estudiante@ejemplo.com",
+    "payment_method": "Tarjeta de Crédito / Débito",
+    "items": [
+      {
+        "game_id": "pv-cyber-odyssey",
+        "game_title": "Cyber Odyssey: Neo-Veridia",
+        "price_paid": 38.99,
+        "digital_key": "PIXEL-D82C-6960-26CA-7799"
+      }
+    ],
+    "subtotal": 59.99,
+    "total_discount": 21.0,
+    "total": 38.99,
+    "status": "Completada (Simulación Académica)",
+    "created_at": "2026-10-15T22:42:44.135531+00:00"
+  },
+  {
+    "id": "PV-2026-60AE18",
+    "customer_name": "asdhgasdhasd",
+    "customer_email": "asdasd23@gmail.com",
+    "payment_method": "Tarjeta Virtual de Prueba (Simulado)",
+    "items": [
+      {
+        "game_id": "pv-tales-of-eldoria",
+        "game_title": "Tales of Eldoria: Crystal Thrones",
+        "price_paid": 29.99,
+        "digital_key": "PIXEL-6812-2E32-BC88-A8A4"
+      },
+      {
+        "game_id": "pv-celestial-rogue",
+        "game_title": "Celestial Rogue: Astral Drift",
+        "price_paid": 15.99,
+        "digital_key": "PIXEL-593D-5244-86A6-AB35"
+      },
+      {
+        "game_id": "pv-shadow-blade-zero",
+        "game_title": "Shadow Blade: Zero Protocol",
+        "price_paid": 35.99,
+        "digital_key": "PIXEL-4BB7-2C75-3C30-95C2"
+      }
+    ],
+    "subtotal": 109.97,
+    "total_discount": 28.0,
+    "total": 81.97,
+    "status": "Completada (Simulación Académica)",
+    "created_at": "2026-10-15T22:41:13.979262+00:00"
+  },
+  {
     "id": "PV-2026-B83B51",
     "customer_name": "Carlos Mendoza",
     "customer_email": "carlos.mendoza@universidad.edu",

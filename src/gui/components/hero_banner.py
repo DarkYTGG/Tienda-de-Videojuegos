@@ -142,9 +142,30 @@ class FeaturedHeroBannerComponent:
                 ),
                 on_click=lambda _: self._on_add_cart(self._game)
             )
+        action_controls = [detail_btn]
+        if self._game.demo_url:
+            demo_hero_btn = ft.FilledButton(
+                content=ft.Row(
+                    controls=[
+                        ft.Icon(safe_icon("play_circle_filled"), size=16, color="#38BDF8"),
+                        ft.Text("Probar Demo Online", size=13, weight=ft.FontWeight.BOLD, color="#38BDF8")
+                    ],
+                    tight=True,
+                    spacing=6
+                ),
+                url=self._game.demo_url,
+                style=ft.ButtonStyle(
+                    bgcolor="#082F49",
+                    side=ft.BorderSide(1.5, ACCENT_CYAN),
+                    padding=ft.Padding(left=16, right=16, top=12, bottom=12),
+                    shape=ft.RoundedRectangleBorder(radius=8)
+                )
+            )
+            action_controls.append(demo_hero_btn)
+        action_controls.append(cart_btn)
 
         actions_row = ft.Row(
-            controls=[detail_btn, cart_btn],
+            controls=action_controls,
             spacing=12
         )
 
