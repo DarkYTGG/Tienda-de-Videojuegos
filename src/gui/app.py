@@ -24,6 +24,8 @@ from .theme import (
     TEXT_SECONDARY,
     safe_icon,
 )
+from .components.header import StoreHeaderComponent
+from .components.cart_drawer import CartDrawerComponent
 from .views.store_view import StoreView
 from .views.catalog_view import CatalogView
 from .views.detail_view import GameDetailView
@@ -54,7 +56,11 @@ class PixelVaultApp:
 
         # 4. GUI & Routing State
         self.page: Optional[ft.Page] = None
+        self.header_container = ft.Container()
         self.content_container = ft.Container(expand=True)
+        self.drawer_container = ft.Container(visible=False, expand=True)
+        self.root_stack: Optional[ft.Stack] = None
+        self.is_cart_drawer_open: bool = False
         self.current_route: str = "home"
         self.route_params: Dict[str, Any] = {}
 
@@ -90,140 +96,134 @@ class PixelVaultApp:
         snack.open = True
         self.page.update()
 
-    def _build_appbar(self) -> ft.AppBar:
-        """Constructs Flutter Web native AppBar with branding, section navigation, search, and dynamic cart badge."""
-        cart_badge_text = str(self.cart.item_count)
-
-        def nav_btn(label: str, route: str, params: Optional[dict] = None):
-            is_active = (self.current_route == route) and (not params or all(self.route_params.get(k) == v for k, v in params.items()))
-            return ft.Container(
-                content=ft.Text(
-                    label,
-                    size=13,
-                    weight=ft.FontWeight.BOLD if is_active else ft.FontWeight.W_500,
-                    color="#38BDF8" if is_active else TEXT_SECONDARY
-                ),
-                bgcolor="rgba(6, 182, 212, 0.12)" if is_active else ft.Colors.TRANSPARENT,
-                border=ft.Border.all(1, "rgba(6, 182, 212, 0.35)") if is_active else None,
-                border_radius=6,
-                padding=ft.Padding(left=12, right=12, top=6, bottom=6),
-                on_click=lambda _: self.navigate(route, params),
-                ink=True
-            )
-
-        return ft.AppBar(
-            leading=ft.Container(
-                content=ft.Container(
-                    content=ft.Icon(safe_icon("sports_esports"), color="#FFFFFF", size=20),
-                    bgcolor=ACCENT_PURPLE,
-                    padding=6,
-                    border_radius=8,
-                    shadow=ft.BoxShadow(spread_radius=0, blur_radius=8, color="rgba(139, 92, 246, 0.4)")
-                ),
-                padding=ft.Padding(left=16, right=0, top=6, bottom=6),
-                on_click=lambda _: self.navigate("home"),
-            ),
-            title=ft.Container(
-                content=ft.Row(
-                    controls=[
-                        ft.Text("PIXEL", size=22, weight=ft.FontWeight.W_900, color=TEXT_PRIMARY),
-                        ft.Text("VAULT", size=22, weight=ft.FontWeight.W_900, color=ACCENT_PURPLE),
-                    ],
-                    spacing=0,
-                    tight=True
-                ),
-                on_click=lambda _: self.navigate("home"),
-                ink=True
-            ),
-            actions=[
-                nav_btn("Tienda", "home"),
-                nav_btn("Catálogo Completo", "catalog"),
-                nav_btn("Zona Indie", "catalog", {"only_indie": True}),
-                nav_btn("Mis Pedidos", "orders"),
-                ft.IconButton(
-                    icon=safe_icon("search"),
-                    icon_color=TEXT_SECONDARY,
-                    tooltip="Buscar en catálogo",
-                    on_click=lambda _: self.navigate("catalog")
-                ),
-                ft.Container(
-                    content=ft.Row(
-                        controls=[
-                            ft.Icon(safe_icon("shopping_cart"), size=17, color="#FFFFFF"),
-                            ft.Text("Carrito", size=13, weight=ft.FontWeight.BOLD, color="#FFFFFF"),
-                            ft.Container(
-                                content=ft.Text(cart_badge_text, size=11, weight=ft.FontWeight.W_900, color="#FFFFFF"),
-                                bgcolor=ACCENT_GREEN if self.cart.item_count > 0 else "#475569",
-                                padding=ft.Padding(left=7, right=7, top=2, bottom=2),
-                                border_radius=10,
-                                shadow=ft.BoxShadow(spread_radius=0, blur_radius=6, color="rgba(16, 185, 129, 0.4)") if self.cart.item_count > 0 else None
-                            )
-                        ],
-                        spacing=6,
-                        tight=True
-                    ),
-                    bgcolor=ACCENT_PURPLE,
-                    padding=ft.Padding(left=14, right=14, top=7, bottom=7),
-                    border_radius=8,
-                    shadow=ft.BoxShadow(spread_radius=0, blur_radius=10, color="rgba(139, 92, 246, 0.4)"),
-                    margin=ft.Margin(left=4, right=16, top=0, bottom=0),
-                    on_click=lambda _: self.navigate("cart"),
-                    ink=True
-                )
-            ],
-            bgcolor=BG_HEADER,
-            elevation=0,
-            center_title=False
+    def _refresh_header(self) -> None:
+        """Rebuilds the custom cyberpunk top navigation bar with dynamic counters and active route."""
+        header_comp = StoreHeaderComponent(
+            navigate_fn=self.navigate,
+            cart_count=self.cart.item_count,
+            current_route=self.current_route,
+            on_search_submit=self._handle_header_search,
+            on_cart_click=self.toggle_cart_drawer
         )
+        self.header_container.content = header_comp.build()
 
-    def navigate(self, route_name: str, params: Optional[Dict[str, Any]] = None) -> None:
-        """Centralized reactive navigation router implementing polymorphism across views."""
-        self.current_route = route_name
-        self.route_params = params or {}
+    def _build_cart_drawer(self) -> Optional[ft.Control]:
+        """Builds the offcanvas sliding drawer component."""
+        drawer_comp = CartDrawerComponent(
+            cart=self.cart,
+            is_open=self.is_cart_drawer_open,
+            on_close=self.close_cart_drawer,
+            on_remove_item=self.remove_from_cart,
+            on_checkout=self._handle_drawer_checkout,
+            on_view_cart=self._handle_drawer_view_cart,
+            on_catalog=self._handle_drawer_catalog
+        )
+        return drawer_comp.build()
 
-        # 1. Update AppBar with current route & cart counter
+    def open_cart_drawer(self) -> None:
+        """Slides open the offcanvas cart drawer overlay."""
+        self.is_cart_drawer_open = True
+        self.drawer_container.visible = True
+        self.drawer_container.content = self._build_cart_drawer()
+        self._refresh_header()
         if self.page:
-            self.page.appbar = self._build_appbar()
+            self.page.update()
 
-        # 2. Polymorphic View Instantiation
-        view_instance = None
+    def close_cart_drawer(self) -> None:
+        """Closes the offcanvas cart drawer overlay."""
+        self.is_cart_drawer_open = False
+        self.drawer_container.visible = False
+        self.drawer_container.content = None
+        self._refresh_header()
+        if self.page:
+            self.page.update()
+
+    def toggle_cart_drawer(self) -> None:
+        """Toggles the visibility state of the offcanvas cart drawer."""
+        if self.is_cart_drawer_open:
+            self.close_cart_drawer()
+        else:
+            self.open_cart_drawer()
+
+    def remove_from_cart(self, game_id: str) -> None:
+        """Removes a video game line item, updating drawer, header badge, and underlying view."""
+        try:
+            self.cart_manager.remove_game(game_id)
+            self.notify("Videojuego eliminado del carrito", "info")
+            # Refresh drawer contents
+            self.drawer_container.content = self._build_cart_drawer()
+            # Refresh header cart counter
+            self._refresh_header()
+            # Refresh underlying view so card buttons reflect removed status
+            view_instance = self._create_view(self.current_route, self.route_params)
+            if view_instance:
+                self.content_container.content = view_instance.build()
+            if self.page:
+                self.page.update()
+        except Exception as e:
+            self.notify(str(e), "warning")
+
+    def _handle_drawer_checkout(self) -> None:
+        """Navigates from drawer directly to checkout."""
+        self.close_cart_drawer()
+        self.navigate("checkout")
+
+    def _handle_drawer_view_cart(self) -> None:
+        """Navigates from drawer to the full-page detailed cart view."""
+        self.close_cart_drawer()
+        self.navigate("cart")
+
+    def _handle_drawer_catalog(self) -> None:
+        """Navigates from empty drawer to the full catalog."""
+        self.close_cart_drawer()
+        self.navigate("catalog")
+
+    def _handle_header_search(self, query: str) -> None:
+        """Routes header search queries directly to the catalog view."""
+        self.navigate("catalog", {"search": query})
+
+    def _create_view(self, route_name: str, params: Dict[str, Any]):
+        """Polymorphic factory instantiating the view for the requested route."""
         if route_name == "home":
-            view_instance = StoreView(
+            return StoreView(
                 self.page,
                 self.navigate,
                 self.list_games_uc,
                 self.cart_manager,
-                self.notify
+                notify_fn=self.notify,
+                on_cart_open=self.open_cart_drawer
             )
         elif route_name == "catalog":
-            view_instance = CatalogView(
+            return CatalogView(
                 self.page,
                 self.navigate,
                 self.search_filter_uc,
                 self.list_games_uc,
                 self.cart_manager,
-                initial_params=self.route_params,
-                notify_fn=self.notify
+                initial_params=params,
+                notify_fn=self.notify,
+                on_cart_open=self.open_cart_drawer
             )
         elif route_name == "detail":
-            slug = self.route_params.get("slug", "")
-            view_instance = GameDetailView(
+            slug = params.get("slug", "")
+            return GameDetailView(
                 self.page,
                 self.navigate,
                 self.get_game_uc,
                 self.cart_manager,
                 game_slug=slug,
-                notify_fn=self.notify
+                notify_fn=self.notify,
+                on_cart_open=self.open_cart_drawer
             )
         elif route_name == "cart":
-            view_instance = CartView(
+            return CartView(
                 self.page,
                 self.navigate,
                 self.cart_manager,
                 self.notify
             )
         elif route_name == "checkout":
-            view_instance = CheckoutView(
+            return CheckoutView(
                 self.page,
                 self.navigate,
                 self.cart_manager,
@@ -231,26 +231,43 @@ class PixelVaultApp:
                 self.notify
             )
         elif route_name == "confirmation":
-            order = self.route_params.get("order")
-            view_instance = OrderConfirmationView(
+            order = params.get("order")
+            return OrderConfirmationView(
                 self.page,
                 self.navigate,
                 order=order,
                 notify_fn=self.notify
             )
         elif route_name == "orders":
-            view_instance = OrdersHistoryView(
+            return OrdersHistoryView(
                 self.page,
                 self.navigate,
                 self.get_orders_uc,
                 self.notify
             )
+        return None
+
+    def navigate(self, route_name: str, params: Optional[Dict[str, Any]] = None) -> None:
+        """Centralized reactive navigation router implementing polymorphism across views."""
+        self.current_route = route_name
+        self.route_params = params or {}
+
+        # 1. Update Custom Header with current route & cart counter
+        self._refresh_header()
+
+        # 2. Polymorphic View Instantiation
+        view_instance = self._create_view(route_name, self.route_params)
 
         # 3. Mount view content
         if view_instance:
             self.content_container.content = view_instance.build()
-            if self.page:
-                self.page.update()
+
+        # 4. If drawer is currently open, re-render its content
+        if self.is_cart_drawer_open:
+            self.drawer_container.content = self._build_cart_drawer()
+
+        if self.page:
+            self.page.update()
 
     def main(self, page: ft.Page) -> None:
         """Flet session initialization callback."""
@@ -260,11 +277,27 @@ class PixelVaultApp:
         self.page.bgcolor = BG_DARK
         self.page.padding = 0
 
-        # Attach AppBar
-        self.page.appbar = self._build_appbar()
+        # Construct primary application layout: Custom Header + View Content Container
+        main_column = ft.Column(
+            controls=[
+                self.header_container,
+                self.content_container,
+            ],
+            spacing=0,
+            expand=True
+        )
 
-        # Attach dynamic content area directly to page
-        self.page.add(self.content_container)
+        # Root Stack hosting base layout and sliding offcanvas drawer overlay
+        self.root_stack = ft.Stack(
+            controls=[
+                main_column,
+                self.drawer_container,
+            ],
+            expand=True
+        )
+
+        # Attach Root Stack to Page
+        self.page.add(self.root_stack)
 
         # Navigate to initial view
         self.navigate("home")

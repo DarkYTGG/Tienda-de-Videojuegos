@@ -44,13 +44,16 @@ class GameDetailView(BaseView):
         self._cart_manager = cart_manager
         self._slug = game_slug
         self._notify = notify_fn or notify
+        self._on_cart_open = kwargs.get("on_cart_open") or kwargs.get("open_cart_drawer")
 
     def _on_add_cart(self, game: Game):
         try:
             self._cart_manager.add_game(game)
             if self._notify:
                 self._notify(f"¡'{game.title}' añadido al carrito de compras!", "success")
-            if self.page:
+            if self._on_cart_open:
+                self._on_cart_open()
+            elif self.page:
                 self.page.update()
         except Exception as e:
             if self._notify:
