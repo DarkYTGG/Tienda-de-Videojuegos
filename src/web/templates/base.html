@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="es" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}PixelVault — Tienda Digital de Videojuegos | Programación IV{% endblock %}</title>
+  <meta name="description" content="Plataforma de comercio digital de videojuegos inspirada en Steam e itch.io. Tarea académica de Programación IV, IUT Antonio José de Sucre.">
+
+  <!-- Google Fonts: Plus Jakarta Sans, Outfit & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3 & Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom Master Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-pixel sticky-top">
+    <div class="container-fluid px-lg-5">
+      <!-- Brand Logo -->
+      <a class="brand-logo" href="{{ url_for('store.index') }}">
+        <div class="brand-icon-box">
+          <i class="bi bi-controller fs-5 text-white"></i>
+        </div>
+        <div class="d-flex align-items-baseline">
+          <span class="brand-text-pixel">PIXEL</span>
+          <span class="brand-text-vault">VAULT</span>
+        </div>
+      </a>
+
+      <!-- Mobile Toggle -->
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Menu">
+        <i class="bi bi-list fs-2"></i>
+      </button>
+
+      <!-- Nav Links -->
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link nav-link-pixel {{ 'active' if request.endpoint == 'store.index' else '' }}" href="{{ url_for('store.index') }}">
+              <i class="bi bi-house-door me-1"></i> Tienda
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-pixel {{ 'active' if request.endpoint == 'store.catalog' and not request.args.get('only_indie') else '' }}" href="{{ url_for('store.catalog') }}">
+              <i class="bi bi-grid-3x3-gap me-1"></i> Catálogo Completo
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-pixel {{ 'active' if request.args.get('only_indie') else '' }}" href="{{ url_for('store.catalog', only_indie=1) }}">
+              <i class="bi bi-stars me-1 text-info"></i> Zona Indie
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-pixel {{ 'active' if request.endpoint == 'store.orders_history' else '' }}" href="{{ url_for('store.orders_history') }}">
+              <i class="bi bi-receipt me-1"></i> Mis Pedidos
+            </a>
+          </li>
+        </ul>
+
+        <!-- Right Header Actions (Quick Search & Cart Drawer Trigger) -->
+        <div class="d-flex align-items-center gap-3">
+          <form class="d-none d-md-flex position-relative" action="{{ url_for('store.catalog') }}" method="GET">
+            <input class="form-control form-control-pixel pe-5" type="search" name="search" placeholder="Buscar videojuegos..." value="{{ request.args.get('search', '') }}" style="width: 220px;">
+            <button class="btn position-absolute end-0 top-50 translate-middle-y text-secondary border-0 pe-3" type="submit">
+              <i class="bi bi-search"></i>
+            </button>
+          </form>
+
+          <!-- Interactive Cart Trigger Button -->
+          <button class="btn-cart-nav" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas" onclick="refreshCartDrawer()">
+            <i class="bi bi-cart3 fs-5"></i>
+            <span class="d-none d-sm-inline">Carrito</span>
+            <span class="badge-cart-count">{{ cart.item_count if cart else 0 }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Flash Messages Notifications -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="container mt-3">
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category if category != 'error' else 'danger' }} alert-dismissible fade show shadow-sm border-0 d-flex align-items-center gap-2" role="alert" style="background: rgba(30, 41, 59, 0.95); border-left: 4px solid {{ '#10b981' if category == 'success' else '#f59e0b' if category == 'warning' else '#ef4444' }} !important; color: #ffffff;">
+            <i class="bi {{ 'bi-check-circle-fill text-success' if category == 'success' else 'bi-exclamation-triangle-fill text-warning' if category == 'warning' else 'bi-x-circle-fill text-danger' }} fs-5"></i>
+            <div class="flex-grow-1">{{ message }}</div>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Main View Block -->
+  <main class="py-4">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Offcanvas Shopping Cart Drawer (Interactive) -->
+  <div class="offcanvas offcanvas-end offcanvas-pixel shadow-lg" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+    <div class="offcanvas-header border-bottom border-secondary border-opacity-25 py-3">
+      <div class="d-flex align-items-center gap-2">
+        <div class="brand-icon-box" style="width: 28px; height: 28px;">
+          <i class="bi bi-cart-check text-white"></i>
+        </div>
+        <h5 class="offcanvas-title text-white mb-0" id="cartOffcanvasLabel">Tu Carrito Digital</h5>
+      </div>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column p-4">
+      <div id="cartDrawerItems" class="flex-grow-1 overflow-y-auto pe-1">
+        <!-- Rendered reactively via JavaScript -->
+        {% if cart and not cart.is_empty %}
+          {% for item in cart.get_items() %}
+            <div class="cart-drawer-item">
+              <img src="{{ item.game.cover_image }}" alt="{{ item.game.title }}" class="cart-drawer-thumb">
+              <div class="flex-grow-1 min-w-0">
+                <h6 class="text-white text-truncate mb-0 fs-6">{{ item.game.title }}</h6>
+                <div class="d-flex align-items-center gap-2 mt-1">
+                  <span class="badge-genre" style="font-size:0.7rem;">{{ item.game.genre }}</span>
+                  <span class="text-white fw-bold small">{{ item.unit_price | currency }}</span>
+                </div>
+              </div>
+              <button class="btn btn-sm text-danger" onclick="removeFromCart('{{ item.game.id }}', false)" title="Eliminar">
+                <i class="bi bi-trash3"></i>
+              </button>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="text-center py-5">
+            <i class="bi bi-cart-x fs-1 text-secondary opacity-50 mb-3 d-block"></i>
+            <h6 class="text-white">Tu carrito está vacío</h6>
+            <p class="text-muted small">Explora nuestro catálogo y agrega tus títulos favoritos.</p>
+            <a href="{{ url_for('store.catalog') }}" class="btn btn-sm btn-outline-pixel mt-2">Ir a Catálogo</a>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Drawer Bottom Summary -->
+      <div class="pt-3 border-top border-secondary border-opacity-25 mt-auto">
+        <div class="d-flex justify-content-between mb-2">
+          <span class="text-secondary small">Subtotal</span>
+          <span class="text-white fw-semibold" id="cartDrawerSubtotal">{{ cart.subtotal | currency if cart else '$0.00 USD' }}</span>
+        </div>
+        <div class="d-flex justify-content-between mb-3">
+          <span class="text-white fw-bold">Total a Pagar</span>
+          <span class="text-info fw-bold fs-5" id="cartDrawerTotal">{{ cart.total | currency if cart else '$0.00 USD' }}</span>
+        </div>
+        <div class="d-grid gap-2">
+          <a href="{{ url_for('store.checkout_view') }}" class="btn btn-primary-pixel text-center py-2 justify-content-center {{ 'disabled' if not cart or cart.is_empty else '' }}" id="cartDrawerCheckoutBtn">
+            <i class="bi bi-credit-card me-1"></i> Continuar a la Compra
+          </a>
+          <a href="{{ url_for('store.cart_view') }}" class="btn btn-outline-pixel text-center py-2 justify-content-center">
+            Ver Carrito Detallado
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Feedback Notifications Container -->
+  <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1090;"></div>
+
+  <!-- Academic Footer -->
+  <footer class="footer-pixel">
+    <div class="container">
+      <div class="row g-4 justify-content-between mb-4">
+        <div class="col-lg-5">
+          <div class="brand-logo mb-3">
+            <div class="brand-icon-box">
+              <i class="bi bi-controller fs-5 text-white"></i>
+            </div>
+            <div class="d-flex align-items-baseline">
+              <span class="brand-text-pixel">PIXEL</span>
+              <span class="brand-text-vault">VAULT</span>
+            </div>
+          </div>
+          <p class="text-secondary small mb-3">
+            PixelVault es una plataforma web y de escritorio inspirada en la curaduría indie de itch.io y la robustez de Steam. Diseñada bajo principios de Arquitectura Limpia en Capas y Programación Orientada a Objetos (POO).
+          </p>
+          <div class="footer-academic-badge">
+            <i class="bi bi-mortarboard-fill text-info"></i>
+            <span>Evaluación Práctica — Programación IV</span>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <h6 class="text-white fw-bold mb-3">Navegación</h6>
+          <ul class="list-unstyled d-flex flex-column gap-2 small">
+            <li><a href="{{ url_for('store.index') }}" class="text-secondary text-decoration-none hover-white">Inicio / Tienda</a></li>
+            <li><a href="{{ url_for('store.catalog') }}" class="text-secondary text-decoration-none hover-white">Catálogo Completo</a></li>
+            <li><a href="{{ url_for('store.catalog', only_indie=1) }}" class="text-secondary text-decoration-none hover-white">Zona Desarrolladores Indie</a></li>
+            <li><a href="{{ url_for('store.orders_history') }}" class="text-secondary text-decoration-none hover-white">Historial de Pedidos & Claves</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <h6 class="text-white fw-bold mb-3">Información Institucional</h6>
+          <p class="text-secondary small mb-1">
+            <strong>Instituto:</strong> IUT "Antonio José de Sucre"
+          </p>
+          <p class="text-secondary small mb-1">
+            <strong>Cátedra:</strong> Programación IV (Informática)
+          </p>
+          <p class="text-secondary small mb-1">
+            <strong>Docente de Referencia:</strong> Prof. Yoher Alejandro Vázquez Salinas
+          </p>
+          <p class="text-secondary small mb-0">
+            <strong>Persistencia:</strong> Archivos JSON locales (<span class="text-info font-monospace">data/games.json</span> y <span class="text-info font-monospace">data/orders.json</span>)
+          </p>
+        </div>
+      </div>
+
+      <div class="border-top border-secondary border-opacity-25 pt-3 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2 small text-muted">
+        <div>&copy; 2026 PixelVault — Proyecto Académico. Todos los derechos reservados.</div>
+        <div class="d-flex align-items-center gap-3">
+          <span>Python 3.10+</span>
+          <span>&bull;</span>
+          <span>Flask & Flet</span>
+          <span>&bull;</span>
+          <span>POO & Clean Architecture</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom Main JS -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

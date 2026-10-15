@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Confirmación de Orden — PixelVault{% endblock %}
+
+{% block content %}
+<div class="container py-4" style="max-width: 900px;">
+
+  <!-- Success Header Banner -->
+  <div class="text-center p-5 rounded-4 mb-4 shadow-lg position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(22, 34, 59, 0.95) 0%, rgba(11, 17, 30, 0.98) 100%); border: 1px solid var(--border-active); box-shadow: var(--shadow-glow);">
+    <div class="brand-icon-box mx-auto mb-3" style="width: 72px; height: 72px; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4);">
+      <i class="bi bi-check2-circle text-success fs-1"></i>
+    </div>
+    <span class="badge bg-success bg-opacity-25 text-success px-3 py-1 mb-2 rounded-pill small fw-bold">
+      ORDEN COMPLETADA
+    </span>
+    <h1 class="text-white fw-extrabold display-5 mb-2">¡Gracias por tu compra!</h1>
+    <p class="text-secondary fs-5 mb-3" style="max-width: 600px; margin: 0 auto;">
+      La orden <strong class="text-info font-monospace">{{ order.id }}</strong> ha sido registrada con éxito y persistida en <code class="text-info">data/orders.json</code>.
+    </p>
+    <div class="text-secondary small">
+      Comprador: <strong class="text-white">{{ order.customer_name }}</strong> &bull; Correo: <strong class="text-white">{{ order.customer_email }}</strong>
+    </div>
+  </div>
+
+  <!-- Digital Activation Keys Block (Main Academic Value) -->
+  <div class="p-4 rounded-4 mb-4 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-subtle);">
+    <div class="d-flex align-items-center gap-2 mb-3">
+      <i class="bi bi-key-fill text-info fs-4"></i>
+      <h3 class="text-white fw-bold mb-0">Tus Claves de Activación Digitales</h3>
+    </div>
+    <p class="text-secondary small mb-4">
+      Copia tus códigos de licencia para canjear tus videojuegos en tu cliente favorito (Steam, Epic o PixelVault Launcher).
+    </p>
+
+    <div class="d-flex flex-column gap-3">
+      {% for item in order.items %}
+      <div class="key-box-card">
+        <div>
+          <h5 class="text-white fw-bold mb-1 fs-6">{{ item.game_title }}</h5>
+          <div class="d-flex align-items-center gap-2">
+            <span class="text-secondary small">Clave:</span>
+            <span class="key-code-text">{{ item.digital_key }}</span>
+          </div>
+        </div>
+
+        <button class="btn-copy-key" data-key="{{ item.digital_key }}" title="Copiar al portapapeles">
+          <i class="bi bi-clipboard me-1"></i> Copiar Clave
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Receipt Breakdown Card -->
+  <div class="p-4 rounded-4 mb-4" style="background: var(--bg-surface); border: 1px solid var(--border-subtle);">
+    <h4 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+      <i class="bi bi-receipt-cutoff text-info"></i> Detalle del Recibo
+    </h4>
+
+    <div class="row g-3 small mb-3">
+      <div class="col-sm-6">
+        <span class="text-secondary d-block">Número de Orden:</span>
+        <span class="text-info font-monospace fw-bold">{{ order.id }}</span>
+      </div>
+      <div class="col-sm-6">
+        <span class="text-secondary d-block">Fecha y Hora de Emisión:</span>
+        <span class="text-white">{{ order.created_at[:19].replace('T', ' ') }}</span>
+      </div>
+      <div class="col-sm-6">
+        <span class="text-secondary d-block">Método de Pago:</span>
+        <span class="text-white">{{ order.payment_method }}</span>
+      </div>
+      <div class="col-sm-6">
+        <span class="text-secondary d-block">Estado de la Transacción:</span>
+        <span class="text-success fw-bold">{{ order.status }}</span>
+      </div>
+    </div>
+
+    <div class="border-top border-secondary border-opacity-25 pt-3">
+      <div class="d-flex justify-content-between text-secondary small py-1">
+        <span>Subtotal</span>
+        <span class="text-white">{{ order.subtotal | currency }}</span>
+      </div>
+      {% if order.total_discount > 0 %}
+      <div class="d-flex justify-content-between text-success small py-1">
+        <span>Descuento Aplicado</span>
+        <span>-{{ order.total_discount | currency }}</span>
+      </div>
+      {% endif %}
+      <div class="d-flex justify-content-between text-white fw-bold fs-5 py-2 mt-2 border-top border-secondary border-opacity-25">
+        <span>Total Pagado</span>
+        <span class="text-info">{{ order.total | currency }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Links -->
+  <div class="d-flex flex-wrap gap-3 justify-content-center">
+    <a href="{{ url_for('store.orders_history') }}" class="btn btn-outline-pixel">
+      <i class="bi bi-clock-history me-1"></i> Ver Mis Pedidos
+    </a>
+    <a href="{{ url_for('store.catalog') }}" class="btn btn-primary-pixel">
+      <i class="bi bi-controller me-1"></i> Explorar Más Videojuegos
+    </a>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+
+{% block title %}PixelVault — Tienda Digital de Videojuegos (Steam + itch.io){% endblock %}
+
+{% block content %}
+<div class="container-fluid px-lg-5">
+
+  <!-- ========================================================================
+       HERO FEATURED BANNER
+       ======================================================================== -->
+  {% if hero_game %}
+  <div class="hero-wrapper position-relative">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <span class="badge-hero-feature">
+            <i class="bi bi-star-fill text-warning"></i> Destacado de la Semana
+          </span>
+          <span class="badge-genre">{{ hero_game.genre }}</span>
+          {% if hero_game.is_on_sale %}
+            <span class="badge-sale">-{{ hero_game.discount_percent }}% OFERTA</span>
+          {% endif %}
+        </div>
+
+        <h1 class="display-4 fw-extrabold text-white mb-3" style="font-weight: 800; letter-spacing: -0.03em;">
+          {{ hero_game.title }}
+        </h1>
+
+        <p class="text-secondary fs-5 mb-3 pe-lg-4 lh-base" style="max-width: 650px;">
+          {{ hero_game.short_description }}
+        </p>
+
+        <!-- Rating and Reviews -->
+        <div class="d-flex align-items-center gap-3 mb-4">
+          <div class="d-flex text-warning">
+            <i class="bi bi-star-fill me-1"></i>
+            <span class="fw-bold text-white">{{ hero_game.rating }}</span>
+            <span class="text-secondary ms-1">/ 5.0</span>
+          </div>
+          <span class="text-secondary">&bull;</span>
+          <span class="text-secondary small">
+            <i class="bi bi-chat-left-heart me-1"></i> Extremadamente positivas ({{ "{:,}".format(hero_game.reviews_count) }} reseñas)
+          </span>
+        </div>
+
+        <!-- Pricing & Action Buttons -->
+        <div class="d-flex flex-wrap align-items-center gap-4 pt-2">
+          <div class="d-flex align-items-baseline gap-2">
+            {% if hero_game.is_on_sale %}
+              <span class="badge-sale fs-6 px-2 py-1">-{{ hero_game.discount_percent }}%</span>
+              <span class="text-muted text-decoration-line-through fs-5">{{ hero_game.price | currency }}</span>
+              <span class="text-white fw-bold fs-3">{{ hero_game.final_price | currency }}</span>
+            {% else %}
+              <span class="text-white fw-bold fs-3">{{ hero_game.final_price | currency }}</span>
+            {% endif %}
+          </div>
+
+          <div class="d-flex gap-3">
+            <a href="{{ url_for('store.game_detail', slug=hero_game.slug) }}" class="btn btn-primary-pixel">
+              <i class="bi bi-eye"></i> Ver Detalles Completos
+            </a>
+            <button class="btn btn-outline-pixel {{ 'in-cart' if cart and cart.has_game(hero_game.id) else '' }}" onclick="addToCart('{{ hero_game.id }}', this)">
+              <i class="bi {{ 'bi-check-circle-fill' if cart and cart.has_game(hero_game.id) else 'bi-cart-plus' }}"></i>
+              <span>{{ 'En Carrito' if cart and cart.has_game(hero_game.id) else 'Añadir al Carrito' }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Preview Media -->
+      <div class="col-lg-5">
+        <div class="hero-img-box">
+          <img src="{{ hero_game.cover_image }}" alt="{{ hero_game.title }}">
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ========================================================================
+       KEY VALUE PROPOSITION BAR
+       ======================================================================== -->
+  <div class="row g-3 mb-5">
+    <div class="col-md-3 col-6">
+      <div class="p-3 rounded-4 d-flex align-items-center gap-3" style="background: rgba(17, 26, 46, 0.6); border: 1px solid var(--border-subtle);">
+        <div class="brand-icon-box" style="background: rgba(139, 92, 246, 0.2); border: 1px solid rgba(139, 92, 246, 0.3);">
+          <i class="bi bi-key-fill text-info"></i>
+        </div>
+        <div>
+          <h6 class="text-white mb-0 fs-6 fw-bold">Claves Digitales</h6>
+          <small class="text-secondary">Generación instantánea</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="p-3 rounded-4 d-flex align-items-center gap-3" style="background: rgba(17, 26, 46, 0.6); border: 1px solid var(--border-subtle);">
+        <div class="brand-icon-box" style="background: rgba(6, 182, 212, 0.2); border: 1px solid rgba(6, 182, 212, 0.3);">
+          <i class="bi bi-stars text-cyan"></i>
+        </div>
+        <div>
+          <h6 class="text-white mb-0 fs-6 fw-bold">Curaduría Indie</h6>
+          <small class="text-secondary">Espacio a creadores</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="p-3 rounded-4 d-flex align-items-center gap-3" style="background: rgba(17, 26, 46, 0.6); border: 1px solid var(--border-subtle);">
+        <div class="brand-icon-box" style="background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.3);">
+          <i class="bi bi-shield-check text-success"></i>
+        </div>
+        <div>
+          <h6 class="text-white mb-0 fs-6 fw-bold">Simulación Segura</h6>
+          <small class="text-secondary">Fines académicos</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="p-3 rounded-4 d-flex align-items-center gap-3" style="background: rgba(17, 26, 46, 0.6); border: 1px solid var(--border-subtle);">
+        <div class="brand-icon-box" style="background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.3);">
+          <i class="bi bi-database-check text-warning"></i>
+        </div>
+        <div>
+          <h6 class="text-white mb-0 fs-6 fw-bold">Persistencia JSON</h6>
+          <small class="text-secondary">Auditable en data/</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       SUPER OFERTAS & DESCUENTOS SECTION
+       ======================================================================== -->
+  <section class="mb-5">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <span class="badge bg-danger bg-opacity-25 text-danger px-2 py-1 rounded">
+            <i class="bi bi-fire"></i> Hot Deals
+          </span>
+          <h2 class="text-white fs-3 fw-bold mb-0">Super Ofertas & Descuentos</h2>
+        </div>
+        <p class="text-secondary small mb-0">Ahorra hasta un 70% en títulos seleccionados por tiempo limitado.</p>
+      </div>
+      <a href="{{ url_for('store.catalog', only_sales=1) }}" class="btn btn-sm btn-outline-pixel">
+        Ver todas las ofertas <i class="bi bi-arrow-right ms-1"></i>
+      </a>
+    </div>
+
+    <div class="row g-4">
+      {% for game in on_sale[:4] %}
+      <div class="col-xl-3 col-lg-4 col-md-6">
+        {% include "_game_card.html" %}
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       ZONA INDIE DESTACADA SECTION
+       ======================================================================== -->
+  <section class="mb-5">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <span class="badge bg-purple bg-opacity-25 text-info px-2 py-1 rounded" style="background: rgba(139, 92, 246, 0.2);">
+            <i class="bi bi-joystick"></i> itch.io Spirit
+          </span>
+          <h2 class="text-white fs-3 fw-bold mb-0">Zona Desarrolladores Indie</h2>
+        </div>
+        <p class="text-secondary small mb-0">Creaciones apasionadas de estudios independientes de todo el mundo.</p>
+      </div>
+      <a href="{{ url_for('store.catalog', only_indie=1) }}" class="btn btn-sm btn-outline-pixel">
+        Explorar Zona Indie <i class="bi bi-arrow-right ms-1"></i>
+      </a>
+    </div>
+
+    <div class="row g-4">
+      {% for game in indie_games[:4] %}
+      <div class="col-xl-3 col-lg-4 col-md-6">
+        {% include "_game_card.html" %}
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       NUEVOS LANZAMIENTOS SECTION
+       ======================================================================== -->
+  <section class="mb-5">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <span class="badge bg-warning bg-opacity-25 text-warning px-2 py-1 rounded">
+            <i class="bi bi-rocket-takeoff"></i> New Releases
+          </span>
+          <h2 class="text-white fs-3 fw-bold mb-0">Nuevos Lanzamientos</h2>
+        </div>
+        <p class="text-secondary small mb-0">Los títulos más recientes agregados a nuestro catálogo de videojuegos.</p>
+      </div>
+      <a href="{{ url_for('store.catalog') }}" class="btn btn-sm btn-outline-pixel">
+        Ver catálogo completo <i class="bi bi-arrow-right ms-1"></i>
+      </a>
+    </div>
+
+    <div class="row g-4">
+      {% for game in new_releases[:4] %}
+      <div class="col-xl-3 col-lg-4 col-md-6">
+        {% include "_game_card.html" %}
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+</div>
+{% endblock %}

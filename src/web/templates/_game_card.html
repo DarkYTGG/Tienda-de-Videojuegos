@@ -1,0 +1,66 @@
+<div class="game-card h-100">
+  <div class="card-img-wrap">
+    <img src="{{ game.cover_image }}" alt="{{ game.title }}" loading="lazy">
+    
+    <div class="card-floating-badges">
+      {% if game.is_on_sale %}
+        <span class="badge-sale">-{{ game.discount_percent }}%</span>
+      {% endif %}
+      {% if game.is_new %}
+        <span class="badge-new">NUEVO</span>
+      {% endif %}
+      {% if game.is_indie %}
+        <span class="badge-indie">INDIE</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="card-body-pixel">
+    <h3 class="card-game-title" title="{{ game.title }}">
+      <a href="{{ url_for('store.game_detail', slug=game.slug) }}">{{ game.title }}</a>
+    </h3>
+
+    <div class="card-developer">
+      <i class="bi bi-building"></i> {{ game.developer }}
+    </div>
+
+    <div class="card-rating-block">
+      <div class="text-warning d-flex align-items-center">
+        <i class="bi bi-star-fill me-1"></i>
+        <span class="fw-bold text-white">{{ game.rating }}</span>
+      </div>
+      <span>&bull;</span>
+      <span class="badge-genre">{{ game.genre }}</span>
+    </div>
+
+    <div class="card-price-row">
+      <div>
+        {% if game.is_on_sale %}
+          <div>
+            <span class="price-strike">{{ game.price | currency }}</span>
+          </div>
+          <span class="price-final">{{ game.final_price | currency }}</span>
+        {% elif game.final_price == 0 %}
+          <span class="price-free">Gratis</span>
+        {% else %}
+          <span class="price-final">{{ game.final_price | currency }}</span>
+        {% endif %}
+      </div>
+
+      <div class="d-flex gap-2">
+        <a href="{{ url_for('store.game_detail', slug=game.slug) }}" class="btn-card-action" title="Ver detalles">
+          <i class="bi bi-info-circle"></i>
+        </a>
+        {% if cart and cart.has_game(game.id) %}
+          <button class="btn-card-action in-cart" title="Ya está en el carrito" disabled>
+            <i class="bi bi-check2"></i>
+          </button>
+        {% else %}
+          <button class="btn-card-action" onclick="addToCart('{{ game.id }}', this)" title="Añadir al carrito">
+            <i class="bi bi-cart-plus"></i> Añadir
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

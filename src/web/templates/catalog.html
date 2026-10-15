@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Catálogo de Videojuegos — PixelVault{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-lg-5">
+
+  <!-- Header Banner -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div class="d-flex align-items-center gap-3">
+      <div class="brand-icon-box" style="width: 44px; height: 44px;">
+        <i class="bi bi-grid-fill fs-5 text-white"></i>
+      </div>
+      <div>
+        <h1 class="text-white fs-2 fw-bold mb-0">Catálogo de Videojuegos</h1>
+        <p class="text-secondary small mb-0">Explora la colección completa con filtros avanzados y ordenamiento.</p>
+      </div>
+    </div>
+
+    <div>
+      <span class="badge px-3 py-2 fs-6 fw-semibold" style="background: rgba(22, 34, 59, 0.9); border: 1px solid var(--border-subtle); color: var(--text-secondary);">
+        Mostrando <strong class="text-white">{{ total_count }}</strong> videojuegos
+      </span>
+    </div>
+  </div>
+
+  <!-- Interactive Filter Form Container -->
+  <div class="filter-bar-container">
+    <form action="{{ url_for('store.catalog') }}" method="GET" id="catalogFilterForm">
+      <div class="row g-3 align-items-center">
+        <!-- Search Input -->
+        <div class="col-lg-5 col-md-12">
+          <div class="position-relative">
+            <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary"></i>
+            <input 
+              type="text" 
+              name="search" 
+              class="form-control form-control-pixel ps-5" 
+              placeholder="Buscar por título, desarrollador o etiqueta..." 
+              value="{{ active_filter.search_query }}"
+            >
+          </div>
+        </div>
+
+        <!-- Genre Dropdown -->
+        <div class="col-lg-3 col-sm-6">
+          <select name="genre" class="form-select form-select-pixel" onchange="document.getElementById('catalogFilterForm').submit()">
+            <option value="Todos" {{ 'selected' if active_filter.genre == 'Todos' else '' }}>Todos los géneros</option>
+            {% for g in genres %}
+              <option value="{{ g }}" {{ 'selected' if active_filter.genre == g else '' }}>Género: {{ g }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Sort Dropdown -->
+        <div class="col-lg-4 col-sm-6">
+          <select name="sort" class="form-select form-select-pixel" onchange="document.getElementById('catalogFilterForm').submit()">
+            <option value="destacados" {{ 'selected' if active_filter.sort_by == 'destacados' else '' }}>Destacados y Populares</option>
+            <option value="precio_menor" {{ 'selected' if active_filter.sort_by == 'precio_menor' else '' }}>Precio: Menor a Mayor</option>
+            <option value="precio_mayor" {{ 'selected' if active_filter.sort_by == 'precio_mayor' else '' }}>Precio: Mayor a Menor</option>
+            <option value="valoracion" {{ 'selected' if active_filter.sort_by == 'valoracion' else '' }}>Mejor Valorados</option>
+            <option value="nombre" {{ 'selected' if active_filter.sort_by == 'nombre' else '' }}>Alfabético A-Z</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Quick Toggles Row -->
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mt-3 pt-3 border-top border-secondary border-opacity-10">
+        <div class="d-flex flex-wrap gap-2">
+          <!-- Only Sales Toggle -->
+          <label class="filter-toggle-pill {{ 'active' if active_filter.only_sales else '' }}">
+            <input type="checkbox" name="only_sales" value="1" class="d-none" {{ 'checked' if active_filter.only_sales else '' }} onchange="document.getElementById('catalogFilterForm').submit()">
+            <i class="bi bi-fire text-danger"></i> Solo Ofertas
+          </label>
+
+          <!-- Only Indie Toggle -->
+          <label class="filter-toggle-pill {{ 'active' if active_filter.only_indie else '' }}">
+            <input type="checkbox" name="only_indie" value="1" class="d-none" {{ 'checked' if active_filter.only_indie else '' }} onchange="document.getElementById('catalogFilterForm').submit()">
+            <i class="bi bi-stars text-cyan"></i> Solo Indies
+          </label>
+        </div>
+
+        <div>
+          <a href="{{ url_for('store.catalog') }}" class="btn btn-sm text-secondary">
+            <i class="bi bi-arrow-counterclockwise"></i> Restablecer Filtros
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Games Grid -->
+  {% if games %}
+    <div class="row g-4">
+      {% for game in games %}
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          {% include "_game_card.html" %}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <!-- Empty State -->
+    <div class="text-center py-5 my-5 rounded-4" style="background: var(--bg-surface); border: 1px dashed var(--border-subtle);">
+      <div class="brand-icon-box mx-auto mb-3" style="width: 60px; height: 60px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-subtle);">
+        <i class="bi bi-search text-secondary fs-3"></i>
+      </div>
+      <h3 class="text-white fw-bold mb-2">No se encontraron videojuegos</h3>
+      <p class="text-secondary small mb-4" style="max-width: 450px; margin: 0 auto;">
+        No hay títulos que coincidan con los criterios de búsqueda o filtros seleccionados.
+      </p>
+      <a href="{{ url_for('store.catalog') }}" class="btn btn-primary-pixel">
+        <i class="bi bi-arrow-counterclockwise"></i> Restablecer Filtros
+      </a>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}
