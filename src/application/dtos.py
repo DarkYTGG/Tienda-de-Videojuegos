@@ -23,6 +23,7 @@ class CheckoutRequestDTO:
     customer_name: str
     customer_email: str
     payment_method: str = "Saldo PixelVault"
+    accept_terms: bool = True
 
     def validate(self) -> Dict[str, str]:
         """Validates input before domain processing."""
@@ -36,6 +37,9 @@ class CheckoutRequestDTO:
 
         if not self.payment_method:
             errors["payment_method"] = "Selecciona un método de simulación de pago."
+
+        if not self.accept_terms:
+            errors["accept_terms"] = "Debes aceptar los términos y condiciones de la simulación académica."
 
         return errors
 

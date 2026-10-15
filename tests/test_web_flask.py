@@ -112,7 +112,33 @@ class TestPixelVaultFlaskWeb(unittest.TestCase):
             self.assertIn("¡Demo Web Online Disponible!", detail_html)
             self.assertIn("Probar Demo Online", detail_html)
 
+    def test_process_checkout_flow(self):
+        # 1. Add game to cart
+        self.client.post("/api/cart/add/pv-cyber-odyssey")
+
+        # 2. View checkout page
+        checkout_page = self.client.get("/checkout")
+        self.assertEqual(checkout_page.status_code, 200)
+
+        # 3. Post checkout form with accept_terms
+        res = self.client.post(
+            "/checkout",
+            data={
+                "customer_name": "Estudiante Prueba",
+                "customer_email": "estudiante@ejemplo.com",
+                "payment_method": "Tarjeta de Crédito / Débito",
+                "accept_terms": "on"
+            },
+            follow_redirects=True
+        )
+        self.assertEqual(res.status_code, 200)
+        html = res.data.decode("utf-8")
+        self.assertIn("¡Gracias por tu compra!", html)
+        self.assertIn("Tus Claves de Activación Digitales", html)
+        self.assertIn("data/orders.json", html)
+
 
 if __name__ == "__main__":
     unittest.main()
+
 
