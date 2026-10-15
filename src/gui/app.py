@@ -169,7 +169,6 @@ class PixelVaultApp:
 
     def main(self, page: ft.Page) -> None:
         """Flet session initialization callback."""
-        print("[DEBUG] PixelVaultApp.main() called for new page session!", flush=True)
         self.page = page
         self.page.title = "PixelVault — Tienda Digital de Videojuegos | Programación IV"
         self.page.theme_mode = ft.ThemeMode.DARK
@@ -189,6 +188,4 @@ class PixelVaultApp:
         )
 
         self.page.add(layout)
-        print("[DEBUG] Layout added to page, navigating to home...", flush=True)
         self.navigate("home")
-        print("[DEBUG] Initial navigation to home completed!", flush=True)
