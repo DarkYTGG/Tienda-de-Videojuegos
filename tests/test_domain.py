@@ -261,6 +261,25 @@ class TestOrderEntity(unittest.TestCase):
         with self.assertRaises(InvalidOrderError):
             order.validate()
 
+    def test_game_with_demo_url_serialization(self):
+        game = Game(
+            id="pv-cod-bo1",
+            title="Call of Duty: Black Ops — Zombies",
+            slug="cod-black-ops-zombies",
+            developer="Treyarch",
+            publisher="Activision",
+            release_date="2010-11-09",
+            genre="Acción",
+            price=19.99,
+            demo_url="https://vel.gg/bo1z"
+        )
+        self.assertEqual(game.demo_url, "https://vel.gg/bo1z")
+        d = game.to_dict()
+        self.assertEqual(d["demo_url"], "https://vel.gg/bo1z")
+        rebuilt = Game.from_dict(d)
+        self.assertEqual(rebuilt.demo_url, "https://vel.gg/bo1z")
+
 
 if __name__ == "__main__":
     unittest.main()
+

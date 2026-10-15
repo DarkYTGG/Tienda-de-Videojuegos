@@ -85,6 +85,34 @@ class TestPixelVaultFlaskWeb(unittest.TestCase):
         self.assertIn("Historial de Pedidos", html)
         self.assertIn("Inspector de Persistencia Local JSON", html)
 
+    def test_cod_games_and_online_demos(self):
+        # 1. Homepage showcases online demos section and links
+        res = self.client.get("/")
+        self.assertEqual(res.status_code, 200)
+        html = res.data.decode("utf-8")
+        self.assertIn("Demos Jugables Online en Navegador", html)
+        self.assertIn("https://vel.gg/bo1z", html)
+        self.assertIn("https://vibeslops.luckeysystems.com", html)
+        self.assertIn("https://cheese-cube.pages.dev", html)
+        self.assertIn("https://ovz-game-production.up.railway.app", html)
+        self.assertIn("Probar Demo Online", html)
+
+        # 2. Detail pages for COD titles
+        cod_slugs = [
+            ("cod-black-ops-zombies", "https://vel.gg/bo1z"),
+            ("cod-black-ops-2", "https://vibeslops.luckeysystems.com"),
+            ("cod-black-ops-3-zombies-cheese-cube", "https://cheese-cube.pages.dev"),
+            ("cod-modern-warfare-2", "https://ovz-game-production.up.railway.app"),
+        ]
+        for slug, expected_url in cod_slugs:
+            detail_res = self.client.get(f"/game/{slug}")
+            self.assertEqual(detail_res.status_code, 200)
+            detail_html = detail_res.data.decode("utf-8")
+            self.assertIn(expected_url, detail_html)
+            self.assertIn("¡Demo Web Online Disponible!", detail_html)
+            self.assertIn("Probar Demo Online", detail_html)
+
 
 if __name__ == "__main__":
     unittest.main()
+

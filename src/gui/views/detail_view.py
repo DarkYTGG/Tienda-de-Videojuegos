@@ -193,13 +193,44 @@ class GameDetailView(BaseView):
             border=ft.Border.all(1, BORDER_COLOR)
         )
 
+        left_controls = [banner_img, tags_row]
+        if game.demo_url:
+            demo_callout = ft.Container(
+                content=ft.Row(
+                    controls=[
+                        ft.Icon(safe_icon("sports_esports"), size=36, color=ACCENT_CYAN),
+                        ft.Column(
+                            controls=[
+                                ft.Text("¡Demo Web Online Disponible!", size=15, weight=ft.FontWeight.BOLD, color=TEXT_PRIMARY),
+                                ft.Text("Puedes probar una versión jugable directamente en tu navegador sin descargas.", size=12, color=TEXT_SECONDARY)
+                            ],
+                            spacing=2,
+                            expand=True
+                        ),
+                        ft.FilledButton(
+                            content=ft.Text("Jugar Demo Online", size=12, weight=ft.FontWeight.BOLD),
+                            icon=safe_icon("play_circle_filled"),
+                            url=game.demo_url,
+                            style=ft.ButtonStyle(
+                                bgcolor=ACCENT_CYAN,
+                                color="#0B0F19",
+                                shape=ft.RoundedRectangleBorder(radius=6)
+                            )
+                        )
+                    ],
+                    vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                    spacing=14
+                ),
+                bgcolor="#082F49",
+                border=ft.Border.all(1.5, ACCENT_CYAN),
+                border_radius=10,
+                padding=14
+            )
+            left_controls.append(demo_callout)
+        left_controls.extend([desc_card, specs_card])
+
         left_column = ft.Column(
-            controls=[
-                banner_img,
-                tags_row,
-                desc_card,
-                specs_card
-            ],
+            controls=left_controls,
             spacing=18,
             expand=2
         )
@@ -338,18 +369,38 @@ class GameDetailView(BaseView):
             border_radius=6
         )
 
+        right_controls = [
+            cover_thumbnail,
+            reviews_box,
+            ft.Column(controls=meta_controls, spacing=6),
+            ft.Divider(color=BORDER_COLOR, height=1),
+            price_display_box,
+        ]
+        if game.demo_url:
+            demo_action_btn = ft.FilledButton(
+                content=ft.Row(
+                    controls=[
+                        ft.Icon(safe_icon("play_circle_filled"), size=18, color="#38BDF8"),
+                        ft.Text("Probar Demo Online (Navegador)", size=12, weight=ft.FontWeight.BOLD, color="#38BDF8")
+                    ],
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    tight=True
+                ),
+                url=game.demo_url,
+                style=ft.ButtonStyle(
+                    bgcolor="#082F49",
+                    side=ft.BorderSide(1.5, ACCENT_CYAN),
+                    shape=ft.RoundedRectangleBorder(radius=8),
+                    padding=ft.Padding(left=14, right=14, top=12, bottom=12)
+                )
+            )
+            right_controls.append(demo_action_btn)
+
+        right_controls.extend([add_cart_btn, buy_now_btn, academic_pill])
+
         right_column = ft.Container(
             content=ft.Column(
-                controls=[
-                    cover_thumbnail,
-                    reviews_box,
-                    ft.Column(controls=meta_controls, spacing=6),
-                    ft.Divider(color=BORDER_COLOR, height=1),
-                    price_display_box,
-                    add_cart_btn,
-                    buy_now_btn,
-                    academic_pill
-                ],
+                controls=right_controls,
                 spacing=14
             ),
             bgcolor=BG_SURFACE,

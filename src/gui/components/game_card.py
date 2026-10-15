@@ -79,6 +79,10 @@ class GameCardComponent:
             top_badges.append(
                 create_badge("INDIE", bg_color="#0E7490", text_color="#A5F3FC", font_size=10)
             )
+        if self._game.demo_url:
+            top_badges.append(
+                create_badge("DEMO ONLINE", bg_color="#0369A1", text_color="#38BDF8", font_size=10)
+            )
 
         # Image cover
         image_cover = ft.Container(
@@ -192,16 +196,38 @@ class GameCardComponent:
             spacing=8
         )
 
+        card_body_controls = [
+            title_text,
+            dev_row,
+            rating_row,
+            ft.Divider(color="#22304A", height=1),
+            pricing,
+            actions_row
+        ]
+
+        if self._game.demo_url:
+            demo_btn = ft.FilledButton(
+                content=ft.Row(
+                    controls=[
+                        ft.Icon(safe_icon("play_circle_filled"), size=14, color="#38BDF8"),
+                        ft.Text("Probar Demo Online", size=11, weight=ft.FontWeight.BOLD, color="#38BDF8")
+                    ],
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    tight=True
+                ),
+                url=self._game.demo_url,
+                style=ft.ButtonStyle(
+                    bgcolor="#082F49",
+                    side=ft.BorderSide(1, ACCENT_CYAN),
+                    shape=ft.RoundedRectangleBorder(radius=6),
+                    padding=ft.Padding(left=8, right=8, top=6, bottom=6)
+                ),
+            )
+            card_body_controls.append(demo_btn)
+
         card_body = ft.Container(
             content=ft.Column(
-                controls=[
-                    title_text,
-                    dev_row,
-                    rating_row,
-                    ft.Divider(color="#22304A", height=1),
-                    pricing,
-                    actions_row
-                ],
+                controls=card_body_controls,
                 spacing=10
             ),
             padding=14

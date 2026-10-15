@@ -71,6 +71,7 @@ class StoreWebController:
         on_sale = self._list_games_uc.get_on_sale()
         indie_games = self._list_games_uc.get_indie()
         new_releases = self._list_games_uc.get_new_releases()
+        demo_games = self._list_games_uc.get_demo_games()
         cart = self._get_cart()
 
         return render_template(
@@ -80,6 +81,7 @@ class StoreWebController:
             on_sale=on_sale,
             indie_games=indie_games,
             new_releases=new_releases,
+            demo_games=demo_games,
             cart=cart,
         )
 
@@ -324,6 +326,7 @@ class StoreWebController:
                 "is_on_sale": g.is_on_sale,
                 "is_new": g.is_new,
                 "tags": g.tags,
+                "demo_url": g.demo_url,
                 "in_cart": cart.has_game(g.id),
             }
             for g in games

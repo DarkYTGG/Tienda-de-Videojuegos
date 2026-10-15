@@ -41,6 +41,7 @@ class Game:
     banner_image: str = ""
     features: List[str] = field(default_factory=list)
     system_requirements: Dict[str, str] = field(default_factory=dict)
+    demo_url: Optional[str] = None
 
     def __post_init__(self):
         self.validate()
@@ -131,7 +132,8 @@ class Game:
             cover_image=str(data.get("cover_image", "")),
             banner_image=str(data.get("banner_image", "")),
             features=list(data.get("features", [])),
-            system_requirements=dict(data.get("system_requirements", {}))
+            system_requirements=dict(data.get("system_requirements", {})),
+            demo_url=data.get("demo_url")
         )
 
     def to_dict(self) -> Dict[str, Any]:
@@ -157,7 +159,8 @@ class Game:
             "cover_image": self.cover_image,
             "banner_image": self.banner_image,
             "features": self.features,
-            "system_requirements": self.system_requirements
+            "system_requirements": self.system_requirements,
+            "demo_url": self.demo_url
         }
 
 

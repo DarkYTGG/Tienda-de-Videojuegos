@@ -30,6 +30,12 @@ class ListGamesUseCase:
     def get_all(self) -> List[Game]:
         return self._game_repo.get_all()
 
+    def execute(self) -> List[Game]:
+        return self._game_repo.get_all()
+
+    def get_demo_games(self) -> List[Game]:
+        return [g for g in self._game_repo.get_all() if g.demo_url]
+
     def get_featured(self) -> List[Game]:
         return self._game_repo.get_featured()
 

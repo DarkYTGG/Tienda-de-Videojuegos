@@ -689,5 +689,173 @@
       "Gráficos": "GTX 1060 6GB",
       "Almacenamiento": "22 GB libres"
     }
+  },
+  {
+    "id": "pv-cod-bo1-zombies",
+    "title": "Call of Duty: Black Ops — Zombies",
+    "slug": "cod-black-ops-zombies",
+    "developer": "Treyarch",
+    "publisher": "Activision",
+    "release_date": "2010-11-09",
+    "genre": "Acción / Disparos (FPS)",
+    "tags": [
+      "Zombies",
+      "FPS",
+      "Supervivencia",
+      "Cooperativo",
+      "Clásico",
+      "Demo Online"
+    ],
+    "price": 19.99,
+    "discount_percent": 50,
+    "rating": 4.9,
+    "reviews_count": 45200,
+    "is_featured": true,
+    "is_new": false,
+    "is_indie": false,
+    "short_description": "El legendario modo Zombies de Black Ops 1. Sobrevive a oleadas infinitas de no-muertos en mapas icónicos como Kino Der Toten y 'Five'.",
+    "full_description": "Experimenta el clásico modo de supervivencia cooperativa en primera persona. Equípate con armas de la Guerra Fría y prototipos experimentales como la Ray Gun y el Thundergun, activa las trampas eléctricas y sobrevive ronda tras ronda con hasta 4 jugadores.",
+    "cover_image": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+    "features": [
+      "Modo cooperativo online de 1 a 4 jugadores",
+      "Mapas legendarios: Kino Der Toten, 'Five', Ascension",
+      "Caja misteriosa, ventajas Perk-a-Cola y Pack-a-Punch",
+      "Demo jugable online directa en navegador"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10 / 11 64-bit",
+      "Procesador": "Intel Core 2 Duo E6600 o AMD Phenom X3 8750",
+      "Memoria": "4 GB RAM",
+      "Gráficos": "NVIDIA GeForce 8600GT / ATI Radeon X1950Pro",
+      "Almacenamiento": "12 GB disponibles"
+    },
+    "demo_url": "https://vel.gg/bo1z"
+  },
+  {
+    "id": "pv-cod-bo2",
+    "title": "Call of Duty: Black Ops II",
+    "slug": "cod-black-ops-2",
+    "developer": "Treyarch",
+    "publisher": "Activision",
+    "release_date": "2012-11-13",
+    "genre": "Acción / Disparos (FPS)",
+    "tags": [
+      "FPS",
+      "Multijugador",
+      "Futurista",
+      "Zombies",
+      "Competitivo",
+      "Demo Online"
+    ],
+    "price": 29.99,
+    "discount_percent": 33,
+    "rating": 4.8,
+    "reviews_count": 58400,
+    "is_featured": true,
+    "is_new": false,
+    "is_indie": false,
+    "short_description": "Guerra fría del siglo XXI con tecnología militar futurista, campaña no lineal con ramificaciones y multijugador competitivo de culto.",
+    "full_description": "Superando los límites de la franquicia, Call of Duty: Black Ops II impulsa a los jugadores hacia el año 2025, donde la tecnología y el armamento han convergido para crear una nueva era de guerra cibernética y enfrentamientos de alta intensidad.",
+    "cover_image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200&q=80",
+    "features": [
+      "Campaña con múltiples finales alternativos",
+      "Sistema de clases Pick 10 revolucionario",
+      "Modo Tranzit y supervivencia de Zombies",
+      "Demo online ejecutable vía navegador"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10 / 11 64-bit",
+      "Procesador": "Intel Core 2 Duo E8200 2.66 GHz o AMD Phenom X3 8750 2.4 GHz",
+      "Memoria": "4 GB RAM",
+      "Gráficos": "NVIDIA GeForce 8800GT 512 MB o ATI Radeon HD 3870 512 MB",
+      "Almacenamiento": "16 GB disponibles"
+    },
+    "demo_url": "https://vibeslops.luckeysystems.com"
+  },
+  {
+    "id": "pv-cod-bo3-zombies",
+    "title": "Call of Duty: Black Ops III — Zombies (Cheese Cube)",
+    "slug": "cod-black-ops-3-zombies-cheese-cube",
+    "developer": "Treyarch & Modding Community",
+    "publisher": "Activision",
+    "release_date": "2015-11-06",
+    "genre": "Acción / Disparos (FPS)",
+    "tags": [
+      "Zombies",
+      "Custom Map",
+      "FPS",
+      "Desafío",
+      "Parkour",
+      "Demo Online"
+    ],
+    "price": 39.99,
+    "discount_percent": 40,
+    "rating": 4.9,
+    "reviews_count": 32900,
+    "is_featured": true,
+    "is_new": false,
+    "is_indie": true,
+    "short_description": "La experiencia custom de zombies más delirante y desafiante. Sube por los pisos del Cheese Cube resolviendo puzzles y sobreviviendo a hordas veloces.",
+    "full_description": "Una oda a la creatividad de la comunidad de modding de Black Ops 3. Enfréntate al mítico mapa Cheese Cube Unlimited, donde deberás comprar armas personalizadas, realizar saltos de precisión y derrotar zombies con velocidad incrementada en un entorno de queso amarillo psicodélico.",
+    "cover_image": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200&q=80",
+    "features": [
+      "Custom Map Cheese Cube con niveles verticales",
+      "Armas personalizadas con efectos únicos",
+      "Motor gráfico optimizado para navegador",
+      "Demo online WebGL en vivo"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10 / 11 64-bit",
+      "Procesador": "Intel Core i3-530 @ 2.93 GHz / AMD Phenom II X4 810 @ 2.60 GHz",
+      "Memoria": "8 GB RAM",
+      "Gráficos": "NVIDIA GeForce GTX 470 @ 1GB / ATI Radeon HD 6970 @ 1GB",
+      "Almacenamiento": "60 GB disponibles"
+    },
+    "demo_url": "https://cheese-cube.pages.dev"
+  },
+  {
+    "id": "pv-cod-mw2",
+    "title": "Call of Duty: Modern Warfare 2",
+    "slug": "cod-modern-warfare-2",
+    "developer": "Infinity Ward",
+    "publisher": "Activision",
+    "release_date": "2009-11-10",
+    "genre": "Acción / Disparos (FPS)",
+    "tags": [
+      "FPS",
+      "Militar",
+      "Multijugador",
+      "Clásico",
+      "Táctico",
+      "Demo Online"
+    ],
+    "price": 19.99,
+    "discount_percent": 25,
+    "rating": 4.9,
+    "reviews_count": 89000,
+    "is_featured": true,
+    "is_new": false,
+    "is_indie": false,
+    "short_description": "La obra cumbre del shooter militar contemporáneo. Vive la misión de la Task Force 141 con Soap, Ghost y el Capitán Price, y mapas legendarios como Rust y Terminal.",
+    "full_description": "El shooter en primera persona más aclamado de su era. Defiende territorio nacional o despliégate globalmente en operaciones especiales encubiertas. Incluye la campaña cinematográfica completa, misiones cooperativas de Operaciones Especiales (Spec Ops) y el multijugador que definió una generación con rachas de bajas legendarias como el AC-130 y la bomba nuclear táctica.",
+    "cover_image": "https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?w=800&q=80",
+    "banner_image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&q=80",
+    "features": [
+      "Campaña épica con la Task Force 141",
+      "Misiones Spec Ops para 1-2 jugadores",
+      "Mapas icónicos: Rust, Terminal, Favela, Highrise",
+      "Demo online ejecutable directamente en el navegador"
+    ],
+    "system_requirements": {
+      "SO": "Windows 10 / 11 64-bit",
+      "Procesador": "Intel Pentium 4 3.2 GHz o AMD Athlon 64 3200+",
+      "Memoria": "4 GB RAM",
+      "Gráficos": "NVIDIA GeForce 6600GT 256 MB o ATI Radeon 1600XT 256 MB",
+      "Almacenamiento": "16 GB disponibles"
+    },
+    "demo_url": "https://ovz-game-production.up.railway.app"
   }
 ]

@@ -44,6 +44,27 @@
         {% endif %}
       </div>
 
+      {% if game.demo_url %}
+      <!-- Online Playable Demo Callout Banner -->
+      <div class="p-4 rounded-4 mb-4 d-flex flex-wrap align-items-center justify-content-between gap-3 shadow-sm" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.16) 0%, rgba(59, 130, 246, 0.16) 100%); border: 1.5px solid var(--accent-cyan);">
+        <div class="d-flex align-items-center gap-3">
+          <div class="rounded-circle d-flex align-items-center justify-content-center shadow" style="width: 52px; height: 52px; background: rgba(6, 182, 212, 0.25); color: #38bdf8; font-size: 1.6rem; border: 1px solid rgba(6, 182, 212, 0.5);">
+            <i class="bi bi-controller"></i>
+          </div>
+          <div>
+            <div class="text-white fw-bold fs-5 d-flex align-items-center gap-2">
+              ¡Demo Web Online Disponible!
+              <span class="badge" style="background: #06b6d4; color: #020617; font-size: 0.7rem; font-weight: 800;">JUGAR EN NAVEGADOR</span>
+            </div>
+            <div class="text-secondary small mt-1">Prueba este videojuego al instante en tu navegador sin descargas pesadas ni instalaciones.</div>
+          </div>
+        </div>
+        <a href="{{ game.demo_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary-pixel px-4 py-2 fw-bold text-nowrap d-flex align-items-center gap-2" style="background: linear-gradient(135deg, #06b6d4, #2563eb); box-shadow: 0 0 16px rgba(6, 182, 212, 0.45);">
+          <i class="bi bi-play-circle-fill fs-5"></i> Probar Demo Online
+        </a>
+      </div>
+      {% endif %}
+
       <!-- Full Description -->
       <div class="p-4 rounded-4 mb-4" style="background: var(--bg-surface); border: 1px solid var(--border-subtle);">
         <h4 class="text-white fw-bold mb-3">Acerca de este videojuego</h4>
@@ -146,6 +167,18 @@
 
         <!-- CTA Buttons -->
         <div class="d-grid gap-2 mb-4">
+          {% if game.demo_url %}
+          <a 
+            href="{{ game.demo_url }}" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="btn py-3 fs-6 d-flex align-items-center justify-content-center gap-2 fw-bold shadow-sm"
+            style="border: 2px solid var(--accent-cyan); background: linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(59, 130, 246, 0.25)); color: #38bdf8; text-shadow: 0 0 10px rgba(6, 182, 212, 0.5); border-radius: 8px; transition: all 0.2s;"
+          >
+            <i class="bi bi-play-circle-fill fs-5 text-cyan"></i>
+            <span>Probar Demo Online (Navegador)</span>
+          </a>
+          {% endif %}
           <button 
             class="btn btn-primary-pixel justify-content-center py-3 fs-6 {{ 'in-cart' if is_in_cart else '' }}" 
             onclick="addToCart('{{ game.id }}', this)"
