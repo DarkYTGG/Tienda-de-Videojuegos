@@ -20,6 +20,7 @@ from ..theme import (
     BORDER_COLOR,
     create_badge,
     create_price_display,
+    safe_icon,
 )
 from ..components.footer import StoreFooterComponent
 
@@ -69,7 +70,7 @@ class GameDetailView(BaseView):
             return ft.Container(
                 content=ft.Column(
                     controls=[
-                        ft.Icon("error_outline", size=64, color="#EF4444"),
+                        ft.Icon(safe_icon("error_outline"), size=64, color="#EF4444"),
                         ft.Text("Videojuego no encontrado", size=22, weight=ft.FontWeight.BOLD, color=TEXT_PRIMARY),
                         ft.FilledButton(
                             content=ft.Text("Volver a la Tienda"),
@@ -115,7 +116,7 @@ class GameDetailView(BaseView):
                 fit=ft.BoxFit.COVER,
                 border_radius=12,
                 error_content=ft.Container(
-                    content=ft.Icon("videogame_asset", size=80, color=ACCENT_PURPLE),
+                    content=ft.Icon(safe_icon("videogame_asset"), size=80, color=ACCENT_PURPLE),
                     alignment=ft.Alignment.CENTER,
                     bgcolor="#1E1B4B"
                 )
@@ -144,7 +145,7 @@ class GameDetailView(BaseView):
                         controls=[
                             ft.Row(
                                 controls=[
-                                    ft.Icon("check_circle", size=16, color=ACCENT_GREEN),
+                                    ft.Icon(safe_icon("check_circle"), size=16, color=ACCENT_GREEN),
                                     ft.Text(feat, size=13, color=TEXT_SECONDARY)
                                 ],
                                 spacing=8
@@ -210,7 +211,7 @@ class GameDetailView(BaseView):
                 fit=ft.BoxFit.COVER,
                 border_radius=10,
                 error_content=ft.Container(
-                    content=ft.Icon("image", size=48, color=TEXT_MUTED),
+                    content=ft.Icon(safe_icon("image"), size=48, color=TEXT_MUTED),
                     alignment=ft.Alignment.CENTER,
                     bgcolor="#1E1B4B"
                 )
@@ -223,7 +224,7 @@ class GameDetailView(BaseView):
         reviews_box = ft.Container(
             content=ft.Row(
                 controls=[
-                    ft.Icon("star", color=ACCENT_AMBER, size=24),
+                    ft.Icon(safe_icon("star"), color=ACCENT_AMBER, size=24),
                     ft.Column(
                         controls=[
                             ft.Text(f"Valoración: {game.rating:.1f} / 5.0", size=13, weight=ft.FontWeight.BOLD, color=TEXT_PRIMARY),
@@ -289,7 +290,7 @@ class GameDetailView(BaseView):
         if is_in_cart:
             add_cart_btn = ft.FilledButton(
                 content=ft.Text("En el Carrito ✓", size=14, weight=ft.FontWeight.BOLD),
-                icon="check",
+                icon=safe_icon("check"),
                 style=ft.ButtonStyle(
                     bgcolor=ACCENT_GREEN,
                     color="#FFFFFF",
@@ -301,7 +302,7 @@ class GameDetailView(BaseView):
         else:
             add_cart_btn = ft.FilledButton(
                 content=ft.Text("Añadir al Carrito", size=14, weight=ft.FontWeight.BOLD),
-                icon="add_shopping_cart",
+                icon=safe_icon("add_shopping_cart"),
                 style=ft.ButtonStyle(
                     bgcolor=ACCENT_PURPLE,
                     color="#FFFFFF",
@@ -313,7 +314,7 @@ class GameDetailView(BaseView):
 
         buy_now_btn = ft.OutlinedButton(
             content=ft.Text("Comprar Ahora (Simulación)", size=13, weight=ft.FontWeight.BOLD),
-            icon="bolt",
+            icon=safe_icon("bolt"),
             style=ft.ButtonStyle(
                 color=ACCENT_CYAN,
                 side=ft.BorderSide(1.5, ACCENT_CYAN),

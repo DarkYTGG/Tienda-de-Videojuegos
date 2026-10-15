@@ -17,6 +17,7 @@ from ..theme import (
     BORDER_COLOR,
     create_badge,
     create_price_display,
+    safe_icon,
 )
 
 
@@ -42,7 +43,7 @@ class GameCardComponent:
         return ft.Container(
             content=ft.Column(
                 controls=[
-                    ft.Icon("videogame_asset", size=48, color=ACCENT_PURPLE),
+                    ft.Icon(safe_icon("videogame_asset"), size=48, color=ACCENT_PURPLE),
                     ft.Text(self._game.genre, size=12, color=TEXT_SECONDARY, weight=ft.FontWeight.W_600)
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
@@ -113,7 +114,7 @@ class GameCardComponent:
 
         dev_row = ft.Row(
             controls=[
-                ft.Icon("business", size=13, color=TEXT_MUTED),
+                ft.Icon(safe_icon("business"), size=13, color=TEXT_MUTED),
                 ft.Text(
                     self._game.developer,
                     size=12,
@@ -129,7 +130,7 @@ class GameCardComponent:
 
         rating_row = ft.Row(
             controls=[
-                ft.Icon("star", size=14, color=ACCENT_AMBER),
+                ft.Icon(safe_icon("star"), size=14, color=ACCENT_AMBER),
                 ft.Text(f"{self._game.rating:.1f}", size=12, weight=ft.FontWeight.BOLD, color=TEXT_PRIMARY),
                 ft.Text(f"({self._game.reviews_count:,})", size=11, color=TEXT_MUTED),
                 create_badge(self._game.genre, bg_color="#1E293B", text_color=ACCENT_CYAN, font_size=10)
@@ -162,7 +163,7 @@ class GameCardComponent:
         if self._is_in_cart:
             cart_btn = ft.FilledButton(
                 content=ft.Text("En Carrito ✓", size=12, weight=ft.FontWeight.BOLD),
-                icon="check",
+                icon=safe_icon("check"),
                 style=ft.ButtonStyle(
                     bgcolor=ACCENT_GREEN,
                     color="#FFFFFF",
@@ -175,7 +176,7 @@ class GameCardComponent:
         else:
             cart_btn = ft.FilledButton(
                 content=ft.Text("Añadir", size=12, weight=ft.FontWeight.BOLD),
-                icon="add_shopping_cart",
+                icon=safe_icon("add_shopping_cart"),
                 style=ft.ButtonStyle(
                     bgcolor=ACCENT_PURPLE,
                     color="#FFFFFF",

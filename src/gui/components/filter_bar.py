@@ -11,6 +11,7 @@ from ..theme import (
     TEXT_PRIMARY,
     TEXT_SECONDARY,
     BORDER_COLOR,
+    safe_icon,
 )
 
 
@@ -60,12 +61,10 @@ class FilterBarComponent:
             text_size=13,
             height=42,
             content_padding=ft.Padding(left=12, right=12, top=0, bottom=0),
-            border_radius=8,
-            border_color=BORDER_COLOR,
             bgcolor=BG_INPUT,
             color=TEXT_PRIMARY,
             hint_style=ft.TextStyle(color=TEXT_SECONDARY, size=12),
-            prefix_icon="search",
+            prefix_icon=safe_icon("search"),
             on_change=self._on_search_change,
             expand=True
         )
@@ -81,8 +80,6 @@ class FilterBarComponent:
             text_size=12,
             height=42,
             content_padding=ft.Padding(left=10, right=10, top=0, bottom=0),
-            border_radius=8,
-            border_color=BORDER_COLOR,
             bgcolor=BG_INPUT,
             color=TEXT_PRIMARY,
             width=200,
@@ -103,8 +100,6 @@ class FilterBarComponent:
             text_size=12,
             height=42,
             content_padding=ft.Padding(left=10, right=10, top=0, bottom=0),
-            border_radius=8,
-            border_color=BORDER_COLOR,
             bgcolor=BG_INPUT,
             color=TEXT_PRIMARY,
             width=210,
@@ -131,7 +126,7 @@ class FilterBarComponent:
         # Reset button
         reset_button = ft.OutlinedButton(
             content=ft.Text("Restablecer", size=12),
-            icon="filter_alt_off",
+            icon=safe_icon("filter_alt_off"),
             style=ft.ButtonStyle(
                 color=TEXT_SECONDARY,
                 side=ft.BorderSide(1, BORDER_COLOR),

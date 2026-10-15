@@ -1,5 +1,5 @@
 """Design system tokens and styling helpers for PixelVault (Steam + itch.io aesthetics)."""
-from typing import Optional
+from typing import Optional, Any
 import flet as ft
 
 
@@ -25,6 +25,75 @@ BORDER_COLOR = "#22304A"       # Subtle card borders
 BORDER_LIGHT = "#334155"       # Divider lines
 
 
+# --- Icon Safety Helper ---
+ICON_MAPPING = {
+    "star": ft.Icons.STAR,
+    "sports_esports": ft.Icons.SPORTS_ESPORTS,
+    "storefront": ft.Icons.STOREFRONT,
+    "grid_view": ft.Icons.GRID_VIEW,
+    "auto_awesome": ft.Icons.AUTO_AWESOME,
+    "receipt_long": ft.Icons.RECEIPT_LONG,
+    "shopping_cart": ft.Icons.SHOPPING_CART,
+    "shopping_cart_outlined": ft.Icons.SHOPPING_CART_OUTLINED,
+    "search": ft.Icons.SEARCH,
+    "visibility": ft.Icons.VISIBILITY,
+    "add_shopping_cart": ft.Icons.ADD_SHOPPING_CART,
+    "check": ft.Icons.CHECK,
+    "check_circle": ft.Icons.CHECK_CIRCLE,
+    "local_fire_department": ft.Icons.LOCAL_FIRE_DEPARTMENT,
+    "thumb_up": ft.Icons.THUMB_UP,
+    "business": ft.Icons.BUSINESS,
+    "error_outline": ft.Icons.ERROR_OUTLINE,
+    "videogame_asset": ft.Icons.VIDEOGAME_ASSET,
+    "vpn_key": ft.Icons.VPN_KEY,
+    "history_toggle_off": ft.Icons.HISTORY_TOGGLE_OFF,
+    "verified_user": ft.Icons.VERIFIED_USER,
+    "info": ft.Icons.INFO,
+    "search_off": ft.Icons.SEARCH_OFF,
+    "image": ft.Icons.IMAGE,
+    "arrow_back": ft.Icons.ARROW_BACK,
+    "arrow_forward": ft.Icons.ARROW_FORWARD,
+    "delete_outline": ft.Icons.DELETE_OUTLINE,
+    "delete_sweep": ft.Icons.DELETE_SWEEP,
+    "filter_list": ft.Icons.FILTER_LIST,
+    "filter_alt_off": ft.Icons.FILTER_ALT_OFF,
+    "lock": ft.Icons.LOCK,
+    "credit_card": ft.Icons.CREDIT_CARD,
+    "attach_money": ft.Icons.ATTACH_MONEY,
+    "account_balance_wallet": ft.Icons.ACCOUNT_BALANCE_WALLET,
+    "swap_horiz": ft.Icons.SWAP_HORIZ,
+    "sort": ft.Icons.SORT,
+    "task_alt": ft.Icons.TASK_ALT,
+    "launch": ft.Icons.LAUNCH,
+    "download": ft.Icons.DOWNLOAD,
+    "close": ft.Icons.CLOSE,
+}
+
+
+def safe_icon(name: Optional[str]) -> Any:
+    """Safely converts string or enum icon representations to ft.Icons enum.
+    
+    Prevents Flutter Web WASM runtime type exceptions when rendering icons.
+    """
+    if name is None:
+        return None
+    if not isinstance(name, str):
+        return name
+
+    clean = name.strip().lower().replace("-", "_").replace(" ", "_")
+    if clean in ICON_MAPPING:
+        return ICON_MAPPING[clean]
+
+    clean_upper = clean.upper()
+    if hasattr(ft.Icons, clean_upper):
+        return getattr(ft.Icons, clean_upper)
+    clean_outlined = f"{clean_upper}_OUTLINED"
+    if hasattr(ft.Icons, clean_outlined):
+        return getattr(ft.Icons, clean_outlined)
+
+    return ft.Icons.CIRCLE
+
+
 # --- UI Helper Components ---
 def create_badge(
     text: str,
@@ -37,7 +106,7 @@ def create_badge(
     """Creates a compact, stylized badge for categories, tags, or promos."""
     content_controls = []
     if icon:
-        content_controls.append(ft.Icon(icon, size=font_size + 2, color=text_color))
+        content_controls.append(ft.Icon(safe_icon(icon), size=font_size + 2, color=text_color))
     content_controls.append(
         ft.Text(text, size=font_size, weight=weight, color=text_color)
     )
@@ -129,7 +198,7 @@ def create_section_header(
     left_side = ft.Row(
         controls=[
             ft.Container(
-                content=ft.Icon(icon, color="#FFFFFF", size=20),
+                content=ft.Icon(safe_icon(icon), color="#FFFFFF", size=20),
                 bgcolor=accent_color,
                 padding=8,
                 border_radius=8
@@ -153,7 +222,7 @@ def create_section_header(
         row_controls.append(
             ft.OutlinedButton(
                 content=ft.Text(action_text, size=12, weight=ft.FontWeight.W_600),
-                icon="arrow_forward",
+                icon=safe_icon("arrow_forward"),
                 style=ft.ButtonStyle(
                     color=ACCENT_CYAN,
                     side=ft.BorderSide(1, ACCENT_CYAN),

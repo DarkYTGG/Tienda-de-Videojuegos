@@ -16,6 +16,7 @@ from ..theme import (
     TEXT_MUTED,
     BORDER_COLOR,
     create_badge,
+    safe_icon,
 )
 from ..components.footer import StoreFooterComponent
 
@@ -63,7 +64,7 @@ class CartView(BaseView):
                 fit=ft.BoxFit.COVER,
                 border_radius=8,
                 error_content=ft.Container(
-                    content=ft.Icon("videogame_asset", size=24, color=ACCENT_PURPLE),
+                    content=ft.Icon(safe_icon("videogame_asset"), size=24, color=ACCENT_PURPLE),
                     alignment=ft.Alignment.CENTER,
                     bgcolor="#1E1B4B"
                 )
@@ -110,7 +111,7 @@ class CartView(BaseView):
         price_row = ft.Row(controls=price_controls, spacing=8, alignment=ft.MainAxisAlignment.END, tight=True)
 
         remove_btn = ft.IconButton(
-            icon="delete_outline",
+            icon=safe_icon("delete_outline"),
             icon_color=ACCENT_RED,
             tooltip="Eliminar del carrito",
             on_click=lambda _: self._on_remove_item(game.id, game.title)
@@ -143,7 +144,7 @@ class CartView(BaseView):
                 content=ft.Column(
                     controls=[
                         ft.Container(
-                            content=ft.Icon("shopping_cart_outlined", size=64, color=TEXT_MUTED),
+                            content=ft.Icon(safe_icon("shopping_cart_outlined"), size=64, color=TEXT_MUTED),
                             bgcolor="#162032",
                             padding=24,
                             border_radius=50
@@ -157,7 +158,7 @@ class CartView(BaseView):
                         ),
                         ft.FilledButton(
                             content=ft.Text("Explorar la Tienda", size=14, weight=ft.FontWeight.BOLD),
-                            icon="storefront",
+                            icon=safe_icon("storefront"),
                             style=ft.ButtonStyle(
                                 bgcolor=ACCENT_PURPLE,
                                 color="#FFFFFF",
@@ -193,7 +194,7 @@ class CartView(BaseView):
                 ft.Row(
                     controls=[
                         ft.Container(
-                            content=ft.Icon("shopping_cart", color="#FFFFFF", size=22),
+                            content=ft.Icon(safe_icon("shopping_cart"), color="#FFFFFF", size=22),
                             bgcolor=ACCENT_PURPLE,
                             padding=8,
                             border_radius=8
@@ -211,7 +212,7 @@ class CartView(BaseView):
                 ),
                 ft.OutlinedButton(
                     content=ft.Text("Vaciar Carrito", size=12, weight=ft.FontWeight.W_600),
-                    icon="remove_shopping_cart",
+                    icon=safe_icon("remove_shopping_cart"),
                     style=ft.ButtonStyle(
                         color=ACCENT_RED,
                         side=ft.BorderSide(1, ACCENT_RED),
@@ -255,7 +256,7 @@ class CartView(BaseView):
 
         checkout_btn = ft.FilledButton(
             content=ft.Text("Continuar a la Compra Simulada", size=14, weight=ft.FontWeight.BOLD),
-            icon="lock",
+            icon=safe_icon("lock"),
             style=ft.ButtonStyle(
                 bgcolor=ACCENT_GREEN,
                 color="#FFFFFF",
@@ -267,7 +268,7 @@ class CartView(BaseView):
 
         keep_shopping_btn = ft.OutlinedButton(
             content=ft.Text("Seguir Explorando Juegos", size=13),
-            icon="storefront",
+            icon=safe_icon("storefront"),
             style=ft.ButtonStyle(
                 color=TEXT_PRIMARY,
                 side=ft.BorderSide(1, BORDER_COLOR),

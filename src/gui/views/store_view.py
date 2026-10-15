@@ -12,6 +12,7 @@ from ..theme import (
     ACCENT_CYAN,
     ACCENT_GREEN,
     create_section_header,
+    safe_icon,
 )
 from ..components.hero_banner import FeaturedHeroBannerComponent
 from ..components.game_card import GameCardComponent
@@ -163,7 +164,7 @@ class StoreView(BaseView):
                     ),
                     ft.FilledButton(
                         content=ft.Text("Abrir Catálogo Completo", size=14, weight=ft.FontWeight.BOLD),
-                        icon="search",
+                        icon=safe_icon("search"),
                         style=ft.ButtonStyle(
                             bgcolor=ACCENT_PURPLE,
                             color="#FFFFFF",

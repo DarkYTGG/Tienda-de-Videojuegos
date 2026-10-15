@@ -14,6 +14,7 @@ from ..theme import (
     TEXT_MUTED,
     BORDER_COLOR,
     create_badge,
+    safe_icon,
 )
 from ..components.footer import StoreFooterComponent
 
@@ -37,7 +38,7 @@ class OrderConfirmationView(BaseView):
             return ft.Container(
                 content=ft.Column(
                     controls=[
-                        ft.Icon("receipt_long", size=64, color=TEXT_MUTED),
+                        ft.Icon(safe_icon("receipt_long"), size=64, color=TEXT_MUTED),
                         ft.Text("No hay información de orden activa.", size=18, color=TEXT_PRIMARY),
                         ft.FilledButton(
                             content=ft.Text("Volver a la Tienda"),
@@ -57,7 +58,7 @@ class OrderConfirmationView(BaseView):
             content=ft.Column(
                 controls=[
                     ft.Container(
-                        content=ft.Icon("task_alt", size=56, color="#4ADE80"),
+                        content=ft.Icon(safe_icon("task_alt"), size=56, color="#4ADE80"),
                         bgcolor="#064E3B",
                         padding=18,
                         border_radius=50
@@ -98,7 +99,7 @@ class OrderConfirmationView(BaseView):
                     controls=[
                         ft.Row(
                             controls=[
-                                ft.Icon("sports_esports", color=ACCENT_PURPLE, size=24),
+                                ft.Icon(safe_icon("sports_esports"), color=ACCENT_PURPLE, size=24),
                                 ft.Column(
                                     controls=[
                                         ft.Text(item.game_title, size=15, weight=ft.FontWeight.BOLD, color=TEXT_PRIMARY),
@@ -114,7 +115,7 @@ class OrderConfirmationView(BaseView):
                         ft.Container(
                             content=ft.Row(
                                 controls=[
-                                    ft.Icon("vpn_key", size=16, color=ACCENT_CYAN),
+                                    ft.Icon(safe_icon("vpn_key"), size=16, color=ACCENT_CYAN),
                                     ft.Text(
                                         item.digital_key,
                                         size=14,
@@ -209,7 +210,7 @@ class OrderConfirmationView(BaseView):
             controls=[
                 ft.FilledButton(
                     content=ft.Text("Seguir Explorando la Tienda", size=14, weight=ft.FontWeight.BOLD),
-                    icon="storefront",
+                    icon=safe_icon("storefront"),
                     style=ft.ButtonStyle(
                         bgcolor=ACCENT_PURPLE,
                         color="#FFFFFF",
@@ -220,7 +221,7 @@ class OrderConfirmationView(BaseView):
                 ),
                 ft.OutlinedButton(
                     content=ft.Text("Ver Historial de Pedidos", size=14),
-                    icon="receipt_long",
+                    icon=safe_icon("receipt_long"),
                     style=ft.ButtonStyle(
                         color=ACCENT_CYAN,
                         side=ft.BorderSide(1.5, ACCENT_CYAN),

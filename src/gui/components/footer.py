@@ -10,6 +10,7 @@ from ..theme import (
     TEXT_MUTED,
     BORDER_COLOR,
     create_badge,
+    safe_icon,
 )
 
 
@@ -21,7 +22,7 @@ class StoreFooterComponent:
             controls=[
                 ft.Row(
                     controls=[
-                        ft.Icon("sports_esports", color=ACCENT_PURPLE, size=20),
+                        ft.Icon(safe_icon("sports_esports"), color=ACCENT_PURPLE, size=20),
                         ft.Text("PIXELVAULT", size=16, weight=ft.FontWeight.W_900, color=TEXT_PRIMARY),
                     ],
                     spacing=6,

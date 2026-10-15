@@ -12,6 +12,7 @@ from ..theme import (
     TEXT_PRIMARY,
     TEXT_SECONDARY,
     create_badge,
+    safe_icon,
 )
 
 
@@ -64,7 +65,7 @@ class FeaturedHeroBannerComponent:
 
         reviews_row = ft.Row(
             controls=[
-                ft.Icon("star", size=18, color=ACCENT_AMBER),
+                ft.Icon(safe_icon("star"), size=18, color=ACCENT_AMBER),
                 ft.Text(f"{self._game.rating:.1f}/5.0", size=13, weight=ft.FontWeight.BOLD, color=TEXT_PRIMARY),
                 ft.Text(f"— {self._game.rating_summary}", size=13, color="#A5F3FC")
             ],
@@ -107,7 +108,7 @@ class FeaturedHeroBannerComponent:
         # Action Buttons
         detail_btn = ft.FilledButton(
             content=ft.Text("Ver Detalles Completos", size=14, weight=ft.FontWeight.BOLD),
-            icon="visibility",
+            icon=safe_icon("visibility"),
             style=ft.ButtonStyle(
                 bgcolor=ACCENT_PURPLE,
                 color="#FFFFFF",
@@ -120,7 +121,7 @@ class FeaturedHeroBannerComponent:
         if self._is_in_cart:
             cart_btn = ft.OutlinedButton(
                 content=ft.Text("En Carrito ✓", size=14, weight=ft.FontWeight.BOLD),
-                icon="check",
+                icon=safe_icon("check"),
                 style=ft.ButtonStyle(
                     color=ACCENT_GREEN,
                     side=ft.BorderSide(1.5, ACCENT_GREEN),
@@ -132,7 +133,7 @@ class FeaturedHeroBannerComponent:
         else:
             cart_btn = ft.OutlinedButton(
                 content=ft.Text("Añadir al Carrito", size=14, weight=ft.FontWeight.BOLD),
-                icon="add_shopping_cart",
+                icon=safe_icon("add_shopping_cart"),
                 style=ft.ButtonStyle(
                     color="#FFFFFF",
                     side=ft.BorderSide(1.5, ACCENT_PURPLE),
@@ -170,7 +171,7 @@ class FeaturedHeroBannerComponent:
                 fit=ft.BoxFit.COVER,
                 border_radius=12,
                 error_content=ft.Container(
-                    content=ft.Icon("sports_esports", size=64, color=ACCENT_PURPLE),
+                    content=ft.Icon(safe_icon("sports_esports"), size=64, color=ACCENT_PURPLE),
                     alignment=ft.Alignment.CENTER,
                     bgcolor="#1E1B4B"
                 )

@@ -22,7 +22,7 @@ def main():
         orders_file=ORDERS_FILE
     )
 
-    port = 8550
+    port = 8555
     # Si se pasa un puerto como argumento CLI, lo usamos
     if len(sys.argv) > 1 and sys.argv[1].isdigit():
         port = int(sys.argv[1])

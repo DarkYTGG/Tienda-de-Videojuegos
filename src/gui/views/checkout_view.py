@@ -16,6 +16,7 @@ from ..theme import (
     TEXT_MUTED,
     BORDER_COLOR,
     BORDER_LIGHT,
+    safe_icon,
 )
 from ..components.footer import StoreFooterComponent
 
@@ -122,7 +123,7 @@ class CheckoutView(BaseView):
             return ft.Container(
                 content=ft.Column(
                     controls=[
-                        ft.Icon("shopping_cart_outlined", size=48, color=TEXT_MUTED),
+                        ft.Icon(safe_icon("shopping_cart_outlined"), size=48, color=TEXT_MUTED),
                         ft.Text("El carrito está vacío. Agrega juegos antes de confirmar.", size=16, color=TEXT_PRIMARY),
                         ft.FilledButton(
                             content=ft.Text("Ir a la Tienda"),
@@ -143,7 +144,7 @@ class CheckoutView(BaseView):
                 ft.Row(
                     controls=[
                         ft.Container(
-                            content=ft.Icon("verified_user", color="#FFFFFF", size=22),
+                            content=ft.Icon(safe_icon("verified_user"), color="#FFFFFF", size=22),
                             bgcolor=ACCENT_GREEN,
                             padding=8,
                             border_radius=8
@@ -166,7 +167,7 @@ class CheckoutView(BaseView):
         disclaimer_banner = ft.Container(
             content=ft.Row(
                 controls=[
-                    ft.Icon("info", color="#FBBF24", size=24),
+                    ft.Icon(safe_icon("info"), color="#FBBF24", size=24),
                     ft.Column(
                         controls=[
                             ft.Text(
@@ -237,7 +238,7 @@ class CheckoutView(BaseView):
 
         confirm_btn = ft.FilledButton(
             content=ft.Text("Confirmar Compra Simulada", size=14, weight=ft.FontWeight.BOLD),
-            icon="task_alt",
+            icon=safe_icon("task_alt"),
             style=ft.ButtonStyle(
                 bgcolor=ACCENT_GREEN,
                 color="#FFFFFF",
@@ -249,7 +250,7 @@ class CheckoutView(BaseView):
 
         cancel_btn = ft.OutlinedButton(
             content=ft.Text("Cancelar y Volver al Carrito", size=13),
-            icon="arrow_back",
+            icon=safe_icon("arrow_back"),
             style=ft.ButtonStyle(
                 color=TEXT_PRIMARY,
                 side=ft.BorderSide(1, BORDER_COLOR),

@@ -18,6 +18,7 @@ from ..theme import (
     ACCENT_CYAN,
     BORDER_COLOR,
     create_badge,
+    safe_icon,
 )
 from ..components.filter_bar import FilterBarComponent
 from ..components.game_card import GameCardComponent
@@ -83,7 +84,7 @@ class CatalogView(BaseView):
             empty_view = ft.Container(
                 content=ft.Column(
                     controls=[
-                        ft.Icon("search_off", size=64, color=TEXT_MUTED),
+                        ft.Icon(safe_icon("search_off"), size=64, color=TEXT_MUTED),
                         ft.Text(
                             "No se encontraron videojuegos",
                             size=20,
@@ -98,7 +99,7 @@ class CatalogView(BaseView):
                         ),
                         ft.FilledButton(
                             content=ft.Text("Restablecer Filtros", size=13),
-                            icon="restart_alt",
+                            icon=safe_icon("restart_alt"),
                             style=ft.ButtonStyle(bgcolor=ACCENT_PURPLE, color="#FFFFFF"),
                             on_click=lambda _: self._reset_filters()
                         )
@@ -149,7 +150,7 @@ class CatalogView(BaseView):
                 ft.Row(
                     controls=[
                         ft.Container(
-                            content=ft.Icon("grid_view", color="#FFFFFF", size=22),
+                            content=ft.Icon(safe_icon("grid_view"), color="#FFFFFF", size=22),
                             bgcolor=ACCENT_PURPLE,
                             padding=8,
                             border_radius=8

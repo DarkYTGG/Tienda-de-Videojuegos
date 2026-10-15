@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "flet>=1.0.4",
+    "flet-desktop>=1.0.4",
 ]
 
 [build-system]

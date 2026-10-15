@@ -14,6 +14,7 @@ from ..theme import (
     TEXT_MUTED,
     BORDER_COLOR,
     create_badge,
+    safe_icon,
 )
 from ..components.footer import StoreFooterComponent
 
@@ -40,7 +41,7 @@ class OrdersHistoryView(BaseView):
                 ft.Row(
                     controls=[
                         ft.Container(
-                            content=ft.Icon("receipt_long", color="#FFFFFF", size=22),
+                            content=ft.Icon(safe_icon("receipt_long"), color="#FFFFFF", size=22),
                             bgcolor=ACCENT_PURPLE,
                             padding=8,
                             border_radius=8
@@ -58,7 +59,7 @@ class OrdersHistoryView(BaseView):
                 ),
                 ft.OutlinedButton(
                     content=ft.Text("Ir a la Tienda", size=13),
-                    icon="storefront",
+                    icon=safe_icon("storefront"),
                     style=ft.ButtonStyle(
                         color=TEXT_PRIMARY,
                         side=ft.BorderSide(1, BORDER_COLOR),
@@ -75,7 +76,7 @@ class OrdersHistoryView(BaseView):
             empty_state = ft.Container(
                 content=ft.Column(
                     controls=[
-                        ft.Icon("history_toggle_off", size=64, color=TEXT_MUTED),
+                        ft.Icon(safe_icon("history_toggle_off"), size=64, color=TEXT_MUTED),
                         ft.Text("Aún no hay compras simuladas registradas", size=20, weight=ft.FontWeight.BOLD, color=TEXT_PRIMARY),
                         ft.Text(
                             "Realiza una compra simulada desde el carrito para ver el registro guardado en JSON.",
@@ -122,7 +123,7 @@ class OrdersHistoryView(BaseView):
                             controls=[
                                 ft.Row(
                                     controls=[
-                                        ft.Icon("sports_esports", size=18, color=ACCENT_PURPLE),
+                                        ft.Icon(safe_icon("sports_esports"), size=18, color=ACCENT_PURPLE),
                                         ft.Text(item.game_title, size=13, weight=ft.FontWeight.BOLD, color=TEXT_PRIMARY),
                                         ft.Text(f"(${item.price_paid:,.2f} USD)", size=12, color=TEXT_MUTED)
                                     ],
@@ -132,7 +133,7 @@ class OrdersHistoryView(BaseView):
                                 ft.Container(
                                     content=ft.Row(
                                         controls=[
-                                            ft.Icon("vpn_key", size=13, color=ACCENT_CYAN),
+                                            ft.Icon(safe_icon("vpn_key"), size=13, color=ACCENT_CYAN),
                                             ft.Text(item.digital_key, size=12, weight=ft.FontWeight.BOLD, color="#A5F3FC", font_family="Consolas")
                                         ],
                                         spacing=6,

@@ -13,8 +13,17 @@ from ..application.use_cases import (
     CheckoutUseCase,
     GetOrdersUseCase,
 )
-from .theme import BG_DARK, ACCENT_PURPLE, ACCENT_GREEN, ACCENT_RED
-from .components.header import StoreHeaderComponent
+from .theme import (
+    BG_DARK,
+    BG_HEADER,
+    ACCENT_PURPLE,
+    ACCENT_GREEN,
+    ACCENT_RED,
+    ACCENT_CYAN,
+    TEXT_PRIMARY,
+    TEXT_SECONDARY,
+    safe_icon,
+)
 from .views.store_view import StoreView
 from .views.catalog_view import CatalogView
 from .views.detail_view import GameDetailView
@@ -45,7 +54,6 @@ class PixelVaultApp:
 
         # 4. GUI & Routing State
         self.page: Optional[ft.Page] = None
-        self.header_container = ft.Container()
         self.content_container = ft.Container(expand=True)
         self.current_route: str = "home"
         self.route_params: Dict[str, Any] = {}
@@ -66,7 +74,7 @@ class PixelVaultApp:
             content=ft.Row(
                 controls=[
                     ft.Icon(
-                        "check_circle" if message_type == "success" else "info",
+                        safe_icon("check_circle") if message_type == "success" else safe_icon("info"),
                         color="#FFFFFF",
                         size=20
                     ),
@@ -82,23 +90,106 @@ class PixelVaultApp:
         snack.open = True
         self.page.update()
 
-    def _update_header(self) -> None:
-        """Refreshes the top header bar with current route and cart badge counter."""
-        header_comp = StoreHeaderComponent(
-            navigate_fn=self.navigate,
-            cart_count=self.cart.item_count,
-            current_route=self.current_route,
-            on_search_submit=lambda q: self.navigate("catalog", {"search": q})
+    def _build_appbar(self) -> ft.AppBar:
+        """Constructs Flutter Web native AppBar with branding, section navigation, search, and dynamic cart badge."""
+        cart_badge_text = str(self.cart.item_count)
+
+        return ft.AppBar(
+            leading=ft.Container(
+                content=ft.Icon(safe_icon("sports_esports"), color=ACCENT_PURPLE, size=24),
+                padding=ft.Padding(left=12, right=0, top=0, bottom=0),
+                on_click=lambda _: self.navigate("home"),
+            ),
+            title=ft.Container(
+                content=ft.Row(
+                    controls=[
+                        ft.Text("PIXEL", size=20, weight=ft.FontWeight.W_900, color=TEXT_PRIMARY),
+                        ft.Text("VAULT", size=20, weight=ft.FontWeight.W_900, color=ACCENT_PURPLE),
+                    ],
+                    spacing=0,
+                    tight=True
+                ),
+                on_click=lambda _: self.navigate("home"),
+                ink=True
+            ),
+            actions=[
+                ft.TextButton(
+                    content=ft.Text(
+                        "Tienda",
+                        size=13,
+                        weight=ft.FontWeight.BOLD if self.current_route == "home" else ft.FontWeight.W_500,
+                        color=ACCENT_CYAN if self.current_route == "home" else TEXT_SECONDARY
+                    ),
+                    on_click=lambda _: self.navigate("home")
+                ),
+                ft.TextButton(
+                    content=ft.Text(
+                        "Catálogo Completo",
+                        size=13,
+                        weight=ft.FontWeight.BOLD if self.current_route == "catalog" and not self.route_params.get("only_indie") else ft.FontWeight.W_500,
+                        color=ACCENT_CYAN if self.current_route == "catalog" and not self.route_params.get("only_indie") else TEXT_SECONDARY
+                    ),
+                    on_click=lambda _: self.navigate("catalog")
+                ),
+                ft.TextButton(
+                    content=ft.Text(
+                        "Zona Indie",
+                        size=13,
+                        weight=ft.FontWeight.BOLD if self.current_route == "catalog" and self.route_params.get("only_indie") else ft.FontWeight.W_500,
+                        color=ACCENT_CYAN if self.current_route == "catalog" and self.route_params.get("only_indie") else TEXT_SECONDARY
+                    ),
+                    on_click=lambda _: self.navigate("catalog", {"only_indie": True})
+                ),
+                ft.TextButton(
+                    content=ft.Text(
+                        "Mis Pedidos",
+                        size=13,
+                        weight=ft.FontWeight.BOLD if self.current_route == "orders" else ft.FontWeight.W_500,
+                        color=ACCENT_CYAN if self.current_route == "orders" else TEXT_SECONDARY
+                    ),
+                    on_click=lambda _: self.navigate("orders")
+                ),
+                ft.IconButton(
+                    icon=safe_icon("search"),
+                    icon_color=TEXT_SECONDARY,
+                    tooltip="Buscar en catálogo",
+                    on_click=lambda _: self.navigate("catalog")
+                ),
+                ft.Container(
+                    content=ft.Row(
+                        controls=[
+                            ft.Icon(safe_icon("shopping_cart"), size=18, color="#FFFFFF"),
+                            ft.Text("Carrito", size=13, weight=ft.FontWeight.BOLD, color="#FFFFFF"),
+                            ft.Container(
+                                content=ft.Text(cart_badge_text, size=11, weight=ft.FontWeight.BOLD, color="#FFFFFF"),
+                                bgcolor=ACCENT_GREEN if self.cart.item_count > 0 else "#475569",
+                                padding=ft.Padding(left=6, right=6, top=2, bottom=2),
+                                border_radius=10
+                            )
+                        ],
+                        spacing=6,
+                        tight=True
+                    ),
+                    bgcolor=ACCENT_PURPLE,
+                    padding=ft.Padding(left=12, right=12, top=6, bottom=6),
+                    border_radius=8,
+                    margin=ft.Margin(left=4, right=16, top=0, bottom=0),
+                    on_click=lambda _: self.navigate("cart"),
+                    ink=True
+                )
+            ],
+            bgcolor=BG_HEADER,
+            center_title=False
         )
-        self.header_container.content = header_comp.build()
 
     def navigate(self, route_name: str, params: Optional[Dict[str, Any]] = None) -> None:
         """Centralized reactive navigation router implementing polymorphism across views."""
         self.current_route = route_name
         self.route_params = params or {}
 
-        # 1. Update header with current route & cart count
-        self._update_header()
+        # 1. Update AppBar with current route & cart counter
+        if self.page:
+            self.page.appbar = self._build_appbar()
 
         # 2. Polymorphic View Instantiation
         view_instance = None
@@ -175,17 +266,11 @@ class PixelVaultApp:
         self.page.bgcolor = BG_DARK
         self.page.padding = 0
 
-        # Build app layout
-        self._update_header()
+        # Attach AppBar
+        self.page.appbar = self._build_appbar()
 
-        layout = ft.Column(
-            controls=[
-                self.header_container,
-                self.content_container
-            ],
-            spacing=0,
-            expand=True
-        )
+        # Attach dynamic content area directly to page
+        self.page.add(self.content_container)
 
-        self.page.add(layout)
+        # Navigate to initial view
         self.navigate("home")
