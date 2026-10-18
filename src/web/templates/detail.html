@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+
+{% block title %}{{ game.title }} — PixelVault{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-lg-5">
+
+  <!-- Breadcrumbs -->
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb small">
+      <li class="breadcrumb-item"><a href="{{ url_for('store.index') }}" class="text-secondary text-decoration-none">Tienda</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('store.catalog') }}" class="text-secondary text-decoration-none">Catálogo</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('store.catalog', genre=game.genre) }}" class="text-secondary text-decoration-none">{{ game.genre }}</a></li>
+      <li class="breadcrumb-item active text-white" aria-current="page">{{ game.title }}</li>
+    </ol>
+  </nav>
+
+  <!-- Main Showcase Grid -->
+  <div class="row g-4 mb-5">
+    <!-- Left Column: Gallery & Details -->
+    <div class="col-lg-8">
+      <!-- Main Media Display -->
+      <div class="position-relative rounded-4 overflow-hidden mb-3 border border-secondary border-opacity-25 shadow-lg" style="background: #000000; height: 440px;">
+        <img id="mainDisplayImg" src="{{ game.cover_image }}" alt="{{ game.title }}" class="w-100 h-100" style="object-fit: cover; transition: opacity 0.3s ease;">
+      </div>
+
+      <!-- Thumbnails Gallery -->
+      <div class="d-flex gap-2 overflow-x-auto pb-2 mb-4">
+        <img 
+          src="{{ game.cover_image }}" 
+          alt="Portada" 
+          class="rounded-3 border border-2 border-primary cursor-pointer thumb-selector" 
+          style="width: 110px; height: 68px; object-fit: cover; cursor: pointer;"
+          onclick="swapDisplayImg(this.src, this)"
+        >
+        {% if game.banner_image and game.banner_image != game.cover_image %}
+        <img 
+          src="{{ game.banner_image }}" 
+          alt="Banner" 
+          class="rounded-3 border border-secondary border-opacity-25 cursor-pointer thumb-selector" 
+          style="width: 110px; height: 68px; object-fit: cover; cursor: pointer;"
+          onclick="swapDisplayImg(this.src, this)"
+        >
+        {% endif %}
+      </div>
+
+      {% if game.demo_url %}
+      <!-- Online Playable Demo Callout Banner -->
+      <div class="p-4 rounded-4 mb-4 d-flex flex-wrap align-items-center justify-content-between gap-3 shadow-sm" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.16) 0%, rgba(59, 130, 246, 0.16) 100%); border: 1.5px solid var(--accent-cyan);">
+        <div class="d-flex align-items-center gap-3">
+          <div class="rounded-circle d-flex align-items-center justify-content-center shadow" style="width: 52px; height: 52px; background: rgba(6, 182, 212, 0.25); color: #38bdf8; font-size: 1.6rem; border: 1px solid rgba(6, 182, 212, 0.5);">
+            <i class="bi bi-controller"></i>
+          </div>
+          <div>
+            <div class="text-white fw-bold fs-5 d-flex align-items-center gap-2">
+              ¡Demo Web Online Disponible!
+              <span class="badge" style="background: #06b6d4; color: #020617; font-size: 0.7rem; font-weight: 800;">JUGAR EN NAVEGADOR</span>
+            </div>
+            <div class="text-secondary small mt-1">Prueba este videojuego al instante en tu navegador sin descargas pesadas ni instalaciones.</div>
+          </div>
+        </div>
+        <a href="{{ game.demo_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary-pixel px-4 py-2 fw-bold text-nowrap d-flex align-items-center gap-2" style="background: linear-gradient(135deg, #06b6d4, #2563eb); box-shadow: 0 0 16px rgba(6, 182, 212, 0.45);">
+          <i class="bi bi-play-circle-fill fs-5"></i> Probar Demo Online
+        </a>
+      </div>
+      {% endif %}
+
+      <!-- Full Description -->
+      <div class="p-4 rounded-4 mb-4" style="background: var(--bg-surface); border: 1px solid var(--border-subtle);">
+        <h4 class="text-white fw-bold mb-3">Acerca de este videojuego</h4>
+        <p class="text-secondary lh-lg mb-4" style="font-size: 1.02rem;">
+          {{ game.full_description if game.full_description else game.short_description }}
+        </p>
+
+        {% if game.features %}
+        <h5 class="text-white fw-bold mb-3">Características Destacadas</h5>
+        <ul class="list-unstyled d-flex flex-column gap-2 mb-4">
+          {% for feat in game.features %}
+          <li class="d-flex align-items-center gap-2 text-secondary small">
+            <i class="bi bi-check2-circle text-info fs-6"></i>
+            <span class="text-white">{{ feat }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        <h5 class="text-white fw-bold mb-3">Etiquetas Populares</h5>
+        <div class="d-flex flex-wrap gap-2">
+          {% for tag in game.tags %}
+            <span class="badge" style="background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border-subtle); color: #cbd5e1; padding: 0.45rem 0.85rem; font-weight: 500; font-size: 0.85rem;">
+              <i class="bi bi-tag-fill me-1 text-secondary"></i> {{ tag }}
+            </span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- System Requirements Card -->
+      <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-subtle);">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <i class="bi bi-cpu fs-5 text-info"></i>
+          <h4 class="text-white fw-bold mb-0">Requisitos del Sistema para PC</h4>
+        </div>
+
+        <div class="row g-3 small">
+          {% if game.system_requirements %}
+            {% for req_key, req_val in game.system_requirements.items() %}
+            <div class="col-sm-6">
+              <div class="p-3 rounded-3" style="background: var(--bg-darkest); border: 1px solid var(--border-subtle);">
+                <div class="text-secondary small fw-semibold text-uppercase mb-1">{{ req_key }}</div>
+                <div class="text-white fw-medium">{{ req_val }}</div>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <div class="col-12 text-secondary">Requisitos mínimos estándar para Windows 10/11 64-bit.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Purchasing Sidebar & Meta -->
+    <div class="col-lg-4">
+      <div class="p-4 rounded-4 sticky-top shadow-lg" style="background: var(--bg-surface); border: 1px solid var(--border-active); top: 90px;">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="badge-genre">{{ game.genre }}</span>
+          {% if game.is_indie %}<span class="badge-indie">INDIE</span>{% endif %}
+          {% if game.is_new %}<span class="badge-new">NUEVO</span>{% endif %}
+        </div>
+
+        <h2 class="text-white fw-bold mb-2">{{ game.title }}</h2>
+        <p class="text-secondary small mb-3">Por <strong class="text-info">{{ game.developer }}</strong></p>
+
+        <!-- Rating Box -->
+        <div class="p-3 rounded-3 mb-4 d-flex align-items-center justify-content-between" style="background: var(--bg-darkest); border: 1px solid var(--border-subtle);">
+          <div>
+            <div class="d-flex align-items-center gap-1 text-warning mb-1">
+              <i class="bi bi-star-fill"></i>
+              <span class="fw-bold text-white fs-5">{{ game.rating }}</span>
+              <span class="text-secondary small">/ 5.0</span>
+            </div>
+            <div class="text-secondary" style="font-size: 0.78rem;">
+              {{ "{:,}".format(game.reviews_count) }} opiniones de la comunidad
+            </div>
+          </div>
+          <div class="text-end">
+            <span class="badge bg-success bg-opacity-25 text-success px-2 py-1 small fw-semibold">
+              <i class="bi bi-hand-thumbs-up-fill"></i> Muy Positivas
+            </span>
+          </div>
+        </div>
+
+        <!-- Price Display -->
+        <div class="mb-4">
+          <div class="text-secondary small mb-1">Precio Digital</div>
+          <div class="d-flex align-items-baseline gap-2">
+            {% if game.is_on_sale %}
+              <span class="badge-sale fs-6 px-2 py-1">-{{ game.discount_percent }}%</span>
+              <span class="price-strike fs-5">{{ game.price | currency }}</span>
+              <span class="price-final fs-2">{{ game.final_price | currency }}</span>
+            {% elif game.final_price == 0 %}
+              <span class="price-free fs-2">Gratis</span>
+            {% else %}
+              <span class="price-final fs-2">{{ game.final_price | currency }}</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="d-grid gap-2 mb-4">
+          {% if game.demo_url %}
+          <a 
+            href="{{ game.demo_url }}" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="btn py-3 fs-6 d-flex align-items-center justify-content-center gap-2 fw-bold shadow-sm"
+            style="border: 2px solid var(--accent-cyan); background: linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(59, 130, 246, 0.25)); color: #38bdf8; text-shadow: 0 0 10px rgba(6, 182, 212, 0.5); border-radius: 8px; transition: all 0.2s;"
+          >
+            <i class="bi bi-play-circle-fill fs-5 text-cyan"></i>
+            <span>Probar Demo Online (Navegador)</span>
+          </a>
+          {% endif %}
+          <button 
+            class="btn btn-primary-pixel justify-content-center py-3 fs-6 {{ 'in-cart' if is_in_cart else '' }}" 
+            onclick="addToCart('{{ game.id }}', this)"
+          >
+            <i class="bi {{ 'bi-check-circle-fill' if is_in_cart else 'bi-cart-plus-fill' }}"></i>
+            <span>{{ '¡Ya está en tu Carrito!' if is_in_cart else 'Añadir al Carrito' }}</span>
+          </button>
+        </div>
+
+        <!-- Metadata Attributes -->
+        <div class="border-top border-secondary border-opacity-25 pt-3 small">
+          <div class="d-flex justify-content-between py-1">
+            <span class="text-secondary">Fecha de Lanzamiento:</span>
+            <span class="text-white">{{ game.release_date }}</span>
+          </div>
+          <div class="d-flex justify-content-between py-1">
+            <span class="text-secondary">Desarrollador:</span>
+            <span class="text-white">{{ game.developer }}</span>
+          </div>
+          <div class="d-flex justify-content-between py-1">
+            <span class="text-secondary">Editor / Publisher:</span>
+            <span class="text-white">{{ game.publisher }}</span>
+          </div>
+          <div class="d-flex justify-content-between py-1">
+            <span class="text-secondary">Entrega:</span>
+            <span class="text-success"><i class="bi bi-lightning-charge-fill"></i> Clave Digital Inmediata</span>
+          </div>
+          <div class="d-flex justify-content-between py-1">
+            <span class="text-secondary">Tipo de Licencia:</span>
+            <span class="text-white">Permanente (Sin DRM simulado)</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Games Section -->
+  {% if related_games %}
+  <section class="mt-5 pt-4 border-top border-secondary border-opacity-25">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h3 class="text-white fw-bold mb-1">Más títulos en {{ game.genre }}</h3>
+        <p class="text-secondary small mb-0">Videojuegos recomendados que podrían interesarte.</p>
+      </div>
+      <a href="{{ url_for('store.catalog', genre=game.genre) }}" class="btn btn-sm btn-outline-pixel">
+        Ver más de {{ game.genre }} <i class="bi bi-arrow-right ms-1"></i>
+      </a>
+    </div>
+
+    <div class="row g-4">
+      {% for g in related_games %}
+        <div class="col-lg-4 col-md-6">
+          {% set game = g %}
+          {% include "_game_card.html" %}
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function swapDisplayImg(src, thumbEl) {
+  const main = document.getElementById("mainDisplayImg");
+  if (main) {
+    main.style.opacity = "0.4";
+    setTimeout(() => {
+      main.src = src;
+      main.style.opacity = "1";
+    }, 150);
+  }
+  document.querySelectorAll(".thumb-selector").forEach(t => {
+    t.classList.remove("border-primary", "border-2");
+    t.classList.add("border-secondary", "border-opacity-25");
+  });
+  if (thumbEl) {
+    thumbEl.classList.remove("border-secondary", "border-opacity-25");
+    thumbEl.classList.add("border-primary", "border-2");
+  }
+}
+</script>
+{% endblock %}

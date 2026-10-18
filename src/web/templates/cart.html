@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Carrito de Compras — PixelVault{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <div class="brand-icon-box" style="width: 44px; height: 44px;">
+      <i class="bi bi-cart3 fs-5 text-white"></i>
+    </div>
+    <div>
+      <h1 class="text-white fs-2 fw-bold mb-0">Carrito de Videojuegos</h1>
+      <p class="text-secondary small mb-0">Revisa los títulos digitales seleccionados antes de proceder al pago.</p>
+    </div>
+  </div>
+
+  {% if cart and not cart.is_empty %}
+  <div class="row g-4">
+    <!-- Left Column: Items List -->
+    <div class="col-lg-8">
+      <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-subtle);">
+        <div class="d-flex justify-content-between align-items-center border-bottom border-secondary border-opacity-25 pb-3 mb-3">
+          <span class="text-secondary small fw-bold">VIDEOJUEGOS SELECCIONADOS ({{ cart.item_count }})</span>
+          <button class="btn btn-sm text-secondary" onclick="clearCart()">
+            <i class="bi bi-trash3 me-1"></i> Vaciar Carrito
+          </button>
+        </div>
+
+        {% for item in cart.get_items() %}
+        <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 py-3 border-bottom border-secondary border-opacity-10">
+          <div class="d-flex align-items-center gap-3">
+            <img src="{{ item.game.cover_image }}" alt="{{ item.game.title }}" class="rounded-3" style="width: 100px; height: 62px; object-fit: cover;">
+            <div>
+              <h5 class="text-white fs-6 fw-bold mb-1">
+                <a href="{{ url_for('store.game_detail', slug=item.game.slug) }}">{{ item.game.title }}</a>
+              </h5>
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge-genre">{{ item.game.genre }}</span>
+                <span class="text-secondary small">{{ item.game.developer }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between justify-content-sm-end gap-4">
+            <div class="text-end">
+              {% if item.game.is_on_sale %}
+                <div class="text-muted text-decoration-line-through small">{{ item.game.price | currency }}</div>
+              {% endif %}
+              <div class="text-white fw-bold fs-5">{{ item.unit_price | currency }}</div>
+            </div>
+
+            <button class="btn btn-sm text-danger" onclick="removeFromCart('{{ item.game.id }}', true)" title="Eliminar del carrito">
+              <i class="bi bi-x-circle fs-5"></i>
+            </button>
+          </div>
+        </div>
+        {% endfor %}
+
+        <div class="mt-4">
+          <a href="{{ url_for('store.catalog') }}" class="btn btn-sm btn-outline-pixel">
+            <i class="bi bi-arrow-left me-1"></i> Continuar Explorando Juegos
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Summary Card -->
+    <div class="col-lg-4">
+      <div class="p-4 rounded-4 shadow-lg sticky-top" style="background: var(--bg-surface); border: 1px solid var(--border-active); top: 90px;">
+        <h4 class="text-white fw-bold mb-3">Resumen del Pedido</h4>
+
+        <div class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-10">
+          <span class="text-secondary">Subtotal Estimado</span>
+          <span class="text-white fw-medium">{{ cart.subtotal | currency }}</span>
+        </div>
+
+        {% if cart.total_discount > 0 %}
+        <div class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-10 text-success">
+          <span>Descuentos de Ofertas</span>
+          <span>-{{ cart.total_discount | currency }}</span>
+        </div>
+        {% endif %}
+
+        <div class="d-flex justify-content-between py-3 mb-3">
+          <span class="text-white fw-bold fs-5">Total a Pagar</span>
+          <span class="text-info fw-bold fs-4">{{ cart.total | currency }}</span>
+        </div>
+
+        <div class="d-grid gap-2 mb-3">
+          <a href="{{ url_for('store.checkout_view') }}" class="btn btn-primary-pixel text-center py-3 justify-content-center fs-6">
+            <i class="bi bi-credit-card me-1"></i> Continuar a la Compra
+          </a>
+        </div>
+
+        <div class="p-3 rounded-3" style="background: var(--bg-darkest); border: 1px dashed var(--border-subtle);">
+          <div class="d-flex align-items-center gap-2 mb-1 text-info small fw-bold">
+            <i class="bi bi-shield-check"></i> Garantía de Simulación
+          </div>
+          <p class="text-secondary small mb-0" style="font-size: 0.78rem;">
+            Las transacciones y claves generadas corresponden a una simulación de compra digital. No se realizan cobros reales.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <!-- Empty Cart State -->
+  <div class="text-center py-5 my-5 rounded-4" style="background: var(--bg-surface); border: 1px dashed var(--border-subtle);">
+    <div class="brand-icon-box mx-auto mb-3" style="width: 70px; height: 70px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-subtle);">
+      <i class="bi bi-cart-x text-secondary fs-2"></i>
+    </div>
+    <h3 class="text-white fw-bold mb-2">Tu carrito está vacío</h3>
+    <p class="text-secondary small mb-4" style="max-width: 460px; margin: 0 auto;">
+      Aún no has agregado videojuegos a tu pedido. Explora nuestro catálogo con títulos destacados, ofertas y creaciones indie.
+    </p>
+    <a href="{{ url_for('store.catalog') }}" class="btn btn-primary-pixel px-4 py-2">
+      <i class="bi bi-grid-fill me-1"></i> Explorar Catálogo de Juegos
+    </a>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+async function clearCart() {
+  if (confirm("¿Estás seguro de que deseas vaciar tu carrito de compras?")) {
+    await fetch("/api/cart/clear", { method: "POST" });
+    window.location.reload();
+  }
+}
+</script>
+{% endblock %}

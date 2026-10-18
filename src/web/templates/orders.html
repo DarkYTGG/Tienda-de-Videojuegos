@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Historial de Pedidos — PixelVault{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+
+  <!-- Header Banner -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div class="d-flex align-items-center gap-3">
+      <div class="brand-icon-box" style="width: 44px; height: 44px;">
+        <i class="bi bi-receipt-long fs-5 text-white"></i>
+      </div>
+      <div>
+        <h1 class="text-white fs-2 fw-bold mb-0">Historial de Pedidos & Claves</h1>
+        <p class="text-secondary small mb-0">Verificación de persistencia JSON y licencias digitales registradas.</p>
+      </div>
+    </div>
+
+    <div>
+      <span class="badge px-3 py-2 fs-6 fw-semibold" style="background: rgba(22, 34, 59, 0.9); border: 1px solid var(--border-subtle); color: var(--text-secondary);">
+        Órdenes registradas: <strong class="text-white">{{ orders_count }}</strong>
+      </span>
+    </div>
+  </div>
+
+  {% if orders %}
+  <!-- Orders Cards List -->
+  <div class="d-flex flex-column gap-4 mb-5">
+    {% for order in orders | reverse %}
+    <div class="p-4 rounded-4 shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-subtle);">
+      <!-- Order Header Row -->
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 border-bottom border-secondary border-opacity-25 pb-3 mb-3">
+        <div>
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="badge bg-purple px-2 py-1 small fw-bold font-monospace" style="background: var(--primary-purple);">{{ order.id }}</span>
+            <span class="text-secondary small">&bull;</span>
+            <span class="text-secondary small">{{ order.created_at[:19].replace('T', ' ') }}</span>
+          </div>
+          <div class="text-white small">
+            Comprador: <strong>{{ order.customer_name }}</strong> ({{ order.customer_email }})
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+          <div class="text-end">
+            <span class="text-secondary small d-block">Método: {{ order.payment_method }}</span>
+            <span class="text-info fw-bold fs-5">{{ order.total | currency }}</span>
+          </div>
+          <span class="badge bg-success bg-opacity-25 text-success px-2 py-1 small">
+            <i class="bi bi-check2"></i> Completada
+          </span>
+        </div>
+      </div>
+
+      <!-- Items and Keys in this Order -->
+      <h6 class="text-secondary small fw-bold mb-3">VIDEOJUEGOS Y CLAVES ACTIVAS</h6>
+      <div class="d-flex flex-column gap-2 mb-2">
+        {% for item in order.items %}
+        <div class="p-3 rounded-3 d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2" style="background: var(--bg-darkest); border: 1px solid var(--border-subtle);">
+          <div>
+            <span class="text-white fw-bold">{{ item.game_title }}</span>
+            <span class="text-secondary small ms-2">({{ item.price_paid | currency }})</span>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <span class="text-secondary small d-none d-md-inline">Clave:</span>
+            <code class="key-code-text fs-6 px-2 py-1 rounded" style="background: rgba(6, 182, 212, 0.1);">{{ item.digital_key }}</code>
+            <button class="btn-copy-key" data-key="{{ item.digital_key }}" title="Copiar Clave">
+              <i class="bi bi-clipboard"></i>
+            </button>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <!-- Empty State -->
+  <div class="text-center py-5 my-5 rounded-4" style="background: var(--bg-surface); border: 1px dashed var(--border-subtle);">
+    <div class="brand-icon-box mx-auto mb-3" style="width: 70px; height: 70px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-subtle);">
+      <i class="bi bi-receipt text-secondary fs-2"></i>
+    </div>
+    <h3 class="text-white fw-bold mb-2">No hay órdenes registradas aún</h3>
+    <p class="text-secondary small mb-4" style="max-width: 480px; margin: 0 auto;">
+      Cuando realices una compra simulada en PixelVault, tus pedidos y claves de activación se almacenarán de forma persistente en <code class="text-info">data/orders.json</code> y se visualizarán aquí.
+    </p>
+    <a href="{{ url_for('store.catalog') }}" class="btn btn-primary-pixel px-4 py-2">
+      <i class="bi bi-cart-plus me-1"></i> Realizar una Compra Simulada
+    </a>
+  </div>
+  {% endif %}
+
+  <!-- Raw JSON Persistence Inspector (For Evaluation by Prof. Yoher Vazquez) -->
+  <div class="p-4 rounded-4 mb-4 mt-5" style="background: var(--bg-surface); border: 1px solid rgba(6, 182, 212, 0.3);">
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-3">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-filetype-json text-info fs-4"></i>
+        <div>
+          <h5 class="text-white fw-bold mb-0">Inspector de Persistencia Local JSON</h5>
+          <small class="text-secondary">Lectura en vivo del archivo <code class="text-info">data/orders.json</code> para auditoría docente</small>
+        </div>
+      </div>
+
+      <button class="btn btn-sm btn-outline-pixel" onclick="copyRawJson()">
+        <i class="bi bi-clipboard me-1"></i> Copiar JSON Crudo
+      </button>
+    </div>
+
+    <pre class="json-inspector-box mb-0" id="rawJsonBlock"><code>{{ raw_json }}</code></pre>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function copyRawJson() {
+  const code = document.getElementById("rawJsonBlock").textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    showToast("JSON crudo de órdenes copiado al portapapeles.", "success");
+  });
+}
+</script>
+{% endblock %}

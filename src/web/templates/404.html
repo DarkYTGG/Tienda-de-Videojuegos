@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Página No Encontrada — PixelVault{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center">
+  <div class="p-5 rounded-4 my-4" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); max-width: 650px; margin: 0 auto;">
+    <div class="brand-icon-box mx-auto mb-3" style="width: 70px; height: 70px; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4);">
+      <i class="bi bi-exclamation-triangle text-danger fs-2"></i>
+    </div>
+    <h1 class="display-4 fw-extrabold text-white mb-2 font-monospace">404</h1>
+    <h3 class="text-white fw-bold mb-3">Videojuego o Página No Encontrada</h3>
+    <p class="text-secondary small mb-4">
+      La ruta solicitada no existe o el videojuego ha sido retirado temporalmente de la bóveda.
+    </p>
+    <div class="d-flex justify-content-center gap-3">
+      <a href="{{ url_for('store.index') }}" class="btn btn-outline-pixel">
+        <i class="bi bi-house-door me-1"></i> Ir al Inicio
+      </a>
+      <a href="{{ url_for('store.catalog') }}" class="btn btn-primary-pixel">
+        <i class="bi bi-grid-fill me-1"></i> Explorar Catálogo
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

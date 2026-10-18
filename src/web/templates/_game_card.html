@@ -1,0 +1,77 @@
+<div class="game-card h-100">
+  <div class="card-img-wrap">
+    <img src="{{ game.cover_image }}" alt="{{ game.title }}" loading="lazy">
+    
+    <div class="card-floating-badges">
+      {% if game.is_on_sale %}
+        <span class="badge-sale">-{{ game.discount_percent }}%</span>
+      {% endif %}
+      {% if game.is_new %}
+        <span class="badge-new">NUEVO</span>
+      {% endif %}
+      {% if game.is_indie %}
+        <span class="badge-indie">INDIE</span>
+      {% endif %}
+      {% if game.demo_url %}
+        <span class="badge" style="background: linear-gradient(135deg, #06b6d4, #2563eb); color: white; font-size: 0.68rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);"><i class="bi bi-play-circle-fill me-1"></i>DEMO ONLINE</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="card-body-pixel">
+    <h3 class="card-game-title" title="{{ game.title }}">
+      <a href="{{ url_for('store.game_detail', slug=game.slug) }}">{{ game.title }}</a>
+    </h3>
+
+    <div class="card-developer">
+      <i class="bi bi-building"></i> {{ game.developer }}
+    </div>
+
+    <div class="card-rating-block">
+      <div class="text-warning d-flex align-items-center">
+        <i class="bi bi-star-fill me-1"></i>
+        <span class="fw-bold text-white">{{ game.rating }}</span>
+      </div>
+      <span>&bull;</span>
+      <span class="badge-genre">{{ game.genre }}</span>
+    </div>
+
+    <div class="card-price-row">
+      <div>
+        {% if game.is_on_sale %}
+          <div>
+            <span class="price-strike">{{ game.price | currency }}</span>
+          </div>
+          <span class="price-final">{{ game.final_price | currency }}</span>
+        {% elif game.final_price == 0 %}
+          <span class="price-free">Gratis</span>
+        {% else %}
+          <span class="price-final">{{ game.final_price | currency }}</span>
+        {% endif %}
+      </div>
+
+      <div class="d-flex gap-2">
+        <a href="{{ url_for('store.game_detail', slug=game.slug) }}" class="btn-card-action" title="Ver detalles">
+          <i class="bi bi-info-circle"></i>
+        </a>
+        {% if cart and cart.has_game(game.id) %}
+          <button class="btn-card-action in-cart" title="Ya está en el carrito" disabled>
+            <i class="bi bi-check2"></i>
+          </button>
+        {% else %}
+          <button class="btn-card-action" onclick="addToCart('{{ game.id }}', this)" title="Añadir al carrito">
+            <i class="bi bi-cart-plus"></i> Añadir
+          </button>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if game.demo_url %}
+    <div class="mt-2 pt-2 border-top border-secondary border-opacity-25">
+      <a href="{{ game.demo_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm w-100 d-flex align-items-center justify-content-center gap-2 fw-bold" style="background: linear-gradient(135deg, rgba(6,182,212,0.18), rgba(59,130,246,0.18)); border: 1px solid var(--accent-cyan); color: #38bdf8; font-size: 0.8rem; border-radius: 6px; padding: 6px 10px; text-decoration: none; transition: all 0.2s ease;">
+        <i class="bi bi-play-circle-fill text-cyan"></i> Probar Demo Online
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</div>

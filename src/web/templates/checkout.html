@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout — Finalizar Compra | PixelVault{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <div class="brand-icon-box" style="width: 44px; height: 44px;">
+      <i class="bi bi-shield-lock-fill fs-5 text-white"></i>
+    </div>
+    <div>
+      <h1 class="text-white fs-2 fw-bold mb-0">Finalizar Compra Digital</h1>
+      <p class="text-secondary small mb-0">Completa tus datos para emitir tu orden y generar tus claves de activación.</p>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Column: Checkout Form -->
+    <div class="col-lg-7">
+      <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-subtle);">
+        <h4 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-person-badge text-info"></i> Datos del Comprador
+        </h4>
+
+        <form action="{{ url_for('store.process_checkout') }}" method="POST" id="checkoutForm">
+          <!-- Customer Name -->
+          <div class="mb-3">
+            <label for="customer_name" class="form-label text-secondary small fw-semibold">Nombre y Apellido</label>
+            <div class="position-relative">
+              <i class="bi bi-person position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary"></i>
+              <input 
+                type="text" 
+                class="form-control form-control-pixel ps-5 {{ 'is-invalid' if errors.get('customer_name') else '' }}" 
+                id="customer_name" 
+                name="customer_name" 
+                placeholder="Ej. Carlos Mendoza" 
+                value="{{ form_data.get('customer_name', '') }}" 
+                required
+              >
+            </div>
+            {% if errors.get('customer_name') %}
+              <div class="text-danger small mt-1">{{ errors.customer_name }}</div>
+            {% endif %}
+          </div>
+
+          <!-- Customer Email -->
+          <div class="mb-4">
+            <label for="customer_email" class="form-label text-secondary small fw-semibold">Correo Electrónico (Para recibir tus claves)</label>
+            <div class="position-relative">
+              <i class="bi bi-envelope position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary"></i>
+              <input 
+                type="email" 
+                class="form-control form-control-pixel ps-5 {{ 'is-invalid' if errors.get('customer_email') else '' }}" 
+                id="customer_email" 
+                name="customer_email" 
+                placeholder="carlos.mendoza@correo.com" 
+                value="{{ form_data.get('customer_email', '') }}" 
+                required
+              >
+            </div>
+            {% if errors.get('customer_email') %}
+              <div class="text-danger small mt-1">{{ errors.customer_email }}</div>
+            {% endif %}
+            <div class="form-text text-secondary" style="font-size: 0.78rem;">
+              Enviaremos la confirmación y el recibo digital con las licencias a este correo.
+            </div>
+          </div>
+
+          <!-- Payment Method Options -->
+          <h5 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+            <i class="bi bi-wallet2 text-info"></i> Método de Pago Simulado
+          </h5>
+
+          <div class="d-flex flex-column gap-2 mb-4">
+            <label class="p-3 rounded-3 d-flex align-items-center gap-3 cursor-pointer" style="background: var(--bg-darkest); border: 1px solid var(--border-subtle); cursor: pointer;">
+              <input type="radio" name="payment_method" value="Tarjeta de Crédito / Débito" checked class="form-check-input mt-0">
+              <i class="bi bi-credit-card-2-front text-info fs-5"></i>
+              <div class="flex-grow-1">
+                <div class="text-white fw-semibold small">Tarjeta de Crédito / Débito (Simulado)</div>
+                <div class="text-secondary" style="font-size: 0.75rem;">Visa, Mastercard, American Express</div>
+              </div>
+            </label>
+
+            <label class="p-3 rounded-3 d-flex align-items-center gap-3 cursor-pointer" style="background: var(--bg-darkest); border: 1px solid var(--border-subtle); cursor: pointer;">
+              <input type="radio" name="payment_method" value="Pago Móvil / Transferencia Bancaria" class="form-check-input mt-0">
+              <i class="bi bi-phone text-success fs-5"></i>
+              <div class="flex-grow-1">
+                <div class="text-white fw-semibold small">Pago Móvil / Transferencia Bancaria</div>
+                <div class="text-secondary" style="font-size: 0.75rem;">Banesco, Mercantil, BDV (Tasa Oficial)</div>
+              </div>
+            </label>
+
+            <label class="p-3 rounded-3 d-flex align-items-center gap-3 cursor-pointer" style="background: var(--bg-darkest); border: 1px solid var(--border-subtle); cursor: pointer;">
+              <input type="radio" name="payment_method" value="Criptomonedas (USDT / BTC)" class="form-check-input mt-0">
+              <i class="bi bi-currency-bitcoin text-warning fs-5"></i>
+              <div class="flex-grow-1">
+                <div class="text-white fw-semibold small">Criptomonedas (USDT / BTC / ETH)</div>
+                <div class="text-secondary" style="font-size: 0.75rem;">Binance Pay, Tron, Red Polygon</div>
+              </div>
+            </label>
+          </div>
+
+          <!-- Academic Disclaimer Checkbox -->
+          <div class="p-3 rounded-3 mb-4" style="background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.2);">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="accept_terms" id="accept_terms" required checked>
+              <label class="form-check-label text-secondary small" for="accept_terms">
+                Confirmo que entiendo que este es un <strong class="text-white">entorno de simulación de compra digital</strong> para la materia <strong class="text-info">Programación IV (IUT Antonio José de Sucre)</strong> y que la orden se persistirá en el archivo local <code class="text-info">data/orders.json</code>.
+              </label>
+            </div>
+            {% if errors.get('accept_terms') %}
+              <div class="text-danger small mt-2">{{ errors.accept_terms }}</div>
+            {% endif %}
+          </div>
+
+          <!-- Submit CTA -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary-pixel justify-content-center py-3 fs-6">
+              <i class="bi bi-lock-fill me-1"></i> Confirmar Compra y Generar Claves
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Column: Order Items Summary -->
+    <div class="col-lg-5">
+      <div class="p-4 rounded-4 shadow-lg sticky-top" style="background: var(--bg-surface); border: 1px solid var(--border-active); top: 90px;">
+        <h4 class="text-white fw-bold mb-3">Resumen de la Orden</h4>
+
+        <div class="overflow-y-auto pe-1 mb-3" style="max-height: 280px;">
+          {% for item in cart.get_items() %}
+          <div class="d-flex align-items-center gap-3 py-2 border-bottom border-secondary border-opacity-10">
+            <img src="{{ item.game.cover_image }}" alt="{{ item.game.title }}" class="rounded-2" style="width: 60px; height: 38px; object-fit: cover;">
+            <div class="flex-grow-1 min-w-0">
+              <h6 class="text-white small mb-0 text-truncate">{{ item.game.title }}</h6>
+              <span class="text-secondary" style="font-size: 0.72rem;">{{ item.game.genre }}</span>
+            </div>
+            <span class="text-white fw-bold small">{{ item.unit_price | currency }}</span>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="d-flex justify-content-between py-2 border-top border-secondary border-opacity-25 small">
+          <span class="text-secondary">Subtotal ({{ cart.item_count }} items)</span>
+          <span class="text-white fw-medium">{{ cart.subtotal | currency }}</span>
+        </div>
+
+        {% if cart.total_discount > 0 %}
+        <div class="d-flex justify-content-between py-1 text-success small">
+          <span>Descuento Especial</span>
+          <span>-{{ cart.total_discount | currency }}</span>
+        </div>
+        {% endif %}
+
+        <div class="d-flex justify-content-between py-3 my-2 border-top border-bottom border-secondary border-opacity-25">
+          <span class="text-white fw-bold fs-5">Total a Pagar</span>
+          <span class="text-info fw-bold fs-4">{{ cart.total | currency }}</span>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 text-secondary small pt-2">
+          <i class="bi bi-shield-check text-success fs-5"></i>
+          <span>Tus claves digitales se generarán con formato estándar <code class="text-info">XXXXX-XXXXX-XXXXX</code></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
