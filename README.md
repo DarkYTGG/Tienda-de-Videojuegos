@@ -131,7 +131,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ### 5.3. Preparación del Entorno
 Clona o descarga el repositorio y abre una terminal en la carpeta raíz:
 ```powershell
-cd "c:\Users\Dark\Desktop\Pagina tipo tienda steam"
+cd "c:\Users\User\Desktop\Pagina tipo tienda steam"
 
 # Sincroniza e instala las dependencias del proyecto de forma reproducible
 uv sync
@@ -196,7 +196,7 @@ Si deseas publicar este repositorio en tu cuenta personal de GitHub:
 
 ```powershell
 # 1. Asegúrate de estar en la raíz del proyecto
-cd "c:\Users\Dark\Desktop\Pagina tipo tienda steam"
+cd "c:\Users\User\Desktop\Pagina tipo tienda steam"
 
 # 2. Comprobar estado de Git
 git status
