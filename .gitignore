@@ -34,3 +34,8 @@ htmlcov/
 # Scratch & temporary logs
 *.log
 scratch/
+
+# Environment secrets
+.env
+.env.local
+.env.*.local

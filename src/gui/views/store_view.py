@@ -11,12 +11,14 @@ from ..theme import (
     ACCENT_PURPLE,
     ACCENT_CYAN,
     ACCENT_GREEN,
+    ACCENT_RED,
     create_section_header,
     safe_icon,
 )
 from ..components.hero_banner import FeaturedHeroBannerComponent
 from ..components.game_card import GameCardComponent
 from ..components.footer import StoreFooterComponent
+from ..components.api_error_card import ApiErrorCardComponent
 
 
 class StoreView(BaseView):
@@ -30,12 +32,16 @@ class StoreView(BaseView):
         cart_manager: ManageCartUseCase,
         notify_fn: Optional[Callable[[str, str], None]] = None,
         notify: Optional[Callable[[str, str], None]] = None,
+        api_repo: Optional[Any] = None,
+        on_retry_api: Optional[Callable[[], None]] = None,
         **kwargs: Any
     ):
         super().__init__(page, navigate_fn)
         self._list_uc = list_games_uc
         self._cart_manager = cart_manager
         self._notify = notify_fn or notify
+        self._api_repo = api_repo
+        self._on_retry_api = on_retry_api
         self._on_cart_open = kwargs.get("on_cart_open") or kwargs.get("open_cart_drawer")
 
     def _on_detail(self, game: Game):
@@ -257,7 +263,22 @@ class StoreView(BaseView):
                     action_callback=lambda _: self.navigate("catalog", None)
                 )
             )
-            controls.append(self._build_game_row(other_featured, max_items=4))
+        # Si la API falló (status_code != 200 o memoria RAM vacía por error)
+        status_code = getattr(self._api_repo, "last_status_code", 200) if self._api_repo else 200
+        if status_code != 200 or (not featured_games and not on_sale_games and not new_releases and not indie_games):
+            exc = getattr(self._api_repo, "last_exception", None) if self._api_repo else None
+            exc_name = exc.__class__.__name__ if exc else ("ApiForbiddenKeyError" if status_code == 403 else "ApiError")
+            status_msg = getattr(self._api_repo, "last_status_message", f"HTTP {status_code} Error") if self._api_repo else f"HTTP {status_code} Error"
+            detail = getattr(self._api_repo, "last_error_detail", None) if self._api_repo else None
+
+            error_card = ApiErrorCardComponent(
+                status_code=status_code,
+                status_message=status_msg,
+                exception_name=exc_name,
+                error_detail=detail,
+                on_retry=self._on_retry_api
+            )
+            controls.append(error_card.build())
 
         # 6. Call to Action Banner
         cta_banner = ft.Container(

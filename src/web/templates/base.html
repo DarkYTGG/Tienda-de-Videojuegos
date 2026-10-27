@@ -82,6 +82,12 @@
             </button>
           </form>
 
+          <!-- Progra-2 Live API Badge -->
+          <div class="d-none d-xl-flex align-items-center gap-2 px-2 py-1 rounded" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25);" title="Conectado a la API Progra-2 (Usuario: {{ progra2_api.user }})">
+            <span class="spinner-grow spinner-grow-sm text-success" role="status" style="width: 8px; height: 8px;"></span>
+            <span style="font-size: 0.72rem; color: #34d399; font-weight: 600;">API Progra-2 (abraham)</span>
+          </div>
+
           <!-- Desktop Cart Button -->
           <button class="btn-cart-nav d-none d-lg-flex" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas" onclick="refreshCartDrawer()">
             <i class="bi bi-cart3 fs-5"></i>
@@ -222,8 +228,11 @@
           <p class="text-secondary small mb-1">
             <strong>Docente de Referencia:</strong> Prof. Yoher Alejandro Vázquez Salinas
           </p>
+          <p class="text-secondary small mb-1">
+            <strong>Persistencia:</strong> Archivos JSON (<span class="text-info font-monospace">data/games.json</span> y <span class="text-info font-monospace">data/orders.json</span>)
+          </p>
           <p class="text-secondary small mb-0">
-            <strong>Persistencia:</strong> Archivos JSON locales (<span class="text-info font-monospace">data/games.json</span> y <span class="text-info font-monospace">data/orders.json</span>)
+            <strong>API Externa Conectada:</strong> <span class="text-success font-monospace">Progra-2 Students API</span> (<span class="text-info">{{ progra2_api.user }}</span>)
           </p>
         </div>
       </div>

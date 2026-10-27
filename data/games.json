@@ -857,5 +857,36 @@
       "Almacenamiento": "16 GB disponibles"
     },
     "demo_url": "https://ovz-game-production.up.railway.app"
+  },
+  {
+    "id": "game-001",
+    "title": "Cyber Odyssey: Neo-Veridia",
+    "slug": "cyber-odyssey-neo-veridia",
+    "developer": "PixelVault Studios",
+    "publisher": "PixelVault Publishing",
+    "release_date": "2026-02-15",
+    "genre": "RPG / Sci-Fi",
+    "tags": [
+      "Cyberpunk",
+      "Mundo Abierto",
+      "Historia Rica"
+    ],
+    "price": 59.99,
+    "discount_percent": 15,
+    "final_price": 50.99,
+    "rating": 4.8,
+    "reviews_count": 1420,
+    "is_featured": true,
+    "is_new": true,
+    "is_indie": false,
+    "short_description": "Explora los distritos iluminados por neón de Neo-Veridia.",
+    "full_description": "Una épica aventura RPG de mundo abierto ambientada en una megalópolis futurista.",
+    "cover_image": "https://picsum.photos/id/101/600/400",
+    "banner_image": "https://picsum.photos/id/101/1200/500",
+    "features": [
+      "Campaña para un jugador",
+      "Soporte para mandos",
+      "Logros"
+    ]
   }
 ]

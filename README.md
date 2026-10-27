@@ -5,7 +5,8 @@
 [![Flet](https://img.shields.io/badge/GUI-Flet%201.0.4-8B5CF6.svg?logo=flutter&logoColor=white)](https://flet.dev/)
 [![uv](https://img.shields.io/badge/Package%20Manager-uv-06B6D4.svg)](https://github.com/astral-sh/uv)
 [![Architecture](https://img.shields.io/badge/Architecture-Hexagonal%20%2F%20Layered-emerald.svg)](#-arquitectura-del-software)
-[![Tests](https://img.shields.io/badge/Tests-36%20Passed%20(100%25)-brightgreen.svg)](#-ejecuci%C3%B3n-de-pruebas-automatizadas)
+[![Tests](https://img.shields.io/badge/Tests-44%20Passed%20(100%25)-brightgreen.svg)](#-ejecuci%C3%B3n-de-pruebas-automatizadas)
+[![API](https://img.shields.io/badge/API-Progra--2%20Connected-10b981.svg)](https://progra-2-krw5.onrender.com/docs)
 
 > **Evaluación Práctica — Programación IV**  
 > **Instituto Universitario de Tecnología "Antonio José de Sucre"**  
@@ -64,9 +65,10 @@ pixelvault/
 │   │   ├── dtos.py              # GameFilterDTO, CheckoutRequestDTO, CheckoutResponseDTO
 │   │   └── use_cases.py         # ListGamesUseCase, SearchAndFilterGamesUseCase, CheckoutUseCase, etc.
 │   │
-│   ├── infrastructure/          # CAPA DE INFRAESTRUCTURA (Persistencia técnica)
+│   ├── infrastructure/          # CAPA DE INFRAESTRUCTURA (Persistencia técnica y APIs)
 │   │   ├── __init__.py
-│   │   ├── repositories.py      # JsonGameRepository, JsonOrderRepository (Thread-safe)
+│   │   ├── api_client.py        # Progra2ApiClient (Consumo de API REST externa con autenticación por API Key)
+│   │   ├── repositories.py      # JsonGameRepository, JsonOrderRepository (Thread-safe + Live API Merge)
 │   │   └── seed_data.py         # Catálogo inicial de 18 títulos diversos
 │   │
 │   ├── web/                     # CAPA DE PRESENTACIÓN 1: FLASK WEB
@@ -89,6 +91,7 @@ pixelvault/
 │
 ├── tests/                       # PRUEBAS AUTOMATIZADAS (unittest)
 │   ├── __init__.py
+│   ├── test_api_client.py       # Pruebas de integración y resiliencia de la API Progra-2
 │   ├── test_domain.py           # Reglas de negocio e invariantes
 │   ├── test_use_cases.py        # Casos de uso y DTOs
 │   ├── test_repositories.py     # Lectura, escritura y resiliencia de JSON

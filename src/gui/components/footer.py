@@ -64,6 +64,7 @@ class StoreFooterComponent:
                         create_badge("Flet 1.0", bg_color="#1E293B", text_color="#A78BFA", font_size=11),
                         create_badge("uv package manager", bg_color="#1E293B", text_color="#34D399", font_size=11),
                         create_badge("JSON Persistence", bg_color="#1E293B", text_color="#FBBF24", font_size=11),
+                        create_badge("API Progra-2 (abraham)", bg_color="#064E3B", text_color="#34D399", font_size=11),
                     ],
                     wrap=True,
                     spacing=6

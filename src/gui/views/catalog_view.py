@@ -23,6 +23,7 @@ from ..theme import (
 from ..components.filter_bar import FilterBarComponent
 from ..components.game_card import GameCardComponent
 from ..components.footer import StoreFooterComponent
+from ..components.api_error_card import ApiErrorCardComponent
 
 
 class CatalogView(BaseView):
@@ -38,6 +39,8 @@ class CatalogView(BaseView):
         initial_params: Optional[Dict[str, Any]] = None,
         notify_fn: Optional[Callable[[str, str], None]] = None,
         notify: Optional[Callable[[str, str], None]] = None,
+        api_repo: Optional[Any] = None,
+        on_retry_api: Optional[Callable[[], None]] = None,
         **kwargs: Any
     ):
         super().__init__(page, navigate_fn)
@@ -45,6 +48,8 @@ class CatalogView(BaseView):
         self._list_uc = list_games_uc
         self._cart_manager = cart_manager
         self._notify = notify_fn or notify
+        self._api_repo = api_repo
+        self._on_retry_api = on_retry_api
         self._on_cart_open = kwargs.get("on_cart_open") or kwargs.get("open_cart_drawer")
 
         params = initial_params or {}
@@ -56,12 +61,7 @@ class CatalogView(BaseView):
             sort_by=params.get("sort", "destacados")
         )
 
-        self._cards_container = ft.Row(
-            controls=[],
-            spacing=16,
-            wrap=True,
-            alignment=ft.MainAxisAlignment.START
-        )
+        self._cards_wrapper = ft.Container()
         self._counter_text = ft.Text("", size=14, color=TEXT_SECONDARY, weight=ft.FontWeight.W_500)
 
     def _on_detail(self, game: Game):
@@ -86,38 +86,63 @@ class CatalogView(BaseView):
         self._counter_text.value = f"Mostrando {len(games)} videojuego{'s' if len(games) != 1 else ''}"
 
         if not games:
-            empty_view = ft.Container(
-                content=ft.Column(
-                    controls=[
-                        ft.Icon(safe_icon("search_off"), size=64, color=TEXT_MUTED),
-                        ft.Text(
-                            "No se encontraron videojuegos",
-                            size=20,
-                            weight=ft.FontWeight.BOLD,
-                            color=TEXT_PRIMARY
-                        ),
-                        ft.Text(
-                            "Intenta modificar los términos de búsqueda o restablecer los filtros aplicados.",
-                            size=13,
-                            color=TEXT_SECONDARY,
-                            text_align=ft.TextAlign.CENTER
-                        ),
-                        ft.FilledButton(
-                            content=ft.Text("Restablecer Filtros", size=13),
-                            icon=safe_icon("restart_alt"),
-                            style=ft.ButtonStyle(bgcolor=ACCENT_PURPLE, color="#FFFFFF"),
-                            on_click=lambda _: self._reset_filters()
-                        )
-                    ],
-                    alignment=ft.MainAxisAlignment.CENTER,
-                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                    spacing=12
-                ),
-                padding=60,
-                alignment=ft.Alignment.CENTER,
-                expand=True
-            )
-            self._cards_container.controls = [empty_view]
+            status_code = getattr(self._api_repo, "last_status_code", 200) if self._api_repo else 200
+            total_in_repo = len(self._list_uc.execute())
+            if status_code != 200 or total_in_repo == 0:
+                exc = getattr(self._api_repo, "last_exception", None) if self._api_repo else None
+                exc_name = exc.__class__.__name__ if exc else ("ApiForbiddenKeyError" if status_code == 403 else "ApiError")
+                status_msg = getattr(self._api_repo, "last_status_message", f"HTTP {status_code} Error") if self._api_repo else f"HTTP {status_code} Error"
+                detail = getattr(self._api_repo, "last_error_detail", None) if self._api_repo else None
+
+                error_card = ApiErrorCardComponent(
+                    status_code=status_code,
+                    status_message=status_msg,
+                    exception_name=exc_name,
+                    error_detail=detail,
+                    on_retry=self._on_retry_api
+                )
+                self._cards_wrapper.content = error_card.build()
+            else:
+                empty_view = ft.Container(
+                    content=ft.Column(
+                        controls=[
+                            ft.Icon(safe_icon("search_off"), size=56, color=TEXT_MUTED),
+                            ft.Text(
+                                "No se encontraron videojuegos",
+                                size=20,
+                                weight=ft.FontWeight.BOLD,
+                                color=TEXT_PRIMARY
+                            ),
+                            ft.Text(
+                                "No hay títulos que coincidan con los filtros seleccionados.",
+                                size=13,
+                                color=TEXT_SECONDARY,
+                                text_align=ft.TextAlign.CENTER
+                            ),
+                            ft.FilledButton(
+                                content=ft.Text("Restablecer Filtros", size=13, weight=ft.FontWeight.BOLD),
+                                icon=safe_icon("restart_alt"),
+                                style=ft.ButtonStyle(
+                                    bgcolor=ACCENT_PURPLE,
+                                    color="#FFFFFF",
+                                    padding=ft.Padding(left=18, right=18, top=10, bottom=10),
+                                    shape=ft.RoundedRectangleBorder(radius=8)
+                                ),
+                                on_click=lambda _: self._reset_filters()
+                            )
+                        ],
+                        alignment=ft.MainAxisAlignment.CENTER,
+                        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                        spacing=12
+                    ),
+                    bgcolor="#111A2E",
+                    border=ft.Border.all(1, "#22304A"),
+                    border_radius=12,
+                    padding=48,
+                    alignment=ft.Alignment.CENTER,
+                    margin=ft.Margin(left=0, right=0, top=16, bottom=16)
+                )
+                self._cards_wrapper.content = empty_view
         else:
             cards = []
             for g in games:
@@ -130,7 +155,12 @@ class CatalogView(BaseView):
                     width=275
                 )
                 cards.append(card.build())
-            self._cards_container.controls = cards
+            self._cards_wrapper.content = ft.Row(
+                controls=cards,
+                spacing=16,
+                wrap=True,
+                alignment=ft.MainAxisAlignment.START
+            )
 
     def _on_filter_changed(self, new_filter: GameFilterDTO):
         self._current_filter = new_filter
@@ -198,7 +228,7 @@ class CatalogView(BaseView):
                 ft.Container(height=10),
                 title_banner,
                 filter_bar.build(),
-                self._cards_container,
+                self._cards_wrapper,
                 StoreFooterComponent().build()
             ],
             spacing=0,

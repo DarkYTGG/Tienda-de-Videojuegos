@@ -17,6 +17,7 @@ class TestPixelVaultFlaskWeb(unittest.TestCase):
             "GAMES_FILE": self.games_file,
             "ORDERS_FILE": self.orders_file,
             "SECRET_KEY": "test-secret-key",
+            "API_CLIENT": None,
         })
         self.client = self.app.test_client()
 

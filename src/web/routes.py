@@ -37,12 +37,16 @@ class StoreWebController:
         get_game_uc: GetGameDetailUseCase,
         checkout_uc: CheckoutUseCase,
         get_orders_uc: GetOrdersUseCase,
+        api_client=None,
+        game_repo=None,
     ):
         self._list_games_uc = list_games_uc
         self._search_filter_uc = search_filter_uc
         self._get_game_uc = get_game_uc
         self._checkout_uc = checkout_uc
         self._get_orders_uc = get_orders_uc
+        self._api_client = api_client
+        self._game_repo = game_repo
 
     def _get_cart(self) -> ShoppingCart:
         """Reconstructs the Domain ShoppingCart entity from the user's HTTP session."""
@@ -333,6 +337,51 @@ class StoreWebController:
         ]
         return jsonify({"count": len(games_data), "games": games_data})
 
+    def api_status(self):
+        """Returns the real-time connectivity status of the Progra-2 Students API."""
+        if self._api_client:
+            health = self._api_client.check_health()
+        else:
+            health = {"online": False, "status": "no_client"}
+        return jsonify(health)
+
+    def api_trigger_status(self, code_str: str):
+        """Triggers specific API responses to demonstrate exception handling in web browser."""
+        if self._game_repo and hasattr(self._game_repo, "sync_from_api"):
+            if code_str == "200":
+                self._game_repo.sync_from_api(raise_on_error=False)
+                flash("HTTP 200 OK: Videojuegos cargados exitosamente en RAM desde la API.", "success")
+            elif code_str == "401":
+                self._game_repo.sync_from_api(omit_key=True, raise_on_error=False)
+                flash("HTTP 401 Unauthorized: Falta cabecera X-API-Key en la petición.", "error")
+            elif code_str == "403":
+                self._game_repo.sync_from_api(override_key="sk_live_clave_invalida_xxx", raise_on_error=False)
+                flash("HTTP 403 Forbidden: API Key inválida para este namespace.", "error")
+            elif code_str == "404":
+                self._game_repo.sync_from_api(override_user="estudiante_inexistente_999", raise_on_error=False)
+                flash("HTTP 404 Not Found: Namespace no encontrado en la API.", "warning")
+            elif code_str == "422":
+                try:
+                    import urllib.request
+                    import urllib.error
+                    req = urllib.request.Request(
+                        f"{self._api_client.base_url}/api/v1/{self._api_client.username}/games?limit=-1",
+                        headers=self._api_client._get_headers()
+                    )
+                    urllib.request.urlopen(req)
+                except urllib.error.HTTPError as e:
+                    from ..domain.exceptions import ApiValidationError
+                    self._game_repo.last_status_code = e.code
+                    self._game_repo.last_exception = ApiValidationError(detail=str(e.reason))
+                    self._game_repo.last_status_message = "HTTP 422 Unprocessable Entity: Error de validación en parámetros."
+                    self._game_repo.last_error_detail = "limit debe ser mayor o igual a 1"
+                    self._game_repo._games = []
+                    self._game_repo.is_live = False
+                flash("HTTP 422 Unprocessable Entity: Parámetros inválidos detectados por la API.", "warning")
+
+        redirect_url = request.referrer or url_for("store.index")
+        return redirect(redirect_url)
+
 
 def create_store_blueprint(controller: StoreWebController) -> Blueprint:
     """Builds and wires the Flask Blueprint connecting URLs to OOP Controller methods."""
@@ -354,5 +403,7 @@ def create_store_blueprint(controller: StoreWebController) -> Blueprint:
     bp.add_url_rule("/api/cart/clear", "api_cart_clear", controller.api_cart_clear, methods=["POST"])
     bp.add_url_rule("/api/cart/state", "api_cart_state", controller.api_cart_state, methods=["GET"])
     bp.add_url_rule("/api/games", "api_filter_games", controller.api_filter_games, methods=["GET"])
+    bp.add_url_rule("/api/progra2/status", "api_status", controller.api_status, methods=["GET"])
+    bp.add_url_rule("/api/progra2/trigger/<code_str>", "api_trigger_status", controller.api_trigger_status, methods=["GET", "POST"])
 
     return bp

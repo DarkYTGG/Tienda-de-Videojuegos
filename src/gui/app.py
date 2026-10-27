@@ -3,7 +3,12 @@ import os
 from typing import Optional, Dict, Any
 import flet as ft
 
-from ..infrastructure.repositories import JsonGameRepository, JsonOrderRepository
+from ..infrastructure.repositories import (
+    JsonGameRepository,
+    JsonOrderRepository,
+    ApiInMemoryGameRepository,
+)
+from ..infrastructure.api_client import Progra2ApiClient
 from ..domain.entities import ShoppingCart
 from ..application.use_cases import (
     ListGamesUseCase,
@@ -39,8 +44,9 @@ class PixelVaultApp:
     """Encapsulates the state, navigation, lifecycle, and dependency injection of the PixelVault Web GUI."""
 
     def __init__(self, games_file: str, orders_file: str):
-        # 1. Infrastructure Repositories
-        self.game_repo = JsonGameRepository(games_file)
+        # 1. Infrastructure Repositories (100% In-Memory RAM for games via API)
+        self.api_client = Progra2ApiClient()
+        self.game_repo = ApiInMemoryGameRepository(api_client=self.api_client)
         self.order_repo = JsonOrderRepository(orders_file)
 
         # 2. Domain Entities
@@ -118,6 +124,7 @@ class PixelVaultApp:
             search_query=self.current_search
         )
         self.header_container.content = header_comp.build()
+
 
     def _handle_page_resize(self, e) -> None:
         """Dynamically adapts header and layout when the window or browser is resized."""
@@ -204,8 +211,18 @@ class PixelVaultApp:
         self.current_search = query
         self.navigate("catalog", {"search": query})
 
+    def _handle_retry_connection(self) -> None:
+        """Attempts to re-sync games from API and refresh current view."""
+        self.game_repo.sync_from_api(raise_on_error=False)
+        if self.game_repo.last_status_code == 200:
+            self.notify("¡Conexión exitosa con la API Progra-2! Juegos cargados en RAM.", "success")
+        else:
+            self.notify(f"Error {self.game_repo.last_status_code}: {self.game_repo.last_status_message}", "error")
+        self.navigate(self.current_route, self.route_params)
+
     def _create_view(self, route_name: str, params: Dict[str, Any]):
         """Polymorphic factory instantiating the view for the requested route."""
+        retry_fn = self._handle_retry_connection
         if route_name == "home":
             return StoreView(
                 self.page,
@@ -213,6 +230,8 @@ class PixelVaultApp:
                 self.list_games_uc,
                 self.cart_manager,
                 notify_fn=self.notify,
+                api_repo=self.game_repo,
+                on_retry_api=retry_fn,
                 on_cart_open=self.open_cart_drawer
             )
         elif route_name == "catalog":
@@ -224,6 +243,8 @@ class PixelVaultApp:
                 self.cart_manager,
                 initial_params=params,
                 notify_fn=self.notify,
+                api_repo=self.game_repo,
+                on_retry_api=retry_fn,
                 on_cart_open=self.open_cart_drawer
             )
         elif route_name == "detail":
@@ -274,7 +295,7 @@ class PixelVaultApp:
         self.current_route = route_name
         self.route_params = params or {}
 
-        # 1. Update Custom Header with current route & cart counter
+        # 1. Update Custom Header
         self._refresh_header()
 
         # 2. Polymorphic View Instantiation
